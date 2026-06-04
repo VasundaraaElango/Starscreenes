@@ -317,8 +317,6 @@ input[type="date"].ci { min-width:120px; }
         <div class="form-row"><div class="row-label">Buyer Name</div><div class="row-input"><input id="f-buyer" placeholder="Buyer name"></div></div>
         <div class="form-section-header">Order Information</div>
         <div class="form-row"><div class="row-label">Mail Subject</div><div class="row-input"><input id="f-mail" placeholder="Email thread subject"></div></div>
-        <div class="form-row"><div class="row-label">Purchase Order</div><div class="row-input"><input id="f-po" placeholder="PO number"></div></div>
-        <div class="form-row"><div class="row-label">Purchase Invoice</div><div class="row-input"><input id="f-invoice" placeholder="Invoice number"></div></div>
         <div id="styles-container"></div>
         <div class="form-footer">
           <button class="btn-clear" onclick="clearForm()">Clear</button>
@@ -486,6 +484,8 @@ function generateStyleBlocks(){
     <div class="style-block-wrap">
       <div class="style-block-header"><span class="style-num">${i}</span><span>Style ${i}</span></div>
       <div class="form-row"><div class="row-label">Style No.</div><div class="row-input"><input id="s${i}-style_no" placeholder="e.g. ST-00${i}"></div></div>
+      <div class="form-row"><div class="row-label">Purchase Order</div><div class="row-input"><input id="s${i}-purchase_order" placeholder="PO number"></div></div>
+      <div class="form-row"><div class="row-label">Purchase Invoice</div><div class="row-input"><input id="s${i}-purchase_invoice" placeholder="Invoice number"></div></div>
       <div class="form-row"><div class="row-label">Quantity</div><div class="row-input"><input type="number" id="s${i}-quantity" placeholder="0"></div></div>
       <div class="form-row"><div class="row-label">Tech Pack Received</div><div class="row-input"><input type="date" id="s${i}-tech_pack_date"></div></div>
       <div class="form-row"><div class="row-label">HD File</div><div class="row-input"><select id="s${i}-hd_file"><option value="">— Select —</option><option>Received</option><option>Pending</option><option>Not required</option></select></div></div>
@@ -510,8 +510,6 @@ async function saveOrder(){
         brand_name:document.getElementById('f-brand').value.trim()||null,
         buyer_name:document.getElementById('f-buyer').value.trim()||null,
         mail_subject:document.getElementById('f-mail').value.trim()||null,
-        purchase_order:document.getElementById('f-po').value.trim()||null,
-        purchase_invoice:document.getElementById('f-invoice').value.trim()||null,
         number_of_styles:nstyles
       })
     });
@@ -521,6 +519,8 @@ async function saveOrder(){
       payload.push({
         order_id:orderId,
         style_no:document.getElementById(`s${i}-style_no`).value.trim()||null,
+        purchase_order:document.getElementById(`s${i}-purchase_order`).value.trim()||null,
+        purchase_invoice:document.getElementById(`s${i}-purchase_invoice`).value.trim()||null,
         quantity:parseInt(document.getElementById(`s${i}-quantity`).value)||null,
         tech_pack_date:document.getElementById(`s${i}-tech_pack_date`).value||null,
         hd_file:document.getElementById(`s${i}-hd_file`).value||null,
@@ -535,7 +535,7 @@ async function saveOrder(){
 }
 
 function clearForm(){
-  ['f-company','f-brand','f-buyer','f-mail','f-po','f-invoice','f-nstyles'].forEach(id=>{document.getElementById(id).value='';});
+  ['f-company','f-brand','f-buyer','f-mail','f-nstyles'].forEach(id=>{document.getElementById(id).value='';});
   document.getElementById('styles-container').innerHTML='';
 }
 
@@ -639,14 +639,7 @@ function renderDash(){
           <div class="order-header-label">Buyer</div>
           <input class="order-header-value editable" id="oh-buyer-${oid}" value="${esc(o.buyer_name)}" placeholder="Buyer">
         </div>
-        <div class="order-header-field">
-          <div class="order-header-label">PO</div>
-          <input class="order-header-value editable" id="oh-po-${oid}" value="${esc(o.purchase_order)}" placeholder="PO">
-        </div>
-        <div class="order-header-field">
-          <div class="order-header-label">Invoice</div>
-          <input class="order-header-value editable" id="oh-inv-${oid}" value="${esc(o.purchase_invoice)}" placeholder="Invoice">
-        </div>
+
         <div class="order-header-field">
           <div class="order-header-label">Mail Subject</div>
           <input class="order-header-value editable" id="oh-mail-${oid}" value="${esc(o.mail_subject)}" placeholder="Mail subject" style="min-width:140px">
@@ -665,6 +658,8 @@ function renderDash(){
               <th>Tech Pack</th>
               <th>HD File</th>
               <th>Digital</th>
+              <th>PO</th>
+              <th>Invoice</th>
               <th>Samples Submitted</th>
               <th>Corrections Date</th>
               <th>Remarks</th>
@@ -694,6 +689,8 @@ function renderDash(){
       tr.innerHTML=`
         <td><span class="style-no-badge">${idx+1}</span></td>
         <td><input class="ci" id="ci-sn-${sid}" value="${esc(s.style_no)}" placeholder="Style no." style="min-width:80px"></td>
+        <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:90px"></td>
+        <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:90px"></td>
         <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:60px"></td>
         <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}"></td>
         <td>
@@ -778,8 +775,7 @@ async function saveOrderHeader(oid){
     company:document.getElementById(`oh-company-${oid}`).value.trim()||null,
     brand_name:document.getElementById(`oh-brand-${oid}`).value.trim()||null,
     buyer_name:document.getElementById(`oh-buyer-${oid}`).value.trim()||null,
-    purchase_order:document.getElementById(`oh-po-${oid}`).value.trim()||null,
-    purchase_invoice:document.getElementById(`oh-inv-${oid}`).value.trim()||null,
+
     mail_subject:document.getElementById(`oh-mail-${oid}`).value.trim()||null,
   };
   try{
@@ -807,6 +803,8 @@ async function saveStyleRow(sid){
 
   const payload={
     style_no:document.getElementById(`ci-sn-${sid}`).value.trim()||null,
+    purchase_order:document.getElementById(`ci-po-${sid}`)?.value.trim()||null,
+    purchase_invoice:document.getElementById(`ci-pi-${sid}`)?.value.trim()||null,
     quantity:parseInt(document.getElementById(`ci-qty-${sid}`).value)||null,
     tech_pack_date:document.getElementById(`ci-tp-${sid}`).value||null,
     hd_file:document.getElementById(`ci-hd-${sid}`).value||null,
@@ -848,7 +846,7 @@ function exportCSV(){
   if(!allStyles.length){showToast('No data','error');return;}
   const rows=allStyles.map(s=>{
     const o=allOrders.find(o=>o.id===s.order_id)||{};
-    return[o.company,o.brand_name,o.buyer_name,o.mail_subject,o.purchase_order,o.purchase_invoice,
+    return[o.company,o.brand_name,o.buyer_name,o.mail_subject,s.purchase_order||o.purchase_order,s.purchase_invoice||o.purchase_invoice,
       s.style_no,s.quantity,s.tech_pack_date,s.hd_file,s.digital,s.samples_submitted_date,
       s.approved_date,s.corrections_date,s.correction_remarks,s.revised?'Yes':'No',
       s.production_status,s.delivery_date,s.number_of_boxes,s.weight].map(v=>`"${v||''}"`).join(',');
