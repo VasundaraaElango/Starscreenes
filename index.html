@@ -922,24 +922,40 @@ function renderD2(){
   document.getElementById('d2-empty').style.display=rows.length?'none':'block';
 
   const tbody=document.getElementById('d2-body');
+  if(!tbody)return;
   tbody.innerHTML='';
   rows.forEach(r=>{
-    const appr=!!r.approved_date;
-    const tr=document.createElement('tr');
-    tr.title='Click to view full details';
-    tr.onclick=()=>openDetailPage(r._id);
-    tr.innerHTML=`
-      <td><b style="font-weight:500">${r.company||'—'}</b></td>
-      <td>${r.brand_name||'—'}</td>
-      <td>${r.buyer_name||'—'}</td>
-      <td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">${r.style_no||'—'}</span></td>
-      <td>${r.quantity||'—'}</td>
-      <td><span class="badge ${SB[r.production_status]||'b-pending'}">${r.production_status||'Pending'}</span></td>
-      <td style="color:var(--text2);font-size:12px">${r.tech_pack_date?fmtDate(r.tech_pack_date):'—'}</td>
-      <td style="color:var(--text2);font-size:12px">${r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—'}</td>
-      <td style="font-weight:500;color:${appr?'var(--success)':'var(--text3)'}">${appr?'✓ '+fmtDate(r.approved_date):'—'}</td>
-      <td style="color:${r.delivery_date?'var(--text)':'var(--text3)'};font-size:12px;font-weight:${r.delivery_date?'500':'400'}">${r.delivery_date?fmtDate(r.delivery_date):'—'}</td>`;
-    tbody.appendChild(tr);
+    try{
+      const appr=!!r.approved_date;
+      const tr=document.createElement('tr');
+      tr.title='Click to view full details';
+      tr.onclick=()=>openDetailPage(r._id);
+      const company=r.company||'—';
+      const brand=r.brand_name||'—';
+      const buyer=r.buyer_name||'—';
+      const styleNo=r.style_no||'—';
+      const qty=r.quantity||'—';
+      const status=r.production_status||'Pending';
+      const badgeCls=SB[status]||'b-pending';
+      const tp=r.tech_pack_date?fmtDate(r.tech_pack_date):'—';
+      const ss=r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—';
+      const apprTxt=appr?('✓ '+fmtDate(r.approved_date)):'—';
+      const apprColor=appr?'var(--success)':'var(--text3)';
+      const dl=r.delivery_date?fmtDate(r.delivery_date):'—';
+      const dlColor=r.delivery_date?'var(--text)':'var(--text3)';
+      tr.innerHTML=
+        '<td><b style="font-weight:500">'+company+'</b></td>'+
+        '<td>'+brand+'</td>'+
+        '<td>'+buyer+'</td>'+
+        '<td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">'+styleNo+'</span></td>'+
+        '<td>'+qty+'</td>'+
+        '<td><span class="badge '+badgeCls+'">'+status+'</span></td>'+
+        '<td style="color:var(--text2);font-size:12px">'+tp+'</td>'+
+        '<td style="color:var(--text2);font-size:12px">'+ss+'</td>'+
+        '<td style="font-weight:500;color:'+apprColor+'">'+apprTxt+'</td>'+
+        '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>';
+      tbody.appendChild(tr);
+    }catch(err){console.error('Row render error',err,r);}
   });
 }
 
