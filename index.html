@@ -250,6 +250,21 @@ input[type="date"].ci { min-width:120px; }
 .xls-col-filter input:focus { border-color:var(--primary); }
 .xls-table .filter-row th { background:#f0f4f9; padding:4px 6px; cursor:default; }
 .xls-table .filter-row th:hover { background:#f0f4f9; }
+
+.btn-back { padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius); background:#fff; color:var(--primary); font-size:13px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+.btn-back:hover { background:var(--primary-light); border-color:var(--primary); }
+.dp-section { background:var(--surface); border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.08); margin-bottom:14px; overflow:hidden; }
+.dp-section-header { padding:12px 20px; background:#f8f9fa; border-bottom:1px solid var(--border); font-size:11px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:.06em; }
+.dp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.dp-field { padding:14px 20px; border-bottom:1px solid #f5f5f5; border-right:1px solid #f5f5f5; }
+.dp-field:nth-child(3n) { border-right:none; }
+.dp-label { font-size:11px; color:var(--text3); font-weight:500; margin-bottom:4px; text-transform:uppercase; letter-spacing:.04em; }
+.dp-value { font-size:14px; color:var(--text); }
+.dp-value.mono { font-family:monospace; background:#f5f5f5; padding:2px 7px; border-radius:4px; display:inline-block; font-size:13px; }
+.dp-value.green { color:var(--success); font-weight:500; }
+.dp-value.muted { color:var(--text3); }
+.xls-table tbody tr { cursor:pointer; }
+.xls-table tbody tr:hover td { background:#e8f0fe !important; }
 </style>
 </head>
 <body>
@@ -351,13 +366,13 @@ input[type="date"].ci { min-width:120px; }
     </div>
   </div>
 
-  <!-- DASHBOARD 2 - REPORTS -->
+  <!-- REPORTS PAGE -->
   <div class="page" id="page-dashboard2">
-    <div class="d2-page">
+    <div class="d2-page" id="d2-list-view">
       <div class="dash-header">
         <div>
           <div class="dash-title">Reports</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:2px">Full Excel-style view — click any column header to sort, filter per column</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px">Click any style to view full details</div>
         </div>
         <div class="dash-actions">
           <button class="btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
@@ -365,23 +380,35 @@ input[type="date"].ci { min-width:120px; }
         </div>
       </div>
       <div class="d2-toolbar">
-        <input id="d2-search" placeholder="Quick search across all fields…" oninput="renderD2()">
+        <input id="d2-search" placeholder="Search company, style, buyer, PO…" oninput="renderD2()">
         <select id="d2-status" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
-          <option value="">All statuses</option>
-          <option value="active">Active only (excl. Delivered)</option>
+          <option value="">Active orders (excl. Delivered)</option>
+          <option value="all">All incl. Delivered</option>
           <option disabled>──────────</option>
           <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
           <option>Correction Required</option><option>Approved</option><option>In Production</option>
           <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
         </select>
-        <span id="d2-count" style="font-size:12px;color:var(--text2);margin-left:4px"></span>
+        <select id="d2-sort" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
+          <option value="delivery-asc">Delivery — Soonest first</option>
+          <option value="delivery-desc">Delivery — Latest first</option>
+          <option value="company-asc">Company — A to Z</option>
+          <option value="company-desc">Company — Z to A</option>
+          <option value="date-desc">Entry — Newest first</option>
+          <option value="date-asc">Entry — Oldest first</option>
+          <option value="status">Status</option>
+        </select>
+        <span id="d2-count" style="font-size:12px;color:var(--text2);margin-left:4px;white-space:nowrap"></span>
       </div>
       <div class="xls-wrap">
         <div class="xls-scroll">
-          <table class="xls-table" id="d2-table">
+          <table class="xls-table">
             <thead>
-              <tr id="d2-head-row"></tr>
-              <tr class="filter-row" id="d2-filter-row"></tr>
+              <tr>
+                <th>Company</th><th>Brand</th><th>Buyer</th>
+                <th>Style No.</th><th>Qty</th><th>Status</th>
+                <th>Tech Pack</th><th>Samples</th><th>Approved</th><th>Delivery</th>
+              </tr>
             </thead>
             <tbody id="d2-body"></tbody>
           </table>
@@ -389,16 +416,17 @@ input[type="date"].ci { min-width:120px; }
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- DETAIL OVERLAY -->
-  <div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
-    <div class="detail-box" id="detail-box">
-      <div class="detail-header">
-        <div class="detail-title" id="detail-title">Style Details</div>
-        <button class="detail-close" onclick="closeDetailBox()">×</button>
+    <!-- DETAIL PAGE (hidden by default) -->
+    <div class="d2-page" id="d2-detail-view" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+        <button class="btn-back" onclick="closeDetailPage()">← Back to Reports</button>
+        <div>
+          <div class="dash-title" id="dp-title">Style Details</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px" id="dp-sub"></div>
+        </div>
       </div>
-      <div class="detail-body" id="detail-body"></div>
+      <div id="dp-body"></div>
     </div>
   </div>
 </div>
@@ -833,205 +861,152 @@ function exportCSV(){
 
 
 // ── DASHBOARD 2 (REPORTS) ──
-const D2_COLS = [
-  {key:'company',      label:'Company',          type:'text'},
-  {key:'brand_name',   label:'Brand',             type:'text'},
-  {key:'buyer_name',   label:'Buyer',             type:'text'},
-  {key:'purchase_order', label:'PO',             type:'text'},
-  {key:'purchase_invoice', label:'Invoice',      type:'text'},
-  {key:'mail_subject', label:'Mail Subject',      type:'text'},
-  {key:'style_no',     label:'Style No.',         type:'text'},
-  {key:'quantity',     label:'Qty',               type:'number'},
-  {key:'tech_pack_date', label:'Tech Pack',       type:'date'},
-  {key:'hd_file',      label:'HD File',           type:'text'},
-  {key:'digital',      label:'Digital',           type:'text'},
-  {key:'samples_submitted_date', label:'Samples', type:'date'},
-  {key:'corrections_date', label:'Corrections',   type:'date'},
-  {key:'correction_remarks', label:'Remarks',     type:'text'},
-  {key:'approved_date',label:'Approved Date',     type:'date'},
-  {key:'revised',      label:'Revised',           type:'bool'},
-  {key:'production_status', label:'Status',       type:'text'},
-  {key:'delivery_date',label:'Delivery Date',     type:'date'},
-  {key:'number_of_boxes', label:'Boxes',          type:'number'},
-  {key:'weight',       label:'Weight (kg)',        type:'number'},
-];
-
-let d2Sort = {col:'delivery_date', dir:'asc'};
-let d2ColFilters = {};
-let d2AllRows = [];
+let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
 
 async function loadDashboard2(){
-  document.getElementById('d2-body').innerHTML =
-    '<tr><td colspan="'+D2_COLS.length+'" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
+  document.getElementById('d2-body').innerHTML='<tr><td colspan="10" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
   try{
-    const [orders,styles] = await Promise.all([
-      sb('orders?select=*'),
-      sb('styles?select=*')
-    ]);
-    allOrders = orders||[];
-    allStyles = styles||[];
-    // build flat rows
-    d2AllRows = allStyles.map(s=>{
-      const o = allOrders.find(o=>o.id===s.order_id)||{};
+    const [orders,styles]=await Promise.all([sb('orders?select=*'),sb('styles?select=*')]);
+    allOrders=orders||[]; allStyles=styles||[];
+    d2AllRows=allStyles.map(s=>{
+      const o=allOrders.find(o=>o.id===s.order_id)||{};
       return {
-        _id: s.id,
-        _order_id: s.order_id,
-        company: o.company||'',
-        brand_name: o.brand_name||'',
-        buyer_name: o.buyer_name||'',
-        purchase_order: s.purchase_order || o.purchase_order || '',
-        purchase_invoice: s.purchase_invoice || o.purchase_invoice || '',
-        mail_subject: o.mail_subject||'',
-        style_no: s.style_no||'',
-        quantity: s.quantity||'',
-        tech_pack_date: s.tech_pack_date||'',
-        hd_file: s.hd_file||'',
-        digital: s.digital||'',
-        samples_submitted_date: s.samples_submitted_date||'',
-        corrections_date: s.corrections_date||'',
-        correction_remarks: s.correction_remarks||'',
-        approved_date: s.approved_date||'',
-        revised: s.revised ? 'Yes' : 'No',
-        production_status: s.production_status||'',
-        delivery_date: s.delivery_date||'',
-        number_of_boxes: s.number_of_boxes||'',
-        weight: s.weight||'',
+        _id:s.id, _order_id:s.order_id,
+        company:o.company||'', brand_name:o.brand_name||'', buyer_name:o.buyer_name||'',
+        mail_subject:o.mail_subject||'',
+        purchase_order:s.purchase_order||o.purchase_order||'',
+        purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
+        style_no:s.style_no||'', quantity:s.quantity||'',
+        tech_pack_date:s.tech_pack_date||'', hd_file:s.hd_file||'', digital:s.digital||'',
+        samples_submitted_date:s.samples_submitted_date||'',
+        corrections_date:s.corrections_date||'', correction_remarks:s.correction_remarks||'',
+        approved_date:s.approved_date||'', revised:s.revised?'Yes':'No',
+        production_status:s.production_status||'Pending',
+        delivery_date:s.delivery_date||'',
+        number_of_boxes:s.number_of_boxes||'', weight:s.weight||'',
+        created_at:o.created_at||''
       };
     });
-    buildD2Headers();
     renderD2();
-  } catch(e){ showToast('Error loading','error'); }
-}
-
-function buildD2Headers(){
-  const hr = document.getElementById('d2-head-row');
-  const fr = document.getElementById('d2-filter-row');
-  hr.innerHTML=''; fr.innerHTML='';
-  D2_COLS.forEach(col=>{
-    const th = document.createElement('th');
-    const isSort = d2Sort.col===col.key;
-    th.className = isSort ? (d2Sort.dir==='asc'?'sort-asc':'sort-desc') : '';
-    th.innerHTML = col.label + '<span class="sort-icon"></span>';
-    th.onclick = ()=>{ 
-      if(d2Sort.col===col.key) d2Sort.dir = d2Sort.dir==='asc'?'desc':'asc';
-      else { d2Sort.col=col.key; d2Sort.dir='asc'; }
-      buildD2Headers(); renderD2();
-    };
-    hr.appendChild(th);
-
-    const tf = document.createElement('th');
-    tf.innerHTML = '<div class="xls-col-filter"><input placeholder="Filter…" id="d2cf-'+col.key+'" oninput="renderD2()" value="'+(d2ColFilters[col.key]||'')+'"></div>';
-    fr.appendChild(tf);
-  });
+  }catch(e){showToast('Error loading','error');}
 }
 
 function renderD2(){
-  const q = (document.getElementById('d2-search')?.value||'').toLowerCase().trim();
-  const sf = document.getElementById('d2-status')?.value||'';
-  // collect per-column filters
-  D2_COLS.forEach(col=>{
-    const el = document.getElementById('d2cf-'+col.key);
-    if(el) d2ColFilters[col.key] = el.value.toLowerCase().trim();
-  });
+  const q=(document.getElementById('d2-search')?.value||'').toLowerCase().trim();
+  const sf=document.getElementById('d2-status')?.value||'';
+  const srt=document.getElementById('d2-sort')?.value||'delivery-asc';
 
-  let rows = d2AllRows.filter(r=>{
-    // global search
-    if(q && !Object.values(r).join(' ').toLowerCase().includes(q)) return false;
-    // status filter
-    if(sf==='active' && r.production_status==='Delivered') return false;
-    if(sf && sf!=='active' && r.production_status!==sf) return false;
-    // per-column filters
-    for(const col of D2_COLS){
-      const fv = d2ColFilters[col.key]||'';
-      if(fv && !(r[col.key]||'').toString().toLowerCase().includes(fv)) return false;
-    }
+  let rows=d2AllRows.filter(r=>{
+    if(q&&!Object.values(r).join(' ').toLowerCase().includes(q))return false;
+    if(sf===''&&r.production_status==='Delivered')return false;
+    if(sf==='all')return true;
+    if(sf&&sf!=='all'&&r.production_status!==sf)return false;
     return true;
   });
 
   // sort
   rows.sort((a,b)=>{
-    const av = a[d2Sort.col]||'', bv = b[d2Sort.col]||'';
-    const cmp = av.toString().localeCompare(bv.toString(), undefined, {numeric:true});
-    return d2Sort.dir==='asc' ? cmp : -cmp;
+    let av,bv;
+    if(srt==='delivery-asc'||srt==='delivery-desc'){av=a.delivery_date;bv=b.delivery_date;}
+    else if(srt==='company-asc'||srt==='company-desc'){av=a.company;bv=b.company;}
+    else if(srt==='date-asc'||srt==='date-desc'){av=a.created_at;bv=b.created_at;}
+    else if(srt==='status'){av=a.production_status;bv=b.production_status;}
+    else{av=a.delivery_date;bv=b.delivery_date;}
+    const cmp=(av||'z').localeCompare(bv||'z',undefined,{numeric:true});
+    return(srt.endsWith('desc')||srt==='status')?-cmp:cmp;
   });
 
-  document.getElementById('d2-count').textContent = rows.length + ' records';
-  document.getElementById('d2-empty').style.display = rows.length ? 'none' : 'block';
+  const delivered=d2AllRows.filter(r=>r.production_status==='Delivered').length;
+  const notice=sf===''&&delivered>0?` • ${delivered} delivered hidden`:'';
+  document.getElementById('d2-count').textContent=rows.length+' records'+notice;
+  document.getElementById('d2-empty').style.display=rows.length?'none':'block';
 
-  const tbody = document.getElementById('d2-body');
+  const tbody=document.getElementById('d2-body');
   tbody.innerHTML='';
   rows.forEach(r=>{
-    const tr = document.createElement('tr');
-    tr.title = 'Double-click to view full details';
-    tr.ondblclick = ()=>openDetail(r._id);
-    tr.innerHTML = D2_COLS.map(col=>{
-      let v = r[col.key]||'';
-      if(col.type==='date' && v) v = fmtDate(v);
-      if(col.key==='production_status' && v){
-        const cls = SB[v]||'b-pending';
-        v = '<span class="badge '+cls+'">'+v+'</span>';
-      }
-      return '<td>'+v+'</td>';
-    }).join('');
+    const appr=!!r.approved_date;
+    const tr=document.createElement('tr');
+    tr.title='Click to view full details';
+    tr.onclick=()=>openDetailPage(r._id);
+    tr.innerHTML=`
+      <td><b style="font-weight:500">${r.company||'—'}</b></td>
+      <td>${r.brand_name||'—'}</td>
+      <td>${r.buyer_name||'—'}</td>
+      <td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">${r.style_no||'—'}</span></td>
+      <td>${r.quantity||'—'}</td>
+      <td><span class="badge ${SB[r.production_status]||'b-pending'}">${r.production_status||'Pending'}</span></td>
+      <td style="color:var(--text2);font-size:12px">${r.tech_pack_date?fmtDate(r.tech_pack_date):'—'}</td>
+      <td style="color:var(--text2);font-size:12px">${r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—'}</td>
+      <td style="font-weight:500;color:${appr?'var(--success)':'var(--text3)'}">${appr?'✓ '+fmtDate(r.approved_date):'—'}</td>
+      <td style="color:${r.delivery_date?'var(--text)':'var(--text3)'};font-size:12px;font-weight:${r.delivery_date?'500':'400'}">${r.delivery_date?fmtDate(r.delivery_date):'—'}</td>`;
     tbody.appendChild(tr);
   });
 }
 
-function openDetail(sid){
-  const s = allStyles.find(s=>s.id===sid);
-  if(!s) return;
-  const o = allOrders.find(o=>o.id===s.order_id)||{};
-  document.getElementById('detail-title').textContent = (s.style_no||'Style') + ' — Full Details';
-  document.getElementById('detail-body').innerHTML = `
-    <div class="detail-section">
-      <div class="detail-section-title">Client & Order</div>
-      <div class="detail-grid">
-        <div class="detail-field"><div class="detail-label">Company</div><div class="detail-value">${o.company||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Brand</div><div class="detail-value">${o.brand_name||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Buyer</div><div class="detail-value">${o.buyer_name||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Mail Subject</div><div class="detail-value">${o.mail_subject||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Purchase Order</div><div class="detail-value mono">${s.purchase_order||o.purchase_order||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Purchase Invoice</div><div class="detail-value mono">${s.purchase_invoice||o.purchase_invoice||'—'}</div></div>
+function openDetailPage(sid){
+  const s=allStyles.find(s=>s.id===sid);
+  if(!s)return;
+  const o=allOrders.find(o=>o.id===s.order_id)||{};
+  const appr=!!s.approved_date;
+
+  document.getElementById('dp-title').textContent=(s.style_no||'Style')+' — Full Details';
+  document.getElementById('dp-sub').textContent=(o.company||'')+(o.brand_name?' · '+o.brand_name:'')+(o.buyer_name?' · '+o.buyer_name:'');
+
+  const f=(label,value,cls='')=>`
+    <div class="dp-field">
+      <div class="dp-label">${label}</div>
+      <div class="dp-value ${cls}">${value||'<span style="color:var(--text3)">—</span>'}</div>
+    </div>`;
+
+  document.getElementById('dp-body').innerHTML=`
+    <div class="dp-section">
+      <div class="dp-section-header">🏢 Client & Order</div>
+      <div class="dp-grid">
+        ${f('Company',o.company)}
+        ${f('Brand Name',o.brand_name)}
+        ${f('Buyer Name',o.buyer_name)}
+        ${f('Mail Subject',o.mail_subject)}
+        ${f('Purchase Order','<span class="mono">'+(s.purchase_order||o.purchase_order||'—')+'</span>')}
+        ${f('Purchase Invoice','<span class="mono">'+(s.purchase_invoice||o.purchase_invoice||'—')+'</span>')}
       </div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">Style & Design</div>
-      <div class="detail-grid">
-        <div class="detail-field"><div class="detail-label">Style No.</div><div class="detail-value mono">${s.style_no||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Quantity</div><div class="detail-value">${s.quantity||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Tech Pack Date</div><div class="detail-value">${s.tech_pack_date?fmtDate(s.tech_pack_date):'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">HD File</div><div class="detail-value">${s.hd_file||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Digital</div><div class="detail-value">${s.digital||'—'}</div></div>
+    <div class="dp-section">
+      <div class="dp-section-header">🎨 Style & Design</div>
+      <div class="dp-grid">
+        ${f('Style No.','<span class="mono">'+(s.style_no||'—')+'</span>')}
+        ${f('Quantity',s.quantity)}
+        ${f('Tech Pack Date',s.tech_pack_date?fmtDate(s.tech_pack_date):'')}
+        ${f('HD File',s.hd_file)}
+        ${f('Digital',s.digital)}
       </div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">Sampling & Approval</div>
-      <div class="detail-grid">
-        <div class="detail-field"><div class="detail-label">Samples Submitted</div><div class="detail-value">${s.samples_submitted_date?fmtDate(s.samples_submitted_date):'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Corrections Date</div><div class="detail-value">${s.corrections_date?fmtDate(s.corrections_date):'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Remarks</div><div class="detail-value">${s.correction_remarks||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Approved Date</div><div class="detail-value" style="color:${s.approved_date?'var(--success)':'var(--text)'}">${s.approved_date?fmtDate(s.approved_date):'Not yet'}</div></div>
-        <div class="detail-field"><div class="detail-label">Revised</div><div class="detail-value">${s.revised?'Yes':'No'}</div></div>
+    <div class="dp-section">
+      <div class="dp-section-header">✅ Sampling & Approval</div>
+      <div class="dp-grid">
+        ${f('Samples Submitted',s.samples_submitted_date?fmtDate(s.samples_submitted_date):'')}
+        ${f('Corrections Date',s.corrections_date?fmtDate(s.corrections_date):'')}
+        ${f('Correction Remarks',s.correction_remarks)}
+        ${f('Approved Date',appr?fmtDate(s.approved_date):'Not yet',appr?'green':'muted')}
+        ${f('Revised',s.revised?'Yes':'No')}
       </div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">Production & Shipping</div>
-      <div class="detail-grid">
-        <div class="detail-field"><div class="detail-label">Production Status</div><div class="detail-value"><span class="badge ${SB[s.production_status]||'b-pending'}">${s.production_status||'Pending'}</span></div></div>
-        <div class="detail-field"><div class="detail-label">Delivery Date</div><div class="detail-value">${s.delivery_date?fmtDate(s.delivery_date):'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">No. of Boxes</div><div class="detail-value">${s.number_of_boxes||'—'}</div></div>
-        <div class="detail-field"><div class="detail-label">Weight (kg)</div><div class="detail-value">${s.weight||'—'}</div></div>
+    <div class="dp-section">
+      <div class="dp-section-header">🏭 Production & Shipping</div>
+      <div class="dp-grid">
+        ${f('Production Status','<span class="badge '+(SB[s.production_status]||'b-pending')+'">'+(s.production_status||'Pending')+'</span>')}
+        ${f('Delivery Date',s.delivery_date?fmtDate(s.delivery_date):'')}
+        ${f('Number of Boxes',s.number_of_boxes)}
+        ${f('Weight (kg)',s.weight)}
       </div>
-    </div>
-  `;
-  document.getElementById('detail-overlay').classList.add('open');
+    </div>`;
+
+  document.getElementById('d2-list-view').style.display='none';
+  document.getElementById('d2-detail-view').style.display='block';
 }
 
-function closeDetail(e){
-  if(e.target===document.getElementById('detail-overlay')) closeDetailBox();
-}
-function closeDetailBox(){
-  document.getElementById('detail-overlay').classList.remove('open');
+function closeDetailPage(){
+  document.getElementById('d2-detail-view').style.display='none';
+  document.getElementById('d2-list-view').style.display='block';
 }
 
 function esc(v){return(v||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
