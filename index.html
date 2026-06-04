@@ -477,6 +477,20 @@ function renderDash(){
     return new Date(ob.created_at)-new Date(oa.created_at); // date-desc default
   });
 
+  // show delivered notice
+  const sf2=document.getElementById('f-status')?.value||'';
+  const deliveredCount=allStyles.filter(s=>s.production_status==='Delivered').length;
+  const notice=document.getElementById('delivered-notice');
+  const dcEl=document.getElementById('delivered-count');
+  if(notice&&dcEl){
+    if(sf2===''&&deliveredCount>0){
+      notice.style.display='block';
+      dcEl.textContent=deliveredCount;
+    } else {
+      notice.style.display='none';
+    }
+  }
+
   if(!orderIds.length){list.innerHTML='<div class="empty">No orders found</div>';return;}
 
   orderIds.forEach(oid=>{
@@ -527,9 +541,9 @@ function renderDash(){
               <th>HD File</th>
               <th>Digital</th>
               <th>Samples Submitted</th>
-              <th>Approved</th>
               <th>Corrections Date</th>
               <th>Remarks</th>
+              <th>Approved</th>
               <th>Revised</th>
               <th>Production Status</th>
               <th>Delivery Date</th>
@@ -574,6 +588,8 @@ function renderDash(){
           </select>
         </td>
         <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}"></td>
+        <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}"></td>
+        <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
         <td>
           <div class="toggle-wrap">
             <label class="toggle">
@@ -583,8 +599,6 @@ function renderDash(){
             <span class="tlbl ${appr?'yes':''}" id="tlbl-${sid}">${appr?'Yes':'No'}</span>
           </div>
         </td>
-        <td><input class="ci ${lk}" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}"></td>
-        <td><input class="ci ${lk}" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
         <td>
           <select class="ci ${lk}" id="ci-rv-${sid}">
             <option value="false" ${!s.revised?'selected':''}>No</option>
@@ -617,7 +631,7 @@ function onToggle(sid,checked){
   const lbl=document.getElementById(`tlbl-${sid}`);
   lbl.textContent=checked?'Yes':'No';
   lbl.className='tlbl '+(checked?'yes':'');
-  [`ci-cd-${sid}`,`ci-cr-${sid}`,`ci-rv-${sid}`,`ci-st-${sid}`,`ci-dl-${sid}`,`ci-bx-${sid}`,`ci-wt-${sid}`].forEach(id=>{
+  [`ci-rv-${sid}`,`ci-st-${sid}`,`ci-dl-${sid}`,`ci-bx-${sid}`,`ci-wt-${sid}`].forEach(id=>{
     const el=document.getElementById(id);
     if(!el)return;
     checked?el.classList.remove('locked'):el.classList.add('locked');
