@@ -4,272 +4,351 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f0f0f;
-  --surface: #181818;
-  --surface2: #222222;
-  --surface3: #2a2a2a;
-  --border: #2e2e2e;
-  --border2: #3a3a3a;
-  --text: #f0f0f0;
-  --text2: #a0a0a0;
-  --text3: #606060;
-  --accent: #c8f060;
-  --accent2: #a8d040;
-  --danger: #ff5c5c;
-  --warn: #ffb344;
-  --info: #60b8f0;
-  --success: #60e0a0;
-  --radius: 10px;
-  --radius-sm: 6px;
+  --primary: #1a73e8;
+  --primary-dark: #1557b0;
+  --primary-light: #e8f0fe;
+  --surface: #ffffff;
+  --bg: #f0f4f9;
+  --border: #dadce0;
+  --text: #202124;
+  --text2: #5f6368;
+  --text3: #9aa0a6;
+  --success: #1e8e3e;
+  --success-bg: #e6f4ea;
+  --warn: #e37400;
+  --warn-bg: #fef7e0;
+  --danger: #d93025;
+  --danger-bg: #fce8e6;
+  --info: #1a73e8;
+  --info-bg: #e8f0fe;
+  --purple: #7c4dff;
+  --purple-bg: #ede7f6;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+  --shadow-md: 0 2px 6px rgba(0,0,0,.12), 0 4px 16px rgba(0,0,0,.1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; }
-input, select, textarea { font-family: 'DM Sans', sans-serif; font-size: 13px; }
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; }
+input, select, textarea, button { font-family: 'Roboto', sans-serif; }
 
 /* ── LOGIN ── */
 #login-page {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(ellipse at 60% 40%, #1a2a0a 0%, #0f0f0f 60%);
+  background: linear-gradient(135deg, #e8f0fe 0%, #f0f4f9 50%, #e8f5e9 100%);
 }
-.login-box {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-  padding: 48px 40px; width: 360px; text-align: center;
+.login-card {
+  background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  padding: 48px 40px; width: 400px; text-align: center;
 }
-.login-logo { font-size: 32px; font-weight: 600; color: var(--accent); letter-spacing: -1px; margin-bottom: 6px; }
-.login-sub { color: var(--text2); font-size: 13px; margin-bottom: 36px; }
-.login-box input {
-  width: 100%; padding: 11px 14px; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text); margin-bottom: 12px; outline: none;
-  transition: border-color .2s;
+.login-logo-wrap { margin-bottom: 24px; }
+.login-logo-icon {
+  width: 56px; height: 56px; background: var(--primary); border-radius: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 24px; color: white; margin-bottom: 12px;
 }
-.login-box input:focus { border-color: var(--accent); }
+.login-title { font-family: 'Google Sans', sans-serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--text2); margin-bottom: 32px; }
+.login-field { margin-bottom: 16px; text-align: left; }
+.login-field label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+.login-field input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-size: 14px; color: var(--text); outline: none; transition: border-color .2s, box-shadow .2s;
+  background: #fff;
+}
+.login-field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,.12); }
 .login-btn {
-  width: 100%; padding: 11px; background: var(--accent); color: #0f0f0f; border: none;
-  border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; cursor: pointer;
-  transition: background .2s;
+  width: 100%; padding: 12px; background: var(--primary); color: white; border: none;
+  border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background .2s, box-shadow .2s; margin-top: 4px;
 }
-.login-btn:hover { background: var(--accent2); }
-.login-err { color: var(--danger); font-size: 12px; margin-top: 10px; }
+.login-btn:hover { background: var(--primary-dark); box-shadow: 0 2px 8px rgba(26,115,232,.3); }
+.login-err { color: var(--danger); font-size: 12px; margin-top: 10px; min-height: 18px; }
 
 /* ── APP SHELL ── */
-#app { display: none; flex-direction: column; min-height: 100vh; }
+#app { display: none; min-height: 100vh; flex-direction: column; }
 .topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; height: 56px; background: var(--surface);
-  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
-.topbar-logo { font-size: 17px; font-weight: 600; color: var(--accent); letter-spacing: -.5px; }
-.topbar-nav { display: flex; gap: 4px; }
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.topbar-icon {
+  width: 32px; height: 32px; background: var(--primary); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;
+}
+.topbar-title { font-family: 'Google Sans', sans-serif; font-size: 17px; font-weight: 500; color: var(--text); }
+.topbar-nav { display: flex; gap: 2px; }
 .nav-btn {
-  padding: 6px 16px; border-radius: var(--radius-sm); border: none; background: transparent;
-  color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer;
-  transition: all .15s;
+  padding: 7px 18px; border-radius: 20px; border: none; background: transparent;
+  color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s;
 }
-.nav-btn:hover { background: var(--surface2); color: var(--text); }
-.nav-btn.active { background: var(--accent); color: #0f0f0f; font-weight: 600; }
-.topbar-right { display: flex; align-items: center; gap: 12px; }
-.user-chip { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; }
+.nav-btn:hover { background: var(--bg); color: var(--text); }
+.nav-btn.active { background: var(--primary-light); color: var(--primary); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.user-avatar {
+  width: 32px; height: 32px; background: var(--primary); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: white;
+  font-size: 13px; font-weight: 500;
+}
 .logout-btn {
-  padding: 5px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border);
-  background: transparent; color: var(--text2); font-size: 12px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 12px; cursor: pointer; transition: all .15s;
 }
-.logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+.logout-btn:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
 
 /* ── PAGES ── */
-.page { display: none; padding: 28px 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
+.page { display: none; padding: 28px 24px; max-width: 860px; margin: 0 auto; width: 100%; }
 .page.active { display: block; }
+.page-wide { max-width: 1200px; }
 
-/* ── FORM PAGE ── */
-.page-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+/* ── FORM CARDS ── */
+.form-header-card {
+  background: var(--primary); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 28px 32px; margin-bottom: 0; position: relative; overflow: hidden;
+}
+.form-header-card::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px; background: rgba(255,255,255,.08); border-radius: 50%;
+}
+.form-header-title { font-family: 'Google Sans', sans-serif; font-size: 22px; font-weight: 500; color: white; margin-bottom: 4px; }
+.form-header-sub { font-size: 13px; color: rgba(255,255,255,.75); }
+.form-header-bar { height: 8px; background: #fbbc04; border-radius: 0; margin-bottom: 20px; }
+
 .form-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 28px 32px; margin-bottom: 14px; box-shadow: var(--shadow);
 }
-.section-label {
-  font-size: 10px; font-weight: 600; letter-spacing: .12em; color: var(--accent);
-  text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+.form-card:first-of-type { border-radius: 0 0 var(--radius-lg) var(--radius-lg); border-top: 4px solid var(--primary); }
+.section-title {
+  font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--primary); margin-bottom: 20px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
 }
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field label { font-size: 11px; color: var(--text2); font-weight: 500; letter-spacing: .03em; }
+.section-icon { font-size: 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 12px; font-weight: 500; color: var(--text2); letter-spacing: .01em;
+}
+.field label .req { color: var(--danger); margin-left: 2px; }
 .field input, .field select {
-  padding: 9px 12px; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text); outline: none; transition: border-color .2s;
+  padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-size: 14px; color: var(--text); outline: none; background: #fff;
+  transition: border-color .2s, box-shadow .2s;
 }
-.field input:focus, .field select:focus { border-color: var(--accent); }
+.field input:focus, .field select:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,.1);
+}
 .field input::placeholder { color: var(--text3); }
-.field select option { background: var(--surface2); }
+.field select { cursor: pointer; }
 .field input.locked, .field select.locked {
-  opacity: .35; pointer-events: none; border-style: dashed;
+  background: #f8f9fa; color: var(--text3); border-style: dashed; pointer-events: none;
 }
+.nstyles-row { display: flex; align-items: flex-end; gap: 14px; }
+.nstyles-row .field { width: 200px; }
+.generate-btn {
+  padding: 10px 20px; background: var(--primary-light); color: var(--primary); border: 1.5px solid var(--primary);
+  border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
+  transition: all .15s; height: 42px;
+}
+.generate-btn:hover { background: var(--primary); color: white; }
 
-/* styles block */
-.styles-header {
+/* style blocks */
+.style-block {
+  background: #fafafa; border: 1.5px solid var(--border); border-radius: var(--radius-lg);
+  padding: 22px 24px; margin-bottom: 12px; transition: border-color .2s;
+}
+.style-block:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,.08); }
+.style-block-header {
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
 }
-.style-block {
-  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 18px; margin-bottom: 12px;
+.style-block-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; background: var(--primary); color: white;
+  border-radius: 50%; font-size: 12px; font-weight: 600; margin-right: 8px;
 }
-.style-block-title {
-  font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: .08em;
-  text-transform: uppercase; margin-bottom: 14px;
-}
+.style-block-title { font-size: 13px; font-weight: 500; color: var(--text); }
 
-/* save btn */
-.save-btn {
-  display: flex; align-items: center; gap: 8px; padding: 11px 28px;
-  background: var(--accent); color: #0f0f0f; border: none; border-radius: var(--radius-sm);
-  font-weight: 600; font-size: 14px; cursor: pointer; transition: background .15s;
+/* form actions */
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 12px; margin-top: 4px; padding: 16px 0;
 }
-.save-btn:hover { background: var(--accent2); }
-.save-btn:disabled { opacity: .5; cursor: not-allowed; }
-.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
-.clear-btn {
-  padding: 11px 20px; background: transparent; border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text2); font-size: 13px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+.btn-clear {
+  padding: 10px 24px; background: transparent; border: 1.5px solid var(--border);
+  border-radius: var(--radius); color: var(--text2); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all .15s;
 }
-.clear-btn:hover { border-color: var(--border2); color: var(--text); }
+.btn-clear:hover { border-color: var(--text2); color: var(--text); background: var(--bg); }
+.btn-save {
+  padding: 10px 28px; background: var(--primary); color: white; border: none;
+  border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: all .2s; display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 3px rgba(26,115,232,.3);
+}
+.btn-save:hover { background: var(--primary-dark); box-shadow: 0 2px 8px rgba(26,115,232,.4); }
+.btn-save:disabled { opacity: .6; cursor: not-allowed; }
 
 /* ── DASHBOARD ── */
-.dash-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+.dash-stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-bottom: 20px; }
 .stat-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 16px 18px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 18px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px;
 }
-.stat-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
-.stat-val { font-size: 26px; font-weight: 600; font-family: 'DM Mono', monospace; }
+.stat-label { font-size: 12px; color: var(--text2); font-weight: 500; }
+.stat-val { font-size: 28px; font-weight: 600; font-family: 'Google Sans', sans-serif; color: var(--text); }
 .stat-val.green { color: var(--success); }
-.stat-val.yellow { color: var(--warn); }
+.stat-val.blue { color: var(--primary); }
 .stat-val.red { color: var(--danger); }
-.stat-val.blue { color: var(--info); }
+.stat-val.orange { color: var(--warn); }
+.stat-chip { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; display: inline-block; }
+.chip-green { background: var(--success-bg); color: var(--success); }
+.chip-blue { background: var(--info-bg); color: var(--info); }
+.chip-red { background: var(--danger-bg); color: var(--danger); }
+.chip-orange { background: var(--warn-bg); color: var(--warn); }
 
+/* toolbar */
 .dash-toolbar {
-  display: flex; gap: 10px; margin-bottom: 14px; align-items: center; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 14px 18px; display: flex; gap: 10px; margin-bottom: 14px;
+  align-items: center; flex-wrap: wrap; box-shadow: var(--shadow);
 }
-.dash-toolbar input, .dash-toolbar select {
-  padding: 8px 12px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text); font-size: 13px; outline: none;
-  font-family: 'DM Sans', sans-serif;
+.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap input {
+  width: 100%; padding: 9px 12px 9px 36px; border: 1.5px solid var(--border);
+  border-radius: var(--radius); font-size: 13px; outline: none; transition: border-color .2s;
 }
-.dash-toolbar input { flex: 1; min-width: 180px; }
-.dash-toolbar input:focus, .dash-toolbar select:focus { border-color: var(--accent); }
-.export-btn {
-  padding: 8px 16px; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text2); font-size: 12px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; margin-left: auto; white-space: nowrap;
+.search-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,.1); }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 15px; }
+.dash-toolbar select {
+  padding: 9px 12px; border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-size: 13px; color: var(--text); outline: none; background: white; cursor: pointer;
 }
-.export-btn:hover { border-color: var(--accent); color: var(--accent); }
+.dash-toolbar select:focus { border-color: var(--primary); }
+.btn-export {
+  padding: 9px 16px; background: white; border: 1.5px solid var(--border);
+  border-radius: var(--radius); color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: all .15s; display: flex; align-items: center; gap: 6px;
+}
+.btn-export:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.btn-refresh {
+  padding: 9px 12px; background: white; border: 1.5px solid var(--border);
+  border-radius: var(--radius); color: var(--text2); font-size: 13px; cursor: pointer; transition: all .15s;
+}
+.btn-refresh:hover { border-color: var(--primary); color: var(--primary); }
 
 /* table */
-.table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+.table-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; }
+.table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead tr { background: var(--surface2); }
+thead tr { background: #f8f9fa; }
 th {
-  padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 600;
-  letter-spacing: .08em; color: var(--text2); text-transform: uppercase;
-  border-bottom: 1px solid var(--border); white-space: nowrap;
+  padding: 11px 16px; text-align: left; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; color: var(--text2); text-transform: uppercase;
+  border-bottom: 1.5px solid var(--border); white-space: nowrap;
 }
-td {
-  padding: 11px 14px; border-bottom: 1px solid var(--border);
-  vertical-align: middle; background: var(--surface);
-}
+td { padding: 13px 16px; border-bottom: 1px solid #f1f3f4; vertical-align: middle; background: white; }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background: var(--surface2); }
+tr:hover td { background: #f8f9fa; }
 
 /* badges */
-.badge {
-  display: inline-block; padding: 3px 9px; border-radius: 20px;
-  font-size: 11px; font-weight: 500; white-space: nowrap;
-}
-.b-pending { background: #2a2010; color: var(--warn); }
-.b-sampling { background: #102030; color: var(--info); }
-.b-approved { background: #0a2010; color: var(--success); }
-.b-production { background: #1a1030; color: #c0a0ff; }
-.b-dispatch { background: #0a2018; color: #40e0c0; }
-.b-correction { background: #2a1010; color: var(--danger); }
-.b-delivered { background: #1a1a1a; color: var(--text2); }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.b-pending { background: var(--warn-bg); color: var(--warn); }
+.b-sampling { background: var(--info-bg); color: var(--info); }
+.b-approved { background: var(--success-bg); color: var(--success); }
+.b-production { background: var(--purple-bg); color: var(--purple); }
+.b-dispatch { background: #e0f2f1; color: #00796b; }
+.b-correction { background: var(--danger-bg); color: var(--danger); }
+.b-delivered { background: #f1f3f4; color: var(--text2); }
 
-/* inline edit */
+/* edit panel */
+.edit-row td { padding: 0; background: #f8f9fa; }
 .edit-panel {
-  background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius);
-  padding: 20px; margin-bottom: 2px;
+  padding: 24px 28px; border-top: 2px solid var(--primary-light);
+  background: #f8f9fa;
 }
-.edit-panel-title {
-  font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: .08em;
-  text-transform: uppercase; margin-bottom: 14px;
+.edit-section-title {
+  font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: 14px; margin-top: 18px;
+  display: flex; align-items: center; gap: 6px;
 }
-.edit-inline { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
-.edit-inline .field { min-width: 140px; flex: 1; }
-.edit-save-btn {
-  padding: 9px 18px; background: var(--accent); color: #0f0f0f; border: none;
-  border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; cursor: pointer;
-  white-space: nowrap; font-family: 'DM Sans', sans-serif;
+.edit-section-title:first-child { margin-top: 0; }
+.edit-inline { display: flex; gap: 14px; flex-wrap: wrap; }
+.edit-inline .field { min-width: 150px; flex: 1; }
+.edit-inline .field input, .edit-inline .field select {
+  background: white; padding: 9px 11px; font-size: 13px;
 }
-.edit-save-btn:hover { background: var(--accent2); }
-.locked-note { font-size: 11px; color: var(--text3); font-style: italic; padding: 8px 0; }
+.locked-section {
+  opacity: .45; pointer-events: none;
+  background: white; border-radius: var(--radius); padding: 16px; border: 1.5px dashed var(--border);
+}
+.locked-section.unlocked { opacity: 1; pointer-events: auto; background: transparent; border: none; padding: 0; }
+.lock-notice {
+  display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3);
+  margin-bottom: 10px; font-style: italic;
+}
+.btn-ep-save {
+  padding: 9px 22px; background: var(--primary); color: white; border: none;
+  border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all .15s; margin-top: 16px;
+}
+.btn-ep-save:hover { background: var(--primary-dark); }
+.btn-ep-cancel {
+  padding: 9px 16px; background: transparent; border: 1.5px solid var(--border);
+  border-radius: var(--radius); font-size: 13px; color: var(--text2); cursor: pointer;
+  transition: all .15s; margin-top: 16px; margin-left: 8px;
+}
+.btn-ep-cancel:hover { border-color: var(--text2); color: var(--text); }
+.btn-edit { padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: white; color: var(--primary); font-size: 12px; font-weight: 500; cursor: pointer; transition: all .15s; }
+.btn-edit:hover { border-color: var(--primary); background: var(--primary-light); }
+.btn-del { padding: 5px 10px; border-radius: 20px; border: 1.5px solid transparent; background: transparent; color: var(--text3); font-size: 12px; cursor: pointer; transition: all .15s; margin-left: 4px; }
+.btn-del:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
 
-/* expand btn */
-.expand-btn {
-  background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm);
-  color: var(--text2); padding: 4px 10px; font-size: 11px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; white-space: nowrap;
-}
-.expand-btn:hover { border-color: var(--accent); color: var(--accent); }
-.del-btn {
-  background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm);
-  color: var(--text3); padding: 4px 8px; font-size: 13px; cursor: pointer;
-}
-.del-btn:hover { border-color: var(--danger); color: var(--danger); }
-
-.group-row td {
-  background: #131313; font-size: 11px; color: var(--text3);
-  padding: 6px 14px; font-family: 'DM Mono', monospace; letter-spacing: .04em;
-}
-
-/* toast */
-.toast {
-  position: fixed; bottom: 24px; right: 24px; padding: 12px 20px;
-  border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
-  opacity: 0; transition: opacity .3s; z-index: 9999; pointer-events: none;
-}
-.toast.success { background: var(--success); color: #0a2010; }
-.toast.error { background: var(--danger); color: #fff; }
-.toast.show { opacity: 1; }
-
+/* misc */
 .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
-.empty-state div { font-size: 32px; margin-bottom: 10px; }
-.spinner {
-  width: 20px; height: 20px; border: 2px solid var(--border2);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin .6s linear infinite; display: inline-block;
-}
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-text { font-size: 14px; }
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.toast {
+  position: fixed; bottom: 28px; right: 28px; padding: 13px 20px; border-radius: var(--radius);
+  font-size: 13px; font-weight: 500; opacity: 0; transition: all .3s; z-index: 9999;
+  pointer-events: none; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 8px;
+}
+.toast.success { background: var(--success); color: white; }
+.toast.error { background: var(--danger); color: white; }
+.toast.show { opacity: 1; }
+.divider { height: 1px; background: var(--border); margin: 18px 0; }
+.company-cell-main { font-weight: 500; color: var(--text); }
+.company-cell-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.approved-yes { color: var(--success); font-weight: 500; font-size: 13px; }
+.approved-no { color: var(--text3); font-size: 13px; }
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="login-page">
-  <div class="login-box">
-    <div class="login-logo">OrderMgr</div>
-    <div class="login-sub">Sign in to continue</div>
-    <input type="text" id="l-user" placeholder="Username" autocomplete="username">
-    <input type="password" id="l-pass" placeholder="Password" autocomplete="current-password"
-      onkeydown="if(event.key==='Enter')doLogin()">
+  <div class="login-card">
+    <div class="login-logo-wrap">
+      <div class="login-logo-icon">📋</div>
+      <div class="login-title">Order Manager</div>
+      <div class="login-sub">Sign in to your workspace</div>
+    </div>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="l-user" placeholder="Enter username" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="l-pass" placeholder="Enter password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
     <button class="login-btn" onclick="doLogin()">Sign in</button>
     <div class="login-err" id="login-err"></div>
   </div>
@@ -278,45 +357,71 @@ tr:hover td { background: var(--surface2); }
 <!-- APP -->
 <div id="app">
   <div class="topbar">
-    <div class="topbar-logo">OrderMgr</div>
+    <div class="topbar-left">
+      <div class="topbar-icon">📋</div>
+      <span class="topbar-title">Order Manager</span>
+    </div>
     <div class="topbar-nav">
       <button class="nav-btn active" onclick="showPage('form',this)">＋ New Order</button>
-      <button class="nav-btn" onclick="showPage('dashboard',this)">Dashboard</button>
+      <button class="nav-btn" onclick="showPage('dashboard',this)">📊 Dashboard</button>
     </div>
     <div class="topbar-right">
-      <span class="user-chip" id="user-chip"></span>
-      <button class="logout-btn" onclick="doLogout()">Logout</button>
+      <div class="user-avatar" id="user-avatar">A</div>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
     </div>
   </div>
 
   <!-- FORM PAGE -->
   <div class="page active" id="page-form">
-    <div class="page-title">New Order</div>
+    <div class="form-header-card">
+      <div class="form-header-title">New Order Entry</div>
+      <div class="form-header-sub">Fill in the order details below. All styles will be saved together.</div>
+    </div>
+    <div class="form-header-bar"></div>
 
     <!-- Client -->
     <div class="form-card">
-      <div class="section-label">Client Information</div>
+      <div class="section-title"><span class="section-icon">🏢</span> Client Information</div>
       <div class="grid3">
-        <div class="field"><label>Company *</label><input id="f-company" placeholder="Company name"></div>
-        <div class="field"><label>Brand Name</label><input id="f-brand" placeholder="Brand name"></div>
-        <div class="field"><label>Buyer Name</label><input id="f-buyer" placeholder="Buyer name"></div>
+        <div class="field">
+          <label>Company <span class="req">*</span></label>
+          <input id="f-company" placeholder="Company name">
+        </div>
+        <div class="field">
+          <label>Brand Name</label>
+          <input id="f-brand" placeholder="Brand name">
+        </div>
+        <div class="field">
+          <label>Buyer Name</label>
+          <input id="f-buyer" placeholder="Buyer name">
+        </div>
       </div>
     </div>
 
-    <!-- Order -->
+    <!-- Order Info -->
     <div class="form-card">
-      <div class="section-label">Order Information</div>
-      <div class="grid3">
-        <div class="field"><label>Mail Subject</label><input id="f-mail" placeholder="Email thread subject"></div>
-        <div class="field"><label>Purchase Order</label><input id="f-po" placeholder="PO number"></div>
-        <div class="field"><label>Purchase Invoice</label><input id="f-invoice" placeholder="Invoice number"></div>
-      </div>
-      <div style="margin-top:14px">
-        <div class="field" style="max-width:200px">
-          <label>Number of Styles *</label>
-          <input type="number" id="f-nstyles" placeholder="e.g. 3" min="1" max="50"
-            oninput="generateStyleBlocks()">
+      <div class="section-title"><span class="section-icon">📄</span> Order Information</div>
+      <div class="grid3" style="margin-bottom:18px">
+        <div class="field">
+          <label>Mail Subject</label>
+          <input id="f-mail" placeholder="Email thread subject">
         </div>
+        <div class="field">
+          <label>Purchase Order</label>
+          <input id="f-po" placeholder="PO number">
+        </div>
+        <div class="field">
+          <label>Purchase Invoice</label>
+          <input id="f-invoice" placeholder="Invoice number">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="nstyles-row">
+        <div class="field">
+          <label>Number of Styles <span class="req">*</span></label>
+          <input type="number" id="f-nstyles" placeholder="e.g. 3" min="1" max="50">
+        </div>
+        <button class="generate-btn" onclick="generateStyleBlocks()">Generate Style Fields</button>
       </div>
     </div>
 
@@ -324,19 +429,30 @@ tr:hover td { background: var(--surface2); }
     <div id="styles-container"></div>
 
     <div class="form-actions">
-      <button class="clear-btn" onclick="clearForm()">Clear</button>
-      <button class="save-btn" onclick="saveOrder()" id="save-btn">
-        <span id="save-label">Save Order</span>
+      <button class="btn-clear" onclick="clearForm()">Clear form</button>
+      <button class="btn-save" onclick="saveOrder()" id="save-btn">
+        <span id="save-label">Submit Order</span>
       </button>
     </div>
   </div>
 
   <!-- DASHBOARD PAGE -->
-  <div class="page" id="page-dashboard">
-    <div class="page-title">Dashboard</div>
+  <div class="page page-wide" id="page-dashboard">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-family:'Google Sans',sans-serif;font-size:20px;font-weight:500">Dashboard</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:2px">Track and manage all orders</div>
+      </div>
+      <button class="btn-refresh" onclick="loadDashboard()" title="Refresh">↻ Refresh</button>
+    </div>
+
     <div class="dash-stats" id="dash-stats"></div>
+
     <div class="dash-toolbar">
-      <input id="search" placeholder="Search company, brand, style, buyer…" oninput="renderTable()">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="search" placeholder="Search company, brand, style, buyer…" oninput="renderTable()">
+      </div>
       <select id="f-status" onchange="renderTable()">
         <option value="">All statuses</option>
         <option>Pending</option>
@@ -349,29 +465,33 @@ tr:hover td { background: var(--surface2); }
         <option>Ready for Dispatch</option>
         <option>Delivered</option>
       </select>
-      <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Company / Brand</th>
-            <th>Buyer</th>
-            <th>Style No</th>
-            <th>Qty</th>
-            <th>Tech Pack</th>
-            <th>Samples</th>
-            <th>Status</th>
-            <th>Delivery</th>
-            <th>Approved</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
-    </div>
-    <div id="empty-state" class="empty-state" style="display:none">
-      <div>📋</div>No orders found
+
+    <div class="table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Company / Brand</th>
+              <th>Buyer</th>
+              <th>Style No.</th>
+              <th>Qty</th>
+              <th>Tech Pack</th>
+              <th>Samples Submitted</th>
+              <th>Status</th>
+              <th>Delivery</th>
+              <th>Approved</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state" style="display:none">
+          <div class="empty-icon">📋</div>
+          <div class="empty-text">No orders found</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -388,7 +508,6 @@ let allOrders = [];
 let allStyles = [];
 let expandedRows = new Set();
 
-// ── SUPABASE HELPERS ──
 async function sb(path, opts={}) {
   const r = await fetch(SUPA_URL+'/rest/v1/'+path, { headers: H, ...opts });
   if (!r.ok) { const e = await r.text(); throw new Error(e); }
@@ -401,15 +520,16 @@ async function doLogin() {
   const u = document.getElementById('l-user').value.trim();
   const p = document.getElementById('l-pass').value.trim();
   const err = document.getElementById('login-err');
-  if (!u || !p) { err.textContent = 'Enter username and password'; return; }
+  err.textContent = '';
+  if (!u || !p) { err.textContent = 'Please enter username and password.'; return; }
   try {
     const rows = await sb(`users?username=eq.${encodeURIComponent(u)}&password=eq.${encodeURIComponent(p)}&select=id,username,role`);
-    if (!rows || rows.length === 0) { err.textContent = 'Invalid username or password'; return; }
+    if (!rows || rows.length === 0) { err.textContent = 'Incorrect username or password.'; return; }
     currentUser = rows[0];
     document.getElementById('login-page').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
-    document.getElementById('user-chip').textContent = currentUser.username;
-  } catch(e) { err.textContent = 'Connection error. Try again.'; }
+    document.getElementById('user-avatar').textContent = currentUser.username[0].toUpperCase();
+  } catch(e) { err.textContent = 'Connection error. Please try again.'; }
 }
 
 function doLogout() {
@@ -432,28 +552,33 @@ function showPage(name, btn) {
 // ── FORM ──
 function generateStyleBlocks() {
   const n = parseInt(document.getElementById('f-nstyles').value) || 0;
-  const container = document.getElementById('styles-container');
-  container.innerHTML = '';
+  if (n < 1) { showToast('Enter number of styles first', 'error'); return; }
+  const c = document.getElementById('styles-container');
+  c.innerHTML = '';
   for (let i = 1; i <= n; i++) {
-    container.innerHTML += `
-    <div class="form-card style-block" id="style-block-${i}">
-      <div class="style-block-title">Style ${i}</div>
-      <div class="grid4" style="margin-bottom:12px">
-        <div class="field"><label>Style No</label><input id="s${i}-style_no" placeholder="e.g. ST-${String(i).padStart(3,'0')}"></div>
+    c.innerHTML += `
+    <div class="form-card" style="border-left:4px solid var(--primary)">
+      <div class="style-block-header">
+        <div class="style-block-title">
+          <span class="style-block-num">${i}</span> Style ${i}
+        </div>
+      </div>
+      <div class="grid4" style="margin-bottom:16px">
+        <div class="field"><label>Style No.</label><input id="s${i}-style_no" placeholder="e.g. ST-00${i}"></div>
         <div class="field"><label>Quantity</label><input type="number" id="s${i}-quantity" placeholder="0"></div>
-        <div class="field"><label>Tech Pack Date</label><input type="date" id="s${i}-tech_pack_date"></div>
+        <div class="field"><label>Tech Pack Received</label><input type="date" id="s${i}-tech_pack_date"></div>
         <div class="field"><label>Samples Submitted</label><input type="date" id="s${i}-samples_submitted_date"></div>
       </div>
       <div class="grid2">
         <div class="field"><label>HD File</label>
           <select id="s${i}-hd_file">
-            <option value="">— select —</option>
+            <option value="">— Select —</option>
             <option>Received</option><option>Pending</option><option>Not required</option>
           </select>
         </div>
         <div class="field"><label>Digital</label>
           <select id="s${i}-digital">
-            <option value="">— select —</option>
+            <option value="">— Select —</option>
             <option>Received</option><option>Pending</option><option>Not required</option>
           </select>
         </div>
@@ -465,15 +590,15 @@ function generateStyleBlocks() {
 async function saveOrder() {
   const company = document.getElementById('f-company').value.trim();
   const nstyles = parseInt(document.getElementById('f-nstyles').value) || 0;
+  const container = document.getElementById('styles-container');
   if (!company) { showToast('Company name is required', 'error'); return; }
-  if (nstyles < 1) { showToast('Enter number of styles', 'error'); return; }
+  if (nstyles < 1 || !container.children.length) { showToast('Please generate style fields first', 'error'); return; }
 
   const btn = document.getElementById('save-btn');
   const lbl = document.getElementById('save-label');
-  btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span>&nbsp;Saving…';
 
   try {
-    // Insert order
     const orderRes = await sb('orders?select=id', {
       method: 'POST',
       headers: { ...H, 'Prefer': 'return=representation' },
@@ -488,8 +613,6 @@ async function saveOrder() {
       })
     });
     const orderId = orderRes[0].id;
-
-    // Insert styles
     const stylesPayload = [];
     for (let i = 1; i <= nstyles; i++) {
       stylesPayload.push({
@@ -503,26 +626,24 @@ async function saveOrder() {
       });
     }
     await sb('styles', { method: 'POST', body: JSON.stringify(stylesPayload) });
-
-    showToast('Order saved!', 'success');
+    showToast('✓ Order saved successfully!', 'success');
     clearForm();
   } catch(e) {
-    showToast('Error saving order. Try again.', 'error');
+    showToast('Error saving order. Please try again.', 'error');
     console.error(e);
   }
-  btn.disabled = false; lbl.textContent = 'Save Order';
+  btn.disabled = false; lbl.textContent = 'Submit Order';
 }
 
 function clearForm() {
-  ['f-company','f-brand','f-buyer','f-mail','f-po','f-invoice'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('f-nstyles').value = '';
+  ['f-company','f-brand','f-buyer','f-mail','f-po','f-invoice','f-nstyles']
+    .forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('styles-container').innerHTML = '';
 }
 
 // ── DASHBOARD ──
 async function loadDashboard() {
+  document.getElementById('table-body').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text3)"><span class="spinner" style="border-color:var(--border);border-top-color:var(--primary)"></span></td></tr>';
   try {
     const [orders, styles] = await Promise.all([
       sb('orders?select=*&order=created_at.desc'),
@@ -540,46 +661,59 @@ async function loadDashboard() {
 function renderStats() {
   const total = allStyles.length;
   const approved = allStyles.filter(s => s.approved_date).length;
-  const delivered = allStyles.filter(s => s.production_status === 'Delivered').length;
+  const inprod = allStyles.filter(s => ['In Production','Packing'].includes(s.production_status)).length;
   const correction = allStyles.filter(s => s.production_status === 'Correction Required').length;
-  const inprod = allStyles.filter(s => s.production_status === 'In Production').length;
+  const delivered = allStyles.filter(s => s.production_status === 'Delivered').length;
 
   document.getElementById('dash-stats').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Total Styles</div><div class="stat-val">${total}</div></div>
-    <div class="stat-card"><div class="stat-label">Approved</div><div class="stat-val green">${approved}</div></div>
-    <div class="stat-card"><div class="stat-label">In Production</div><div class="stat-val blue">${inprod}</div></div>
-    <div class="stat-card"><div class="stat-label">Needs Correction</div><div class="stat-val red">${correction}</div></div>
-    <div class="stat-card"><div class="stat-label">Delivered</div><div class="stat-val yellow">${delivered}</div></div>
-  `;
+    <div class="stat-card">
+      <div class="stat-label">Total Styles</div>
+      <div class="stat-val">${total}</div>
+      <span class="stat-chip chip-blue">${allOrders.length} orders</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Approved</div>
+      <div class="stat-val green">${approved}</div>
+      <span class="stat-chip chip-green">ready to produce</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">In Production</div>
+      <div class="stat-val blue">${inprod}</div>
+      <span class="stat-chip chip-blue">active</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Needs Correction</div>
+      <div class="stat-val red">${correction}</div>
+      <span class="stat-chip chip-red">attention needed</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Delivered</div>
+      <div class="stat-val orange">${delivered}</div>
+      <span class="stat-chip chip-orange">completed</span>
+    </div>`;
 }
 
 const STATUS_BADGE = {
-  'Pending': 'b-pending', 'Tech Pack Received': 'b-sampling', 'Sampling': 'b-sampling',
-  'Correction Required': 'b-correction', 'Approved': 'b-approved',
-  'In Production': 'b-production', 'Packing': 'b-production',
-  'Ready for Dispatch': 'b-dispatch', 'Delivered': 'b-delivered'
+  'Pending':'b-pending','Tech Pack Received':'b-sampling','Sampling':'b-sampling',
+  'Correction Required':'b-correction','Approved':'b-approved',
+  'In Production':'b-production','Packing':'b-production',
+  'Ready for Dispatch':'b-dispatch','Delivered':'b-delivered'
 };
 
 function renderTable() {
-  const search = (document.getElementById('search')?.value || '').toLowerCase();
-  const statusFilter = document.getElementById('f-status')?.value || '';
+  const search = (document.getElementById('search')?.value||'').toLowerCase();
+  const statusFilter = document.getElementById('f-status')?.value||'';
   const tbody = document.getElementById('table-body');
   tbody.innerHTML = '';
 
-  // Build joined rows
   let rows = allStyles.map(s => {
     const o = allOrders.find(o => o.id === s.order_id) || {};
-    return { ...s, company: o.company, brand_name: o.brand_name, buyer_name: o.buyer_name,
-      mail_subject: o.mail_subject, purchase_order: o.purchase_order,
-      purchase_invoice: o.purchase_invoice };
-  });
-
-  // Filter
-  rows = rows.filter(r => {
-    const matchSearch = !search || [r.company, r.brand_name, r.buyer_name, r.style_no, r.purchase_order]
-      .join(' ').toLowerCase().includes(search);
-    const matchStatus = !statusFilter || r.production_status === statusFilter;
-    return matchSearch && matchStatus;
+    return { ...s, company:o.company, brand_name:o.brand_name, buyer_name:o.buyer_name,
+      mail_subject:o.mail_subject, purchase_order:o.purchase_order, purchase_invoice:o.purchase_invoice };
+  }).filter(r => {
+    const ms = !search || [r.company,r.brand_name,r.buyer_name,r.style_no,r.purchase_order].join(' ').toLowerCase().includes(search);
+    const mst = !statusFilter || r.production_status === statusFilter;
+    return ms && mst;
   });
 
   document.getElementById('empty-state').style.display = rows.length ? 'none' : 'block';
@@ -587,61 +721,53 @@ function renderTable() {
   rows.forEach(r => {
     const isExpanded = expandedRows.has(r.id);
     const approved = !!r.approved_date;
-
-    // Main row
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><div style="font-weight:500">${r.company||'—'}</div>
-          <div style="font-size:11px;color:var(--text2)">${r.brand_name||''}</div></td>
-      <td>${r.buyer_name||'—'}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px">${r.style_no||'—'}</td>
-      <td>${r.quantity||'—'}</td>
-      <td style="font-size:12px;color:var(--text2)">${r.tech_pack_date ? fmtDate(r.tech_pack_date) : '—'}</td>
-      <td style="font-size:12px;color:var(--text2)">${r.samples_submitted_date ? fmtDate(r.samples_submitted_date) : '—'}</td>
-      <td><span class="badge ${STATUS_BADGE[r.production_status]||'b-pending'}">${r.production_status||'Pending'}</span></td>
-      <td style="font-size:12px;color:var(--text2)">${r.delivery_date ? fmtDate(r.delivery_date) : '—'}</td>
-      <td style="text-align:center">${approved ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="display:flex;gap:6px;align-items:center">
-        <button class="expand-btn" onclick="toggleExpand('${r.id}')">${isExpanded ? 'Close' : 'Edit'}</button>
-        <button class="del-btn" onclick="deleteStyle('${r.id}')">✕</button>
+      <td>
+        <div class="company-cell-main">${r.company||'—'}</div>
+        <div class="company-cell-sub">${r.brand_name||''}</div>
       </td>
-    `;
+      <td>${r.buyer_name||'—'}</td>
+      <td><span style="font-family:monospace;font-size:12px;background:#f1f3f4;padding:2px 7px;border-radius:4px">${r.style_no||'—'}</span></td>
+      <td>${r.quantity ? r.quantity.toLocaleString() : '—'}</td>
+      <td style="color:var(--text2);font-size:12px">${r.tech_pack_date ? fmtDate(r.tech_pack_date) : '—'}</td>
+      <td style="color:var(--text2);font-size:12px">${r.samples_submitted_date ? fmtDate(r.samples_submitted_date) : '—'}</td>
+      <td><span class="badge ${STATUS_BADGE[r.production_status]||'b-pending'}">${r.production_status||'Pending'}</span></td>
+      <td style="color:var(--text2);font-size:12px">${r.delivery_date ? fmtDate(r.delivery_date) : '—'}</td>
+      <td>${approved ? '<span class="approved-yes">✓ Yes</span>' : '<span class="approved-no">—</span>'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn-edit" onclick="toggleExpand('${r.id}')">${isExpanded?'Close':'Edit'}</button>
+        <button class="btn-del" onclick="deleteStyle('${r.id}')">✕</button>
+      </td>`;
     tbody.appendChild(tr);
 
-    // Edit panel
     if (isExpanded) {
       const ep = document.createElement('tr');
-      ep.id = 'ep-'+r.id;
-      ep.innerHTML = `<td colspan="10" style="padding:0;background:var(--surface2)">
+      ep.className = 'edit-row';
+      ep.innerHTML = `<td colspan="10">
         <div class="edit-panel">
-          <div class="edit-panel-title">Update — ${r.style_no || 'Style'}</div>
-
-          <div style="margin-bottom:14px">
-            <div class="section-label" style="font-size:10px;color:var(--text2);margin-bottom:10px">SAMPLING & APPROVAL</div>
-            <div class="edit-inline">
-              <div class="field"><label>Approved Date</label>
-                <input type="date" id="ep-approved-${r.id}" value="${r.approved_date||''}"
-                  onchange="onApprovalChange('${r.id}')">
-              </div>
-              <div class="field"><label>Corrections Date</label>
-                <input type="date" id="ep-cdate-${r.id}" value="${r.corrections_date||''}">
-              </div>
-              <div class="field" style="flex:2"><label>Correction Remarks</label>
-                <input type="text" id="ep-cremarks-${r.id}" placeholder="Remarks…" value="${r.correction_remarks||''}">
-              </div>
-              <div class="field"><label>Revised</label>
-                <select id="ep-revised-${r.id}">
-                  <option value="false" ${!r.revised?'selected':''}>No</option>
-                  <option value="true" ${r.revised?'selected':''}>Yes</option>
-                </select>
-              </div>
+          <div class="edit-section-title">📅 Sampling & Approval</div>
+          <div class="edit-inline">
+            <div class="field"><label>Approved Date</label>
+              <input type="date" id="ep-appr-${r.id}" value="${r.approved_date||''}" onchange="onApprovalChange('${r.id}')">
+            </div>
+            <div class="field"><label>Corrections Date</label>
+              <input type="date" id="ep-cdate-${r.id}" value="${r.corrections_date||''}">
+            </div>
+            <div class="field" style="flex:2"><label>Correction Remarks</label>
+              <input type="text" id="ep-cremarks-${r.id}" placeholder="Enter remarks…" value="${r.correction_remarks||''}">
+            </div>
+            <div class="field"><label>Revised</label>
+              <select id="ep-revised-${r.id}">
+                <option value="false" ${!r.revised?'selected':''}>No</option>
+                <option value="true" ${r.revised?'selected':''}>Yes</option>
+              </select>
             </div>
           </div>
 
-          <div id="post-approval-${r.id}" style="${approved?'':'opacity:.35;pointer-events:none'}">
-            <div class="section-label" style="font-size:10px;color:var(--text2);margin-bottom:10px">
-              PRODUCTION & SHIPPING ${!approved ? '— locked until approved date is set' : ''}
-            </div>
+          <div class="edit-section-title" style="margin-top:20px">🏭 Production & Shipping</div>
+          <div id="post-section-${r.id}" class="${approved?'':'locked-section'}">
+            ${!approved ? '<div class="lock-notice">🔒 Fill in the Approved Date above to unlock these fields</div>' : ''}
             <div class="edit-inline">
               <div class="field"><label>Production Status</label>
                 <select id="ep-status-${r.id}">
@@ -653,7 +779,7 @@ function renderTable() {
               <div class="field"><label>Delivery Date</label>
                 <input type="date" id="ep-delivery-${r.id}" value="${r.delivery_date||''}">
               </div>
-              <div class="field"><label>No. of Boxes</label>
+              <div class="field"><label>Number of Boxes</label>
                 <input type="number" id="ep-boxes-${r.id}" value="${r.number_of_boxes||''}">
               </div>
               <div class="field"><label>Weight (kg)</label>
@@ -662,14 +788,13 @@ function renderTable() {
             </div>
           </div>
 
-          <div style="margin-top:16px;display:flex;justify-content:flex-end">
-            <button class="edit-save-btn" onclick="saveStyleUpdate('${r.id}')">Save changes</button>
+          <div>
+            <button class="btn-ep-save" onclick="saveStyleUpdate('${r.id}')">Save changes</button>
+            <button class="btn-ep-cancel" onclick="toggleExpand('${r.id}')">Cancel</button>
           </div>
         </div>
       </td>`;
       tbody.appendChild(ep);
-
-      // Set status select value
       const sel = document.getElementById(`ep-status-${r.id}`);
       if (sel && r.production_status) sel.value = r.production_status;
     }
@@ -677,75 +802,76 @@ function renderTable() {
 }
 
 function onApprovalChange(id) {
-  const val = document.getElementById(`ep-approved-${id}`).value;
-  const panel = document.getElementById(`post-approval-${id}`);
-  if (panel) {
-    panel.style.opacity = val ? '1' : '.35';
-    panel.style.pointerEvents = val ? 'auto' : 'none';
+  const val = document.getElementById(`ep-appr-${id}`).value;
+  const sec = document.getElementById(`post-section-${id}`);
+  if (sec) {
+    if (val) {
+      sec.classList.remove('locked-section');
+      sec.classList.add('unlocked');
+      const notice = sec.querySelector('.lock-notice');
+      if (notice) notice.remove();
+    } else {
+      sec.classList.add('locked-section');
+      sec.classList.remove('unlocked');
+    }
   }
 }
 
 function toggleExpand(id) {
   if (expandedRows.has(id)) expandedRows.delete(id);
-  else expandedRows.add(id);
+  else { expandedRows.clear(); expandedRows.add(id); }
   renderTable();
 }
 
 async function saveStyleUpdate(id) {
-  const approvedDate = document.getElementById(`ep-approved-${id}`).value;
-  const approved = !!approvedDate;
+  const approvedDate = document.getElementById(`ep-appr-${id}`).value;
   const payload = {
     approved_date: approvedDate || null,
     corrections_date: document.getElementById(`ep-cdate-${id}`).value || null,
     correction_remarks: document.getElementById(`ep-cremarks-${id}`).value.trim() || null,
     revised: document.getElementById(`ep-revised-${id}`).value === 'true',
+    production_status: approvedDate ? document.getElementById(`ep-status-${id}`).value : undefined,
+    delivery_date: approvedDate ? (document.getElementById(`ep-delivery-${id}`).value || null) : undefined,
+    number_of_boxes: approvedDate ? (parseInt(document.getElementById(`ep-boxes-${id}`).value) || null) : undefined,
+    weight: approvedDate ? (parseFloat(document.getElementById(`ep-weight-${id}`).value) || null) : undefined,
   };
-  if (approved) {
-    payload.production_status = document.getElementById(`ep-status-${id}`).value;
-    payload.delivery_date = document.getElementById(`ep-delivery-${id}`).value || null;
-    payload.number_of_boxes = parseInt(document.getElementById(`ep-boxes-${id}`).value) || null;
-    payload.weight = parseFloat(document.getElementById(`ep-weight-${id}`).value) || null;
-  }
+  Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
   try {
     await sb(`styles?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
-    showToast('Updated!', 'success');
+    showToast('✓ Changes saved!', 'success');
     expandedRows.delete(id);
     await loadDashboard();
-  } catch(e) {
-    showToast('Error updating. Try again.', 'error');
-  }
+  } catch(e) { showToast('Error saving. Please try again.', 'error'); }
 }
 
 async function deleteStyle(id) {
-  if (!confirm('Delete this style?')) return;
+  if (!confirm('Are you sure you want to delete this style?')) return;
   try {
     await sb(`styles?id=eq.${id}`, { method: 'DELETE' });
     showToast('Deleted', 'success');
     expandedRows.delete(id);
     await loadDashboard();
-  } catch(e) {
-    showToast('Error deleting', 'error');
-  }
+  } catch(e) { showToast('Error deleting', 'error'); }
 }
 
-// ── EXPORT ──
 function exportCSV() {
+  if (!allStyles.length) { showToast('No data to export', 'error'); return; }
   const rows = allStyles.map(s => {
     const o = allOrders.find(o => o.id === s.order_id) || {};
-    return [
-      o.company, o.brand_name, o.buyer_name, o.mail_subject, o.purchase_order, o.purchase_invoice,
-      s.style_no, s.quantity, s.tech_pack_date, s.hd_file, s.digital,
-      s.samples_submitted_date, s.approved_date, s.corrections_date, s.correction_remarks,
-      s.revised ? 'Yes' : 'No', s.production_status, s.delivery_date, s.number_of_boxes, s.weight
-    ].map(v => `"${v||''}"`).join(',');
+    return [o.company,o.brand_name,o.buyer_name,o.mail_subject,o.purchase_order,o.purchase_invoice,
+      s.style_no,s.quantity,s.tech_pack_date,s.hd_file,s.digital,s.samples_submitted_date,
+      s.approved_date,s.corrections_date,s.correction_remarks,s.revised?'Yes':'No',
+      s.production_status,s.delivery_date,s.number_of_boxes,s.weight]
+      .map(v => `"${v||''}"`).join(',');
   });
-  const header = 'Company,Brand,Buyer,Mail Subject,PO,Invoice,Style No,Qty,Tech Pack Date,HD File,Digital,Samples Date,Approved Date,Corrections Date,Remarks,Revised,Production Status,Delivery Date,Boxes,Weight';
-  const blob = new Blob([header+'\n'+rows.join('\n')], { type: 'text/csv' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = 'orders_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+  const hdr = 'Company,Brand,Buyer,Mail Subject,PO,Invoice,Style No,Qty,Tech Pack Date,HD File,Digital,Samples Date,Approved Date,Corrections Date,Remarks,Revised,Production Status,Delivery Date,Boxes,Weight';
+  const blob = new Blob([hdr+'\n'+rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'orders_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
 }
 
-// ── UTILS ──
 function fmtDate(d) {
   if (!d) return '—';
   const [y,m,day] = d.split('-'); return `${day}/${m}/${y}`;
@@ -754,7 +880,7 @@ function fmtDate(d) {
 function showToast(msg, type='success') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 2800);
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 </script>
 </body>
