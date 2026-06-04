@@ -4,33 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #1a73e8;
-  --primary-dark: #1557b0;
-  --primary-light: #e8f0fe;
-  --bg: #f0f4f9;
-  --surface: #ffffff;
-  --border: #e0e0e0;
-  --text: #212121;
-  --text2: #616161;
-  --text3: #9e9e9e;
-  --success: #2e7d32;
-  --success-bg: #e8f5e9;
-  --danger: #c62828;
-  --danger-bg: #ffebee;
-  --warn: #e65100;
-  --warn-bg: #fff3e0;
-  --purple: #6a1b9a;
-  --purple-bg: #f3e5f5;
-  --teal: #00695c;
-  --teal-bg: #e0f2f1;
-  --radius: 6px;
+ --primary: #1a73e8;
+ --primary-dark: #1557b0;
+ --primary-light: #e8f0fe;
+ --bg: #f0f4f9;
+ --surface: #ffffff;
+ --border: #e0e0e0;
+ --text: #212121;
+ --text2: #616161;
+ --text3: #9e9e9e;
+ --success: #2e7d32;
+ --success-bg: #e8f5e9;
+ --danger: #c62828;
+ --danger-bg: #ffebee;
+ --warn: #e65100;
+ --warn-bg: #fff3e0;
+ --purple: #6a1b9a;
+ --purple-bg: #f3e5f5;
+ --teal: #00695c;
+ --teal-bg: #e0f2f1;
+ --radius: 6px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
-input, select, button { font-family: 'Roboto', sans-serif; font-size: 13px; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+input, select, button { font-family: 'Inter', sans-serif; font-size: 13px; }
 
 /* LOGIN */
 #login-page { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--bg); }
@@ -122,20 +122,20 @@ input, select, button { font-family: 'Roboto', sans-serif; font-size: 13px; }
 /* ORDER CARDS */
 .orders-list { display:flex; flex-direction:column; gap:12px; }
 .order-card {
-  background:var(--surface); border-radius:8px;
-  box-shadow:0 1px 3px rgba(0,0,0,.08); overflow:hidden;
+ background:var(--surface); border-radius:8px;
+ box-shadow:0 1px 3px rgba(0,0,0,.08); overflow:hidden;
 }
 .order-card-header {
-  padding:12px 18px; background:#f8f9fa; border-bottom:1px solid var(--border);
-  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+ padding:12px 18px; background:#f8f9fa; border-bottom:1px solid var(--border);
+ display:flex; align-items:center; gap:16px; flex-wrap:wrap;
 }
 .order-header-field { display:flex; flex-direction:column; gap:2px; }
 .order-header-label { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:.05em; }
 .order-header-value { font-size:13px; font-weight:500; color:var(--text); }
 .order-header-value.editable {
-  border:1px solid transparent; border-radius:4px; padding:2px 6px;
-  outline:none; background:transparent; font-size:13px; font-weight:500;
-  transition:all .15s; min-width:80px;
+ border:1px solid transparent; border-radius:4px; padding:2px 6px;
+ outline:none; background:transparent; font-size:13px; font-weight:500;
+ transition:all .15s; min-width:80px;
 }
 .order-header-value.editable:hover { border-color:var(--border); background:#fff; }
 .order-header-value.editable:focus { border-color:var(--primary); background:#fff; box-shadow:0 0 0 2px rgba(26,115,232,.1); }
@@ -145,9 +145,9 @@ input, select, button { font-family: 'Roboto', sans-serif; font-size: 13px; }
 .style-rows-wrap { overflow-x:auto; }
 .style-table { width:100%; border-collapse:collapse; font-size:12px; }
 .style-table th {
-  padding:7px 10px; text-align:left; font-size:10px; font-weight:600;
-  color:var(--text2); background:#fafafa; border-bottom:1px solid var(--border);
-  text-transform:uppercase; letter-spacing:.04em; white-space:nowrap;
+ padding:7px 10px; text-align:left; font-size:10px; font-weight:600;
+ color:var(--text2); background:#fafafa; border-bottom:1px solid var(--border);
+ text-transform:uppercase; letter-spacing:.04em; white-space:nowrap;
 }
 .style-table td { padding:5px 6px; border-bottom:1px solid #f5f5f5; vertical-align:middle; }
 .style-table tr:last-child td { border-bottom:none; }
@@ -160,9 +160,9 @@ input, select, button { font-family: 'Roboto', sans-serif; font-size: 13px; }
 
 /* CELL INPUTS */
 .ci {
-  width:100%; padding:4px 7px; border:1px solid transparent; border-radius:4px;
-  background:transparent; color:var(--text); font-size:12px; outline:none;
-  transition:all .15s;
+ width:100%; padding:4px 7px; border:1px solid transparent; border-radius:4px;
+ background:transparent; color:var(--text); font-size:12px; outline:none;
+ transition:all .15s;
 }
 .ci:hover { border-color:var(--border); background:#fff; }
 .ci:focus { border-color:var(--primary); background:#fff; box-shadow:0 0 0 2px rgba(26,115,232,.1); }
@@ -235,18 +235,18 @@ input[type="date"].ci { min-width:120px; }
 .xls-scroll { overflow-x:auto; }
 .xls-table { width:100%; border-collapse:collapse; font-size:12px; white-space:nowrap; }
 .xls-table thead tr { background:#e8f0fe; position:sticky; top:0; z-index:10; }
-.xls-table th { padding:8px 10px; text-align:left; font-size:11px; font-weight:600; color:var(--primary-dark); border-bottom:2px solid var(--primary); border-right:1px solid #c5d8f8; cursor:pointer; user-select:none; white-space:nowrap; }
+.xls-table th { padding:8px 10px; text-align:left; font-size:11px; font-weight:600; color:var(--primary-dark); border-bottom:2px solid var(--primary); border-right:1px solid #c5d8f8; cursor:pointer; user-select:none; white-space:nowrap; transition:background .15s; } .xls-table th:hover { background:#d2e3fc; }
 .xls-table th:hover { background:#d2e3fc; }
 .xls-table th .sort-icon { margin-left:4px; color:var(--text3); font-size:10px; }
-.xls-table th.sort-asc .sort-icon::after { content:'▲'; color:var(--primary); }
-.xls-table th.sort-desc .sort-icon::after { content:'▼'; color:var(--primary); }
+.xls-table th.sort-asc .sort-icon::after { content:''; color:var(--primary); }
+.xls-table th.sort-desc .sort-icon::after { content:''; color:var(--primary); }
 .xls-table th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content:'⇅'; }
 .xls-table td { padding:7px 10px; border-bottom:1px solid #f0f0f0; border-right:1px solid #f5f5f5; vertical-align:middle; cursor:pointer; }
 .xls-table tr:hover td { background:#fafff4; }
 .xls-table tr:nth-child(even) td { background:#fafafa; }
 .xls-table tr:nth-child(even):hover td { background:#fafff4; }
 .xls-col-filter { display:flex; align-items:center; gap:4px; }
-.xls-col-filter input { width:100%; padding:4px 6px; border:1px solid var(--border); border-radius:3px; font-size:11px; outline:none; font-family:'Roboto',sans-serif; background:#fff; }
+.xls-col-filter input { width:100%; padding:4px 6px; border:1px solid var(--border); border-radius:3px; font-size:11px; outline:none; font-family:'Inter',sans-serif; background:#fff; }
 .xls-col-filter input:focus { border-color:var(--primary); }
 .xls-table .filter-row th { background:#f0f4f9; padding:4px 6px; cursor:default; }
 .xls-table .filter-row th:hover { background:#f0f4f9; }
@@ -267,9 +267,9 @@ input[type="date"].ci { min-width:120px; }
 .xls-table tbody tr:hover td { background:#e8f0fe !important; }
 
 .dp-input {
-  width:100%; padding:7px 10px; border:1px solid var(--border); border-radius:var(--radius);
-  font-size:13px; color:var(--text); outline:none; background:#fff;
-  transition:border-color .2s; font-family:'Roboto',sans-serif;
+ width:100%; padding:7px 10px; border:1px solid var(--border); border-radius:var(--radius);
+ font-size:13px; color:var(--text); outline:none; background:#fff;
+ transition:border-color .2s; font-family:'Inter',sans-serif;
 }
 .dp-input:focus { border-color:var(--primary); box-shadow:0 0 0 2px rgba(26,115,232,.1); }
 .dp-input::placeholder { color:var(--text3); }
@@ -279,162 +279,162 @@ input[type="date"].ci { min-width:120px; }
 
 <!-- LOGIN -->
 <div id="login-page">
-  <div class="login-box">
-    <div class="login-title">Order Manager</div>
-    <div class="login-sub">Sign in to continue</div>
-    <div class="lf"><label>Username</label><input id="l-user" placeholder="Username" autocomplete="username"></div>
-    <div class="lf"><label>Password</label><input type="password" id="l-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <button class="login-btn" onclick="doLogin()">Sign in</button>
-    <div class="login-err" id="login-err"></div>
-  </div>
+ <div class="login-box">
+ <div class="login-title">Order Manager</div>
+ <div class="login-sub">Sign in to continue</div>
+ <div class="lf"><label>Username</label><input id="l-user" placeholder="Username" autocomplete="username"></div>
+ <div class="lf"><label>Password</label><input type="password" id="l-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+ <button class="login-btn" onclick="doLogin()">Sign in</button>
+ <div class="login-err" id="login-err"></div>
+ </div>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <div class="topbar">
-    <div class="topbar-title">Order Manager</div>
-    <div class="topbar-nav">
-      <button class="nav-btn active" onclick="showPage('form',this)">＋ New Order</button>
-      <button class="nav-btn" onclick="showPage('dashboard',this)">Dashboard</button>
-      <button class="nav-btn" onclick="showPage('dashboard2',this)">📊 Reports</button>
-    </div>
-    <div class="topbar-right">
-      <span class="user-chip" id="user-chip"></span>
-      <button class="logout-btn" onclick="doLogout()">Sign out</button>
-    </div>
-  </div>
+ <div class="topbar">
+ <div class="topbar-title">Order Manager</div>
+ <div class="topbar-nav">
+ <button class="nav-btn active" onclick="showPage('form',this)"> + New Order</button>
+ <button class="nav-btn" onclick="showPage('dashboard',this)">Dashboard</button>
+ <button class="nav-btn" onclick="showPage('dashboard2',this)"> Reports</button>
+ </div>
+ <div class="topbar-right">
+ <span class="user-chip" id="user-chip"></span>
+ <button class="logout-btn" onclick="doLogout()">Sign out</button>
+ </div>
+ </div>
 
-  <!-- FORM -->
-  <div class="page active" id="page-form">
-    <div class="form-page">
-      <div class="form-wrap">
-        <div class="form-topbar">
-          <div>
-            <div class="form-topbar-title">New Order Entry</div>
-            <div class="form-topbar-sub">Fill in details and generate style fields</div>
-          </div>
-          <div class="form-nstyles">
-            <label>No. of Styles:</label>
-            <input type="number" id="f-nstyles" placeholder="0" min="1" max="50">
-            <button class="gen-btn" onclick="generateStyleBlocks()">Generate</button>
-          </div>
-        </div>
-        <div class="form-section-header">Client Information</div>
-        <div class="form-row"><div class="row-label">Company <span class="req">*</span></div><div class="row-input"><input id="f-company" placeholder="Company name"></div></div>
-        <div class="form-row"><div class="row-label">Brand Name</div><div class="row-input"><input id="f-brand" placeholder="Brand name"></div></div>
-        <div class="form-row"><div class="row-label">Buyer Name</div><div class="row-input"><input id="f-buyer" placeholder="Buyer name"></div></div>
-        <div class="form-section-header">Order Information</div>
-        <div class="form-row"><div class="row-label">Mail Subject</div><div class="row-input"><input id="f-mail" placeholder="Email thread subject"></div></div>
-        <div id="styles-container"></div>
-        <div class="form-footer">
-          <button class="btn-clear" onclick="clearForm()">Clear</button>
-          <button class="btn-submit" id="save-btn" onclick="saveOrder()"><span id="save-label">Submit Order</span></button>
-        </div>
-      </div>
-    </div>
-  </div>
+ <!-- FORM -->
+ <div class="page active" id="page-form">
+ <div class="form-page">
+ <div class="form-wrap">
+ <div class="form-topbar">
+ <div>
+ <div class="form-topbar-title">+ New Order Entry</div>
+ <div class="form-topbar-sub">Fill in details and generate style fields</div>
+ </div>
+ <div class="form-nstyles">
+ <label>No. of Styles:</label>
+ <input type="number" id="f-nstyles" placeholder="0" min="1" max="50">
+ <button class="gen-btn" onclick="generateStyleBlocks()">Generate</button>
+ </div>
+ </div>
+ <div class="form-section-header">Client Information</div>
+ <div class="form-row"><div class="row-label">Company <span class="req">*</span></div><div class="row-input"><input id="f-company" placeholder="Company name"></div></div>
+ <div class="form-row"><div class="row-label">Brand Name</div><div class="row-input"><input id="f-brand" placeholder="Brand name"></div></div>
+ <div class="form-row"><div class="row-label">Buyer Name</div><div class="row-input"><input id="f-buyer" placeholder="Buyer name"></div></div>
+ <div class="form-section-header">Order Information</div>
+ <div class="form-row"><div class="row-label">Mail Subject</div><div class="row-input"><input id="f-mail" placeholder="Email thread subject"></div></div>
+ <div id="styles-container"></div>
+ <div class="form-footer">
+ <button class="btn-clear" onclick="clearForm()">Clear</button>
+ <button class="btn-submit" id="save-btn" onclick="saveOrder()"><span id="save-label">Submit Order</span></button>
+ </div>
+ </div>
+ </div>
+ </div>
 
-  <!-- DASHBOARD -->
-  <div class="page" id="page-dashboard">
-    <div class="dash-page">
-      <div class="dash-header">
-        <div class="dash-title">Dashboard</div>
-        <div class="dash-actions">
-          <button class="btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
-          <button class="btn-sm" onclick="loadDashboard()">↻ Refresh</button>
-        </div>
-      </div>
-      <div class="stats-row" id="stats-row"></div>
-      <div class="toolbar">
-        <input id="search" placeholder="Search company, brand, style, buyer…" oninput="renderDash()">
-        <select id="f-status" onchange="renderDash()">
-          <option value="">Active orders (excl. Delivered)</option>
-          <option value="all">All orders incl. Delivered</option>
-          <option disabled>──────────</option>
-          <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
-          <option>Correction Required</option><option>Approved</option><option>In Production</option>
-          <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
-        </select>
-        <select id="f-sort" onchange="renderDash()">
-          <option value="date-desc">Date — Newest first</option>
-          <option value="date-asc">Date — Oldest first</option>
-          <option value="company-asc">Company — A to Z</option>
-          <option value="company-desc">Company — Z to A</option>
-        </select>
-      </div>
-      <div id="delivered-notice" style="font-size:12px;color:var(--text3);margin-bottom:10px;padding-left:4px;display:none">
-        <span id="delivered-count"></span> delivered orders hidden —
-        <a href="#" style="color:var(--primary);text-decoration:none" onclick="document.getElementById('f-status').value='all';renderDash();return false">show all</a>
-      </div>
-      <div class="orders-list" id="orders-list">
-        <div class="empty">Loading…</div>
-      </div>
-    </div>
-  </div>
+ <!-- DASHBOARD -->
+ <div class="page" id="page-dashboard">
+ <div class="dash-page">
+ <div class="dash-header">
+ <div class="dash-title">Dashboard</div>
+ <div class="dash-actions">
+ <button class="btn-sm" onclick="exportCSV()"> Export CSV</button>
+ <button class="btn-sm" onclick="loadDashboard()"> Refresh</button>
+ </div>
+ </div>
+ <div class="stats-row" id="stats-row"></div>
+ <div class="toolbar">
+ <input id="search" placeholder="Search company, brand, style, buyer…" oninput="renderDash()">
+ <select id="f-status" onchange="renderDash()">
+ <option value="">Active orders (excl. Delivered)</option>
+ <option value="all">All orders incl. Delivered</option>
+ <option disabled></option>
+ <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
+ <option>Correction Required</option><option>Approved</option><option>In Production</option>
+ <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
+ </select>
+ <select id="f-sort" onchange="renderDash()">
+ <option value="date-desc">Date — Newest first</option>
+ <option value="date-asc">Date — Oldest first</option>
+ <option value="company-asc">Company — A to Z</option>
+ <option value="company-desc">Company — Z to A</option>
+ </select>
+ </div>
+ <div id="delivered-notice" style="font-size:12px;color:var(--text3);margin-bottom:10px;padding-left:4px;display:none">
+ <span id="delivered-count"></span> delivered orders hidden —
+ <a href="#" style="color:var(--primary);text-decoration:none" onclick="document.getElementById('f-status').value='all';renderDash();return false">show all</a>
+ </div>
+ <div class="orders-list" id="orders-list">
+ <div class="empty">Loading…</div>
+ </div>
+ </div>
+ </div>
 
-  <!-- REPORTS PAGE -->
-  <div class="page" id="page-dashboard2">
-    <div class="d2-page" id="d2-list-view">
-      <div class="dash-header">
-        <div>
-          <div class="dash-title">Reports</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:2px">Click any style to view full details</div>
-        </div>
-        <div class="dash-actions">
-          <button class="btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
-          <button class="btn-sm" onclick="loadDashboard2()">↻ Refresh</button>
-        </div>
-      </div>
-      <div class="d2-toolbar">
-        <input id="d2-search" placeholder="Search company, style, buyer, PO…" oninput="renderD2()">
-        <select id="d2-status" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
-          <option value="">Active orders (excl. Delivered)</option>
-          <option value="all">All incl. Delivered</option>
-          <option disabled>──────────</option>
-          <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
-          <option>Correction Required</option><option>Approved</option><option>In Production</option>
-          <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
-        </select>
-        <select id="d2-sort" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
-          <option value="delivery-asc">Delivery — Soonest first</option>
-          <option value="delivery-desc">Delivery — Latest first</option>
-          <option value="company-asc">Company — A to Z</option>
-          <option value="company-desc">Company — Z to A</option>
-          <option value="date-desc">Entry — Newest first</option>
-          <option value="date-asc">Entry — Oldest first</option>
-          <option value="status">Status</option>
-        </select>
-        <span id="d2-count" style="font-size:12px;color:var(--text2);margin-left:4px;white-space:nowrap"></span>
-      </div>
-      <div class="xls-wrap">
-        <div class="xls-scroll">
-          <table class="xls-table">
-            <thead>
-              <tr>
-                <th>Company</th><th>Brand</th><th>Buyer</th>
-                <th>Style No.</th><th>Qty</th><th>Status</th>
-                <th>Tech Pack</th><th>Samples</th><th>Approved</th><th>Delivery</th>
-              </tr>
-            </thead>
-            <tbody id="d2-body"></tbody>
-          </table>
-          <div id="d2-empty" class="empty" style="display:none">No records found</div>
-        </div>
-      </div>
-    </div>
+ <!-- REPORTS PAGE -->
+ <div class="page" id="page-dashboard2">
+ <div class="d2-page" id="d2-list-view">
+ <div class="dash-header">
+ <div>
+ <div class="dash-title">Reports</div>
+ <div style="font-size:12px;color:var(--text2);margin-top:2px">Click any style to view full details</div>
+ </div>
+ <div class="dash-actions">
+ <button class="btn-sm" onclick="exportCSV()"> Export CSV</button>
+ <button class="btn-sm" onclick="loadDashboard2()"> Refresh</button>
+ </div>
+ </div>
+ <div class="d2-toolbar">
+ <input id="d2-search" placeholder="Search company, style, buyer, PO…" oninput="renderD2()">
+ <select id="d2-status" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
+ <option value="">Active orders (excl. Delivered)</option>
+ <option value="all">All incl. Delivered</option>
+ <option disabled></option>
+ <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
+ <option>Correction Required</option><option>Approved</option><option>In Production</option>
+ <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
+ </select>
+ <select id="d2-sort" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
+ <option value="delivery-asc">Delivery — Soonest first</option>
+ <option value="delivery-desc">Delivery — Latest first</option>
+ <option value="company-asc">Company — A to Z</option>
+ <option value="company-desc">Company — Z to A</option>
+ <option value="date-desc">Entry — Newest first</option>
+ <option value="date-asc">Entry — Oldest first</option>
+ <option value="status">Status</option>
+ </select>
+ <span id="d2-count" style="font-size:12px;color:var(--text2);margin-left:4px;white-space:nowrap"></span>
+ </div>
+ <div class="xls-wrap">
+ <div class="xls-scroll">
+ <table class="xls-table">
+ <thead>
+ <tr>
+ <th>Company</th><th>Brand</th><th>Buyer</th>
+ <th>Style No.</th><th>Qty</th><th>Status</th>
+ <th>Tech Pack</th><th>Samples</th><th>Approved</th><th>Delivery</th>
+ </tr>
+ </thead>
+ <tbody id="d2-body"></tbody>
+ </table>
+ <div id="d2-empty" class="empty" style="display:none">No records found</div>
+ </div>
+ </div>
+ </div>
 
-    <!-- DETAIL PAGE (hidden by default) -->
-    <div class="d2-page" id="d2-detail-view" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
-        <button class="btn-back" onclick="closeDetailPage()">← Back to Reports</button>
-        <div>
-          <div class="dash-title" id="dp-title">Style Details</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:2px" id="dp-sub"></div>
-        </div>
-      </div>
-      <div id="dp-body"></div>
-    </div>
-  </div>
+ <!-- DETAIL PAGE (hidden by default) -->
+ <div class="d2-page" id="d2-detail-view" style="display:none">
+ <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+ <button class="btn-back" onclick="closeDetailPage()">← Back to Reports</button>
+ <div>
+ <div class="dash-title" id="dp-title">Style Details</div>
+ <div style="font-size:12px;color:var(--text2);margin-top:2px" id="dp-sub"></div>
+ </div>
+ </div>
+ <div id="dp-body"></div>
+ </div>
+ </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -445,677 +445,687 @@ const H={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Be
 let currentUser=null,allOrders=[],allStyles=[];
 
 async function sb(path,opts={}){
-  const r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:H,...opts});
-  if(!r.ok)throw new Error(await r.text());
-  if(r.status===204)return null;
-  return r.json();
+ const r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:H,...opts});
+ if(!r.ok)throw new Error(await r.text());
+ if(r.status===204)return null;
+ return r.json();
 }
 
 async function doLogin(){
-  const u=document.getElementById('l-user').value.trim();
-  const p=document.getElementById('l-pass').value.trim();
-  const err=document.getElementById('login-err');
-  err.textContent='';
-  if(!u||!p){err.textContent='Enter username and password.';return;}
-  try{
-    const rows=await sb(`users?username=eq.${encodeURIComponent(u)}&password=eq.${encodeURIComponent(p)}&select=id,username,role`);
-    if(!rows||!rows.length){err.textContent='Incorrect username or password.';return;}
-    currentUser=rows[0];
-    document.getElementById('login-page').style.display='none';
-    document.getElementById('app').style.display='flex';
-    document.getElementById('user-chip').textContent=currentUser.username;
-  }catch(e){err.textContent='Connection error.';}
+ const u=document.getElementById('l-user').value.trim();
+ const p=document.getElementById('l-pass').value.trim();
+ const err=document.getElementById('login-err');
+ err.textContent='';
+ if(!u||!p){err.textContent='Enter username and password.';return;}
+ try{
+ const rows=await sb(`users?username=eq.${encodeURIComponent(u)}&password=eq.${encodeURIComponent(p)}&select=id,username,role`);
+ if(!rows||!rows.length){err.textContent='Incorrect username or password.';return;}
+ currentUser=rows[0];
+ document.getElementById('login-page').style.display='none';
+ document.getElementById('app').style.display='flex';
+ document.getElementById('user-chip').textContent=currentUser.username;
+ }catch(e){err.textContent='Connection error.';}
 }
 function doLogout(){
-  currentUser=null;
-  document.getElementById('login-page').style.display='flex';
-  document.getElementById('app').style.display='none';
-  document.getElementById('l-pass').value='';
+ currentUser=null;
+ document.getElementById('login-page').style.display='flex';
+ document.getElementById('app').style.display='none';
+ document.getElementById('l-pass').value='';
 }
 function showPage(name,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(name==='dashboard')loadDashboard();
-  if(name==='dashboard2')loadDashboard2();
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+ document.getElementById('page-'+name).classList.add('active');
+ if(btn)btn.classList.add('active');
+ if(name==='dashboard')loadDashboard();
+ if(name==='dashboard2')loadDashboard2();
 }
 
-// ── FORM ──
+// FORM 
 function generateStyleBlocks(){
-  const n=parseInt(document.getElementById('f-nstyles').value)||0;
-  if(n<1){showToast('Enter number of styles','error');return;}
-  const c=document.getElementById('styles-container');
-  c.innerHTML='';
-  for(let i=1;i<=n;i++){
-    c.innerHTML+=`
-    <div class="style-block-wrap">
-      <div class="style-block-header"><span class="style-num">${i}</span><span>Style ${i}</span></div>
-      <div class="form-row"><div class="row-label">Style No.</div><div class="row-input"><input id="s${i}-style_no" placeholder="e.g. ST-00${i}"></div></div>
-      <div class="form-row"><div class="row-label">Purchase Order</div><div class="row-input"><input id="s${i}-purchase_order" placeholder="PO number"></div></div>
-      <div class="form-row"><div class="row-label">Purchase Invoice</div><div class="row-input"><input id="s${i}-purchase_invoice" placeholder="Invoice number"></div></div>
-      <div class="form-row"><div class="row-label">Quantity</div><div class="row-input"><input type="number" id="s${i}-quantity" placeholder="0"></div></div>
-      <div class="form-row"><div class="row-label">Tech Pack Received</div><div class="row-input"><input type="date" id="s${i}-tech_pack_date"></div></div>
-      <div class="form-row"><div class="row-label">HD File</div><div class="row-input"><select id="s${i}-hd_file"><option value="">— Select —</option><option>Received</option><option>Pending</option><option>Not required</option></select></div></div>
-      <div class="form-row"><div class="row-label">Digital</div><div class="row-input"><select id="s${i}-digital"><option value="">— Select —</option><option>Received</option><option>Pending</option><option>Not required</option></select></div></div>
-    </div>`;
-  }
+ const n=parseInt(document.getElementById('f-nstyles').value)||0;
+ if(n<1){showToast('Enter number of styles','error');return;}
+ const c=document.getElementById('styles-container');
+ c.innerHTML='';
+ for(let i=1;i<=n;i++){
+ c.innerHTML+=`
+ <div class="style-block-wrap">
+ <div class="style-block-header"><span class="style-num">${i}</span><span>Style ${i}</span></div>
+ <div class="form-row"><div class="row-label">Style No.</div><div class="row-input"><input id="s${i}-style_no" placeholder="e.g. ST-00${i}"></div></div>
+ <div class="form-row"><div class="row-label">Purchase Order</div><div class="row-input"><input id="s${i}-purchase_order" placeholder="PO number"></div></div>
+ <div class="form-row"><div class="row-label">Purchase Invoice</div><div class="row-input"><input id="s${i}-purchase_invoice" placeholder="Invoice number"></div></div>
+ <div class="form-row"><div class="row-label">Quantity</div><div class="row-input"><input type="number" id="s${i}-quantity" placeholder="0"></div></div>
+ <div class="form-row"><div class="row-label">Tech Pack Received</div><div class="row-input"><input type="date" id="s${i}-tech_pack_date"></div></div>
+ <div class="form-row"><div class="row-label">HD File</div><div class="row-input"><select id="s${i}-hd_file"><option value="">— Select —</option><option>Received</option><option>Pending</option><option>Not required</option></select></div></div>
+ <div class="form-row"><div class="row-label">Digital</div><div class="row-input"><select id="s${i}-digital"><option value="">— Select —</option><option>Received</option><option>Pending</option><option>Not required</option></select></div></div>
+ </div>`;
+ }
 }
 
 async function saveOrder(){
-  const company=document.getElementById('f-company').value.trim();
-  const nstyles=parseInt(document.getElementById('f-nstyles').value)||0;
-  if(!company){showToast('Company name is required','error');return;}
-  if(!nstyles||!document.getElementById('styles-container').children.length){showToast('Generate style fields first','error');return;}
-  const btn=document.getElementById('save-btn');
-  const lbl=document.getElementById('save-label');
-  btn.disabled=true;lbl.innerHTML='<span class="spinner"></span>';
-  try{
-    const res=await sb('orders?select=id',{
-      method:'POST',headers:{...H,'Prefer':'return=representation'},
-      body:JSON.stringify({
-        company,
-        brand_name:document.getElementById('f-brand').value.trim()||null,
-        buyer_name:document.getElementById('f-buyer').value.trim()||null,
-        mail_subject:document.getElementById('f-mail').value.trim()||null,
-        number_of_styles:nstyles
-      })
-    });
-    const orderId=res[0].id;
-    const payload=[];
-    for(let i=1;i<=nstyles;i++){
-      payload.push({
-        order_id:orderId,
-        style_no:document.getElementById(`s${i}-style_no`).value.trim()||null,
-        purchase_order:document.getElementById(`s${i}-purchase_order`).value.trim()||null,
-        purchase_invoice:document.getElementById(`s${i}-purchase_invoice`).value.trim()||null,
-        quantity:parseInt(document.getElementById(`s${i}-quantity`).value)||null,
-        tech_pack_date:document.getElementById(`s${i}-tech_pack_date`).value||null,
-        hd_file:document.getElementById(`s${i}-hd_file`).value||null,
-        digital:document.getElementById(`s${i}-digital`).value||null,
-      });
-    }
-    await sb('styles',{method:'POST',body:JSON.stringify(payload)});
-    showToast('Order saved!','success');
-    clearForm();
-  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
-  btn.disabled=false;lbl.textContent='Submit Order';
+ const company=document.getElementById('f-company').value.trim();
+ const nstyles=parseInt(document.getElementById('f-nstyles').value)||0;
+ if(!company){showToast('Company name is required','error');return;}
+ if(!nstyles||!document.getElementById('styles-container').children.length){showToast('Generate style fields first','error');return;}
+ const btn=document.getElementById('save-btn');
+ const lbl=document.getElementById('save-label');
+ btn.disabled=true;lbl.innerHTML='<span class="spinner"></span>';
+ try{
+ const res=await sb('orders?select=id',{
+ method:'POST',headers:{...H,'Prefer':'return=representation'},
+ body:JSON.stringify({
+ company,
+ brand_name:document.getElementById('f-brand').value.trim()||null,
+ buyer_name:document.getElementById('f-buyer').value.trim()||null,
+ mail_subject:document.getElementById('f-mail').value.trim()||null,
+ number_of_styles:nstyles
+ })
+ });
+ const orderId=res[0].id;
+ const payload=[];
+ for(let i=1;i<=nstyles;i++){
+ payload.push({
+ order_id:orderId,
+ style_no:document.getElementById(`s${i}-style_no`).value.trim()||null,
+ purchase_order:document.getElementById(`s${i}-purchase_order`).value.trim()||null,
+ purchase_invoice:document.getElementById(`s${i}-purchase_invoice`).value.trim()||null,
+ quantity:parseInt(document.getElementById(`s${i}-quantity`).value)||null,
+ tech_pack_date:document.getElementById(`s${i}-tech_pack_date`).value||null,
+ hd_file:document.getElementById(`s${i}-hd_file`).value||null,
+ digital:document.getElementById(`s${i}-digital`).value||null,
+ });
+ }
+ await sb('styles',{method:'POST',body:JSON.stringify(payload)});
+ showToast('Order saved!','success');
+ clearForm();
+ }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
+ btn.disabled=false;lbl.textContent='Submit Order';
 }
 
 function clearForm(){
-  ['f-company','f-brand','f-buyer','f-mail','f-nstyles'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('styles-container').innerHTML='';
+ ['f-company','f-brand','f-buyer','f-mail','f-nstyles'].forEach(id=>{document.getElementById(id).value='';});
+ document.getElementById('styles-container').innerHTML='';
 }
 
-// ── DASHBOARD ──
+// DASHBOARD 
 async function loadDashboard(){
-  document.getElementById('orders-list').innerHTML='<div class="empty"><span class="spinner spinner-dark"></span> Loading…</div>';
-  try{
-    const [orders,styles]=await Promise.all([
-      sb('orders?select=*&order=created_at.desc'),
-      sb('styles?select=*&order=created_at.asc')
-    ]);
-    allOrders=orders||[];allStyles=styles||[];
-    renderStats();renderDash();
-  }catch(e){showToast('Error loading','error');}
+ document.getElementById('orders-list').innerHTML='<div class="empty"><span class="spinner spinner-dark"></span> Loading…</div>';
+ try{
+ const [orders,styles]=await Promise.all([
+ sb('orders?select=*&order=created_at.desc'),
+ sb('styles?select=*&order=created_at.asc')
+ ]);
+ allOrders=orders||[];allStyles=styles||[];
+ renderStats();renderDash();
+ }catch(e){showToast('Error loading','error');}
 }
 
 function renderStats(){
-  const t=allStyles.length;
-  const ap=allStyles.filter(s=>s.approved_date).length;
-  const pr=allStyles.filter(s=>['In Production','Packing'].includes(s.production_status)).length;
-  const co=allStyles.filter(s=>s.production_status==='Correction Required').length;
-  const de=allStyles.filter(s=>s.production_status==='Delivered').length;
-  document.getElementById('stats-row').innerHTML=`
-    <div class="stat s-total"><div class="stat-lbl">Total Styles</div><div class="stat-num">${t}</div></div>
-    <div class="stat s-approved"><div class="stat-lbl">Approved</div><div class="stat-num">${ap}</div></div>
-    <div class="stat s-prod"><div class="stat-lbl">In Production</div><div class="stat-num">${pr}</div></div>
-    <div class="stat s-correction"><div class="stat-lbl">Correction</div><div class="stat-num">${co}</div></div>
-    <div class="stat s-delivered"><div class="stat-lbl">Delivered</div><div class="stat-num">${de}</div></div>`;
+ const t=allStyles.length;
+ const ap=allStyles.filter(s=>s.approved_date).length;
+ const pr=allStyles.filter(s=>['In Production','Packing'].includes(s.production_status)).length;
+ const co=allStyles.filter(s=>s.production_status==='Correction Required').length;
+ const de=allStyles.filter(s=>s.production_status==='Delivered').length;
+ document.getElementById('stats-row').innerHTML=`
+ <div class="stat s-total"><div class="stat-lbl">Total Styles</div><div class="stat-num">${t}</div></div>
+ <div class="stat s-approved"><div class="stat-lbl">Approved</div><div class="stat-num">${ap}</div></div>
+ <div class="stat s-prod"><div class="stat-lbl">In Production</div><div class="stat-num">${pr}</div></div>
+ <div class="stat s-correction"><div class="stat-lbl">Correction</div><div class="stat-num">${co}</div></div>
+ <div class="stat s-delivered"><div class="stat-lbl">Delivered</div><div class="stat-num">${de}</div></div>`;
 }
 
 const SB={'Pending':'b-pending','Tech Pack Received':'b-sampling','Sampling':'b-sampling','Correction Required':'b-correction','Approved':'b-approved','In Production':'b-production','Packing':'b-production','Ready for Dispatch':'b-dispatch','Delivered':'b-delivered'};
 
 function renderDash(){
-  const q=(document.getElementById('search')?.value||'').toLowerCase().trim();
-  const sf=document.getElementById('f-status')?.value||'';
-  const list=document.getElementById('orders-list');
-  list.innerHTML='';
+ const q=(document.getElementById('search')?.value||'').toLowerCase().trim();
+ const sf=document.getElementById('f-status')?.value||'';
+ const list=document.getElementById('orders-list');
+ list.innerHTML='';
 
-  // filter styles
-  let filteredStyles=allStyles.filter(s=>{
-    const o=allOrders.find(o=>o.id===s.order_id)||{};
-    // search across ALL fields
-    const searchFields=[
-      o.company, o.brand_name, o.buyer_name, o.purchase_order,
-      o.purchase_invoice, o.mail_subject,
-      s.style_no, s.hd_file, s.digital, s.production_status,
-      s.correction_remarks, s.quantity
-    ].map(v=>(v||'').toString().toLowerCase()).join(' ');
-    const ms=!q||searchFields.includes(q);
-    // hide delivered by default unless specifically selected
-    const hideDelivered=sf===''&&s.production_status==='Delivered';
-    const matchStatus=sf===''?!hideDelivered:sf==='all'?true:(s.production_status===sf);
-    return ms&&matchStatus;
-  });
+ // filter styles
+ let filteredStyles=allStyles.filter(s=>{
+ const o=allOrders.find(o=>o.id===s.order_id)||{};
+ // search across ALL fields
+ const searchFields=[
+ o.company, o.brand_name, o.buyer_name, o.purchase_order,
+ o.purchase_invoice, o.mail_subject,
+ s.style_no, s.hd_file, s.digital, s.production_status,
+ s.correction_remarks, s.quantity
+ ].map(v=>(v||'').toString().toLowerCase()).join(' ');
+ const ms=!q||searchFields.includes(q);
+ // hide delivered by default unless specifically selected
+ const hideDelivered=sf===''&&s.production_status==='Delivered';
+ const matchStatus=sf===''?!hideDelivered:sf==='all'?true:(s.production_status===sf);
+ return ms&&matchStatus;
+ });
 
-  // sort orders
-  const sort=document.getElementById('f-sort')?.value||'date-desc';
-  const orderIds=[...new Set(filteredStyles.map(s=>s.order_id))].sort((a,b)=>{
-    const oa=allOrders.find(o=>o.id===a)||{};
-    const ob=allOrders.find(o=>o.id===b)||{};
-    if(sort==='company-asc') return (oa.company||'').localeCompare(ob.company||'');
-    if(sort==='company-desc') return (ob.company||'').localeCompare(oa.company||'');
-    if(sort==='date-asc') return new Date(oa.created_at)-new Date(ob.created_at);
-    return new Date(ob.created_at)-new Date(oa.created_at); // date-desc default
-  });
+ // sort orders
+ const sort=document.getElementById('f-sort')?.value||'date-desc';
+ const orderIds=[...new Set(filteredStyles.map(s=>s.order_id))].sort((a,b)=>{
+ const oa=allOrders.find(o=>o.id===a)||{};
+ const ob=allOrders.find(o=>o.id===b)||{};
+ if(sort==='company-asc') return (oa.company||'').localeCompare(ob.company||'');
+ if(sort==='company-desc') return (ob.company||'').localeCompare(oa.company||'');
+ if(sort==='date-asc') return new Date(oa.created_at)-new Date(ob.created_at);
+ return new Date(ob.created_at)-new Date(oa.created_at); // date-desc default
+ });
 
-  // show delivered notice
-  const sf2=document.getElementById('f-status')?.value||'';
-  const deliveredCount=allStyles.filter(s=>s.production_status==='Delivered').length;
-  const notice=document.getElementById('delivered-notice');
-  const dcEl=document.getElementById('delivered-count');
-  if(notice&&dcEl){
-    if(sf2===''&&deliveredCount>0){
-      notice.style.display='block';
-      dcEl.textContent=deliveredCount;
-    } else {
-      notice.style.display='none';
-    }
-  }
+ // show delivered notice
+ const sf2=document.getElementById('f-status')?.value||'';
+ const deliveredCount=allStyles.filter(s=>s.production_status==='Delivered').length;
+ const notice=document.getElementById('delivered-notice');
+ const dcEl=document.getElementById('delivered-count');
+ if(notice&&dcEl){
+ if(sf2===''&&deliveredCount>0){
+ notice.style.display='block';
+ dcEl.textContent=deliveredCount;
+ } else {
+ notice.style.display='none';
+ }
+ }
 
-  if(!orderIds.length){list.innerHTML='<div class="empty">No orders found</div>';return;}
+ if(!orderIds.length){list.innerHTML='<div class="empty">No orders found</div>';return;}
 
-  orderIds.forEach(oid=>{
-    const o=allOrders.find(o=>o.id===oid)||{};
-    const styles=filteredStyles.filter(s=>s.order_id===oid);
-    const card=document.createElement('div');
-    card.className='order-card';
+ orderIds.forEach(oid=>{
+ const o=allOrders.find(o=>o.id===oid)||{};
+ const styles=filteredStyles.filter(s=>s.order_id===oid);
+ const card=document.createElement('div');
+ card.className='order-card';
 
-    // header with order-level fields (editable)
-    card.innerHTML=`
-      <div class="order-card-header">
-        <div class="order-header-field">
-          <div class="order-header-label">Company</div>
-          <input class="order-header-value editable" id="oh-company-${oid}" value="${esc(o.company)}" placeholder="Company">
-        </div>
-        <div class="order-header-field">
-          <div class="order-header-label">Brand</div>
-          <input class="order-header-value editable" id="oh-brand-${oid}" value="${esc(o.brand_name)}" placeholder="Brand">
-        </div>
-        <div class="order-header-field">
-          <div class="order-header-label">Buyer</div>
-          <input class="order-header-value editable" id="oh-buyer-${oid}" value="${esc(o.buyer_name)}" placeholder="Buyer">
-        </div>
+ // header with order-level fields (editable)
+ card.innerHTML=`
+ <div class="order-card-header">
+ <div class="order-header-field">
+ <div class="order-header-label">Company</div>
+ <input class="order-header-value editable" id="oh-company-${oid}" value="${esc(o.company)}" placeholder="Company">
+ </div>
+ <div class="order-header-field">
+ <div class="order-header-label">Brand</div>
+ <input class="order-header-value editable" id="oh-brand-${oid}" value="${esc(o.brand_name)}" placeholder="Brand">
+ </div>
+ <div class="order-header-field">
+ <div class="order-header-label">Buyer</div>
+ <input class="order-header-value editable" id="oh-buyer-${oid}" value="${esc(o.buyer_name)}" placeholder="Buyer">
+ </div>
 
-        <div class="order-header-field">
-          <div class="order-header-label">Mail Subject</div>
-          <input class="order-header-value editable" id="oh-mail-${oid}" value="${esc(o.mail_subject)}" placeholder="Mail subject" style="min-width:140px">
-        </div>
-        <div class="order-card-divider"></div>
-        <button class="btn-sm" onclick="saveOrderHeader('${oid}')">Save header</button>
-      </div>
+ <div class="order-header-field">
+ <div class="order-header-label">Mail Subject</div>
+ <input class="order-header-value editable" id="oh-mail-${oid}" value="${esc(o.mail_subject)}" placeholder="Mail subject" style="min-width:140px">
+ </div>
+ <div class="order-card-divider"></div>
+ <button class="btn-sm" onclick="saveOrderHeader('${oid}')">Save header</button>
+ </div>
 
-      <div class="style-rows-wrap">
-        <table class="style-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Style No.</th>
-              <th>Qty</th>
-              <th>Tech Pack</th>
-              <th>HD File</th>
-              <th>Digital</th>
-              <th>PO</th>
-              <th>Invoice</th>
-              <th>Samples Submitted</th>
-              <th>Corrections Date</th>
-              <th>Remarks</th>
-              <th>Approved</th>
-              <th>Revised</th>
-              <th>Production Status</th>
-              <th>Delivery Date</th>
-              <th>Boxes</th>
-              <th>Weight (kg)</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="style-tbody-${oid}"></tbody>
-        </table>
-      </div>`;
+ <div class="style-rows-wrap">
+ <table class="style-table">
+ <thead>
+ <tr>
+ <th>#</th>
+ <th>Style No.</th>
+ <th>Qty</th>
+ <th>Tech Pack</th>
+ <th>HD File</th>
+ <th>Digital</th>
+ <th>PO</th>
+ <th>Invoice</th>
+ <th>Samples Submitted</th>
+ <th>Corrections Date</th>
+ <th>Remarks</th>
+ <th>Approved</th>
+ <th>Revised</th>
+ <th>Production Status</th>
+ <th>Delivery Date</th>
+ <th>Boxes</th>
+ <th>Weight (kg)</th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody id="style-tbody-${oid}"></tbody>
+ </table>
+ </div>`;
 
-    list.appendChild(card);
+ list.appendChild(card);
 
-    // render style rows
-    const tbody=document.getElementById(`style-tbody-${oid}`);
-    styles.forEach((s,idx)=>{
-      const appr=!!s.approved_date;
-      const lk=appr?'':'locked';
-      const sid=s.id;
-      const tr=document.createElement('tr');
-      tr.id='srow-'+sid;
-      tr.innerHTML=`
-        <td><span class="style-no-badge">${idx+1}</span></td>
-        <td><input class="ci" id="ci-sn-${sid}" value="${esc(s.style_no)}" placeholder="Style no." style="min-width:80px"></td>
-        <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:90px"></td>
-        <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:90px"></td>
-        <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:60px"></td>
-        <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}"></td>
-        <td>
-          <select class="ci" id="ci-hd-${sid}" style="min-width:100px">
-            <option value="">—</option>
-            <option ${s.hd_file==='Received'?'selected':''}>Received</option>
-            <option ${s.hd_file==='Pending'?'selected':''}>Pending</option>
-            <option ${s.hd_file==='Not required'?'selected':''}>Not required</option>
-          </select>
-        </td>
-        <td>
-          <select class="ci" id="ci-dg-${sid}" style="min-width:100px">
-            <option value="">—</option>
-            <option ${s.digital==='Received'?'selected':''}>Received</option>
-            <option ${s.digital==='Pending'?'selected':''}>Pending</option>
-            <option ${s.digital==='Not required'?'selected':''}>Not required</option>
-          </select>
-        </td>
-        <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}"></td>
-        <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
-        <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
-        <td>
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="ci-appr-${sid}" ${appr?'checked':''} onchange="onToggle('${sid}',this.checked)">
-              <span class="toggle-slider"></span>
-            </label>
-            <span class="tlbl ${appr?'yes':''}" id="tlbl-${sid}">${appr?'Yes':'No'}</span>
-          </div>
-        </td>
-        <td>
-          <select class="ci ${lk}" id="ci-rv-${sid}">
-            <option value="false" ${!s.revised?'selected':''}>No</option>
-            <option value="true" ${s.revised?'selected':''}>Yes</option>
-          </select>
-        </td>
-        <td>
-          <select class="ci ${lk}" id="ci-st-${sid}" style="min-width:130px">
-            <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
-            <option>Correction Required</option><option>Approved</option><option>In Production</option>
-            <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
-          </select>
-        </td>
-        <td><input class="ci ${lk}" type="date" id="ci-dl-${sid}" value="${s.delivery_date||''}"></td>
-        <td><input class="ci ${lk}" type="number" id="ci-bx-${sid}" value="${s.number_of_boxes||''}" style="min-width:55px"></td>
-        <td><input class="ci ${lk}" type="number" step="0.1" id="ci-wt-${sid}" value="${s.weight||''}" style="min-width:60px"></td>
-        <td style="white-space:nowrap">
-          <button class="btn-save-row" id="btn-save-${sid}" onclick="saveStyleRow('${sid}')">Save</button>
-          <button class="btn-del-row" onclick="delStyle('${sid}')">✕</button>
-        </td>`;
-      tbody.appendChild(tr);
-      // set status
-      const sel=document.getElementById(`ci-st-${sid}`);
-      if(sel&&s.production_status)sel.value=s.production_status;
-    });
-  });
+ // render style rows
+ const tbody=document.getElementById(`style-tbody-${oid}`);
+ styles.forEach((s,idx)=>{
+ const appr=!!s.approved_date;
+ const lk=appr?'':'locked';
+ const sid=s.id;
+ const tr=document.createElement('tr');
+ tr.id='srow-'+sid;
+ tr.innerHTML=`
+ <td><span class="style-no-badge">${idx+1}</span></td>
+ <td><input class="ci" id="ci-sn-${sid}" value="${esc(s.style_no)}" placeholder="Style no." style="min-width:80px"></td>
+ <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:90px"></td>
+ <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:90px"></td>
+ <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:60px"></td>
+ <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}"></td>
+ <td>
+ <select class="ci" id="ci-hd-${sid}" style="min-width:100px">
+ <option value="">—</option>
+ <option ${s.hd_file==='Received'?'selected':''}>Received</option>
+ <option ${s.hd_file==='Pending'?'selected':''}>Pending</option>
+ <option ${s.hd_file==='Not required'?'selected':''}>Not required</option>
+ </select>
+ </td>
+ <td>
+ <select class="ci" id="ci-dg-${sid}" style="min-width:100px">
+ <option value="">—</option>
+ <option ${s.digital==='Received'?'selected':''}>Received</option>
+ <option ${s.digital==='Pending'?'selected':''}>Pending</option>
+ <option ${s.digital==='Not required'?'selected':''}>Not required</option>
+ </select>
+ </td>
+ <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}"></td>
+ <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
+ <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
+ <td>
+ <div class="toggle-wrap">
+ <label class="toggle">
+ <input type="checkbox" id="ci-appr-${sid}" ${appr?'checked':''} onchange="onToggle('${sid}',this.checked)">
+ <span class="toggle-slider"></span>
+ </label>
+ <span class="tlbl ${appr?'yes':''}" id="tlbl-${sid}">${appr?'Yes':'No'}</span>
+ </div>
+ </td>
+ <td>
+ <select class="ci ${lk}" id="ci-rv-${sid}">
+ <option value="false" ${!s.revised?'selected':''}>No</option>
+ <option value="true" ${s.revised?'selected':''}>Yes</option>
+ </select>
+ </td>
+ <td>
+ <select class="ci ${lk}" id="ci-st-${sid}" style="min-width:130px">
+ <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
+ <option>Correction Required</option><option>Approved</option><option>In Production</option>
+ <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
+ </select>
+ </td>
+ <td><input class="ci ${lk}" type="date" id="ci-dl-${sid}" value="${s.delivery_date||''}"></td>
+ <td><input class="ci ${lk}" type="number" id="ci-bx-${sid}" value="${s.number_of_boxes||''}" style="min-width:55px"></td>
+ <td><input class="ci ${lk}" type="number" step="0.1" id="ci-wt-${sid}" value="${s.weight||''}" style="min-width:60px"></td>
+ <td style="white-space:nowrap">
+ <button class="btn-save-row" id="btn-save-${sid}" onclick="saveStyleRow('${sid}')">Save</button>
+ <button class="btn-del-row" onclick="delStyle('${sid}')"></button>
+ </td>`;
+ tbody.appendChild(tr);
+ // set status
+ const sel=document.getElementById(`ci-st-${sid}`);
+ if(sel&&s.production_status)sel.value=s.production_status;
+ });
+ });
 }
 
 function onToggle(sid,checked){
-  const lbl=document.getElementById(`tlbl-${sid}`);
-  lbl.textContent=checked?'Yes':'No';
-  lbl.className='tlbl '+(checked?'yes':'');
-  [`ci-rv-${sid}`,`ci-st-${sid}`,`ci-dl-${sid}`,`ci-bx-${sid}`,`ci-wt-${sid}`].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    checked?el.classList.remove('locked'):el.classList.add('locked');
-  });
+ const lbl=document.getElementById(`tlbl-${sid}`);
+ lbl.textContent=checked?'Yes':'No';
+ lbl.className='tlbl '+(checked?'yes':'');
+ [`ci-rv-${sid}`,`ci-st-${sid}`,`ci-dl-${sid}`,`ci-bx-${sid}`,`ci-wt-${sid}`].forEach(id=>{
+ const el=document.getElementById(id);
+ if(!el)return;
+ checked?el.classList.remove('locked'):el.classList.add('locked');
+ });
 }
 
 function onCorrectionsChange(sid){
-  const cdEl=document.getElementById(`ci-cd-${sid}`);
-  const rvEl=document.getElementById(`ci-rv-${sid}`);
-  if(!cdEl||!rvEl)return;
-  if(!cdEl.value){
-    // no corrections date — force revised to No
-    rvEl.value='false';
-  }
+ const cdEl=document.getElementById(`ci-cd-${sid}`);
+ const rvEl=document.getElementById(`ci-rv-${sid}`);
+ if(!cdEl||!rvEl)return;
+ if(!cdEl.value){
+ // no corrections date — force revised to No
+ rvEl.value='false';
+ }
 }
 
 async function saveOrderHeader(oid){
-  const payload={
-    company:document.getElementById(`oh-company-${oid}`).value.trim()||null,
-    brand_name:document.getElementById(`oh-brand-${oid}`).value.trim()||null,
-    buyer_name:document.getElementById(`oh-buyer-${oid}`).value.trim()||null,
+ const payload={
+ company:document.getElementById(`oh-company-${oid}`).value.trim()||null,
+ brand_name:document.getElementById(`oh-brand-${oid}`).value.trim()||null,
+ buyer_name:document.getElementById(`oh-buyer-${oid}`).value.trim()||null,
 
-    mail_subject:document.getElementById(`oh-mail-${oid}`).value.trim()||null,
-  };
-  try{
-    await sb(`orders?id=eq.${oid}`,{method:'PATCH',body:JSON.stringify(payload)});
-    // update local
-    const o=allOrders.find(o=>o.id===oid);
-    if(o)Object.assign(o,payload);
-    showToast('Header saved!','success');
-  }catch(e){showToast('Error saving header.','error');console.error(e);}
+ mail_subject:document.getElementById(`oh-mail-${oid}`).value.trim()||null,
+ };
+ try{
+ await sb(`orders?id=eq.${oid}`,{method:'PATCH',body:JSON.stringify(payload)});
+ // update local
+ const o=allOrders.find(o=>o.id===oid);
+ if(o)Object.assign(o,payload);
+ showToast('Header saved!','success');
+ }catch(e){showToast('Error saving header.','error');console.error(e);}
 }
 
 async function saveStyleRow(sid){
-  const btn=document.getElementById(`btn-save-${sid}`);
-  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';}
+ const btn=document.getElementById(`btn-save-${sid}`);
+ if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';}
 
-  const isApproved=document.getElementById(`ci-appr-${sid}`).checked;
-  const existingStyle=allStyles.find(s=>s.id===sid);
+ const isApproved=document.getElementById(`ci-appr-${sid}`).checked;
+ const existingStyle=allStyles.find(s=>s.id===sid);
 
-  // Determine approved_date:
-  // If toggled on: keep existing or set today
-  // If toggled off: set null
-  const approvedDate=isApproved
-    ?(existingStyle?.approved_date||new Date().toISOString().slice(0,10))
-    :null;
+ // Determine approved_date:
+ // If toggled on: keep existing or set today
+ // If toggled off: set null
+ const approvedDate=isApproved
+ ?(existingStyle?.approved_date||new Date().toISOString().slice(0,10))
+ :null;
 
-  const payload={
-    style_no:document.getElementById(`ci-sn-${sid}`).value.trim()||null,
-    purchase_order:document.getElementById(`ci-po-${sid}`)?.value.trim()||null,
-    purchase_invoice:document.getElementById(`ci-pi-${sid}`)?.value.trim()||null,
-    quantity:parseInt(document.getElementById(`ci-qty-${sid}`).value)||null,
-    tech_pack_date:document.getElementById(`ci-tp-${sid}`).value||null,
-    hd_file:document.getElementById(`ci-hd-${sid}`).value||null,
-    digital:document.getElementById(`ci-dg-${sid}`).value||null,
-    samples_submitted_date:document.getElementById(`ci-ss-${sid}`).value||null,
-    approved_date:approvedDate,
-    corrections_date:document.getElementById(`ci-cd-${sid}`).value||null,
-    correction_remarks:document.getElementById(`ci-cr-${sid}`).value.trim()||null,
-    revised:document.getElementById(`ci-cd-${sid}`).value
-      ? document.getElementById(`ci-rv-${sid}`).value==='true'
-      : false,
-    production_status:document.getElementById(`ci-st-${sid}`).value||'Pending',
-    delivery_date:document.getElementById(`ci-dl-${sid}`).value||null,
-    number_of_boxes:parseInt(document.getElementById(`ci-bx-${sid}`).value)||null,
-    weight:parseFloat(document.getElementById(`ci-wt-${sid}`).value)||null,
-  };
+ const payload={
+ style_no:document.getElementById(`ci-sn-${sid}`).value.trim()||null,
+ purchase_order:document.getElementById(`ci-po-${sid}`)?.value.trim()||null,
+ purchase_invoice:document.getElementById(`ci-pi-${sid}`)?.value.trim()||null,
+ quantity:parseInt(document.getElementById(`ci-qty-${sid}`).value)||null,
+ tech_pack_date:document.getElementById(`ci-tp-${sid}`).value||null,
+ hd_file:document.getElementById(`ci-hd-${sid}`).value||null,
+ digital:document.getElementById(`ci-dg-${sid}`).value||null,
+ samples_submitted_date:document.getElementById(`ci-ss-${sid}`).value||null,
+ approved_date:approvedDate,
+ corrections_date:document.getElementById(`ci-cd-${sid}`).value||null,
+ correction_remarks:document.getElementById(`ci-cr-${sid}`).value.trim()||null,
+ revised:document.getElementById(`ci-cd-${sid}`).value
+ ? document.getElementById(`ci-rv-${sid}`).value==='true'
+ : false,
+ production_status:document.getElementById(`ci-st-${sid}`).value||'Pending',
+ delivery_date:document.getElementById(`ci-dl-${sid}`).value||null,
+ number_of_boxes:parseInt(document.getElementById(`ci-bx-${sid}`).value)||null,
+ weight:parseFloat(document.getElementById(`ci-wt-${sid}`).value)||null,
+ };
 
-  try{
-    await sb(`styles?id=eq.${sid}`,{method:'PATCH',body:JSON.stringify(payload)});
-    // update local cache
-    const s=allStyles.find(s=>s.id===sid);
-    if(s)Object.assign(s,payload);
-    showToast('Style saved!','success');
-  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
+ try{
+ await sb(`styles?id=eq.${sid}`,{method:'PATCH',body:JSON.stringify(payload)});
+ // update local cache
+ const s=allStyles.find(s=>s.id===sid);
+ if(s)Object.assign(s,payload);
+ showToast('Style saved!','success');
+ }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
 
-  if(btn){btn.disabled=false;btn.textContent='Save';}
+ if(btn){btn.disabled=false;btn.textContent='Save';}
 }
 
 async function delStyle(sid){
-  if(!confirm('Delete this style?'))return;
-  try{
-    await sb(`styles?id=eq.${sid}`,{method:'DELETE'});
-    showToast('Deleted','success');
-    await loadDashboard();
-  }catch(e){showToast('Error deleting.','error');}
+ if(!confirm('Delete this style?'))return;
+ try{
+ await sb(`styles?id=eq.${sid}`,{method:'DELETE'});
+ showToast('Deleted','success');
+ await loadDashboard();
+ }catch(e){showToast('Error deleting.','error');}
 }
 
 function exportCSV(){
-  if(!allStyles.length){showToast('No data','error');return;}
-  const rows=allStyles.map(s=>{
-    const o=allOrders.find(o=>o.id===s.order_id)||{};
-    return[o.company,o.brand_name,o.buyer_name,o.mail_subject,s.purchase_order||o.purchase_order,s.purchase_invoice||o.purchase_invoice,
-      s.style_no,s.quantity,s.tech_pack_date,s.hd_file,s.digital,s.samples_submitted_date,
-      s.approved_date,s.corrections_date,s.correction_remarks,s.revised?'Yes':'No',
-      s.production_status,s.delivery_date,s.number_of_boxes,s.weight].map(v=>`"${v||''}"`).join(',');
-  });
-  const hdr='Company,Brand,Buyer,Mail Subject,PO,Invoice,Style No,Qty,Tech Pack Date,HD File,Digital,Samples Date,Approved Date,Corrections Date,Remarks,Revised,Production Status,Delivery Date,Boxes,Weight';
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([hdr+'\n'+rows.join('\n')],{type:'text/csv'}));
-  a.download='orders_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+ if(!allStyles.length){showToast('No data','error');return;}
+ const rows=allStyles.map(s=>{
+ const o=allOrders.find(o=>o.id===s.order_id)||{};
+ return[o.company,o.brand_name,o.buyer_name,o.mail_subject,s.purchase_order||o.purchase_order,s.purchase_invoice||o.purchase_invoice,
+ s.style_no,s.quantity,s.tech_pack_date,s.hd_file,s.digital,s.samples_submitted_date,
+ s.approved_date,s.corrections_date,s.correction_remarks,s.revised?'Yes':'No',
+ s.production_status,s.delivery_date,s.number_of_boxes,s.weight].map(v=>`"${v||''}"`).join(',');
+ });
+ const hdr='Company,Brand,Buyer,Mail Subject,PO,Invoice,Style No,Qty,Tech Pack Date,HD File,Digital,Samples Date,Approved Date,Corrections Date,Remarks,Revised,Production Status,Delivery Date,Boxes,Weight';
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([hdr+'\n'+rows.join('\n')],{type:'text/csv'}));
+ a.download='orders_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
 
-// ── DASHBOARD 2 (REPORTS) ──
+// DASHBOARD 2 (REPORTS) 
 let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
 
+function d2SortBy(col){
+  if(d2SortKey===col){ d2SortDir=d2SortDir==='asc'?'desc':'asc'; }
+  else { d2SortKey=col; d2SortDir='asc'; }
+  // update sort indicators
+  document.querySelectorAll('[id^="d2-sort-"]').forEach(el=>el.textContent='');
+  const el=document.getElementById('d2-sort-'+col);
+  if(el) el.textContent=d2SortDir==='asc'?' ▲':' ▼';
+  renderD2();
+}
+
 async function loadDashboard2(){
-  document.getElementById('d2-body').innerHTML='<tr><td colspan="10" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
-  try{
-    const [orders,styles]=await Promise.all([sb('orders?select=*'),sb('styles?select=*')]);
-    allOrders=orders||[]; allStyles=styles||[];
-    d2AllRows=allStyles.map(s=>{
-      const o=allOrders.find(o=>o.id===s.order_id)||{};
-      return {
-        _id:s.id, _order_id:s.order_id,
-        company:o.company||'', brand_name:o.brand_name||'', buyer_name:o.buyer_name||'',
-        mail_subject:o.mail_subject||'',
-        purchase_order:s.purchase_order||o.purchase_order||'',
-        purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
-        style_no:s.style_no||'', quantity:s.quantity||'',
-        tech_pack_date:s.tech_pack_date||'', hd_file:s.hd_file||'', digital:s.digital||'',
-        samples_submitted_date:s.samples_submitted_date||'',
-        corrections_date:s.corrections_date||'', correction_remarks:s.correction_remarks||'',
-        approved_date:s.approved_date||'', revised:s.revised?'Yes':'No',
-        production_status:s.production_status||'Pending',
-        delivery_date:s.delivery_date||'',
-        number_of_boxes:s.number_of_boxes||'', weight:s.weight||'',
-        created_at:o.created_at||''
-      };
-    });
-    renderD2();
-  }catch(e){showToast('Error loading','error');}
+ document.getElementById('d2-body').innerHTML='<tr><td colspan="10" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
+ try{
+ const [orders,styles]=await Promise.all([sb('orders?select=*'),sb('styles?select=*')]);
+ allOrders=orders||[]; allStyles=styles||[];
+ d2AllRows=allStyles.map(s=>{
+ const o=allOrders.find(o=>o.id===s.order_id)||{};
+ return {
+ _id:s.id, _order_id:s.order_id,
+ company:o.company||'', brand_name:o.brand_name||'', buyer_name:o.buyer_name||'',
+ mail_subject:o.mail_subject||'',
+ purchase_order:s.purchase_order||o.purchase_order||'',
+ purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
+ style_no:s.style_no||'', quantity:s.quantity||'',
+ tech_pack_date:s.tech_pack_date||'', hd_file:s.hd_file||'', digital:s.digital||'',
+ samples_submitted_date:s.samples_submitted_date||'',
+ corrections_date:s.corrections_date||'', correction_remarks:s.correction_remarks||'',
+ approved_date:s.approved_date||'', revised:s.revised?'Yes':'No',
+ production_status:s.production_status||'Pending',
+ delivery_date:s.delivery_date||'',
+ number_of_boxes:s.number_of_boxes||'', weight:s.weight||'',
+ created_at:o.created_at||''
+ };
+ });
+ renderD2();
+ }catch(e){showToast('Error loading','error');}
 }
 
 function renderD2(){
-  const q=(document.getElementById('d2-search')?.value||'').toLowerCase().trim();
-  const sf=document.getElementById('d2-status')?.value||'';
-  const srt=document.getElementById('d2-sort')?.value||'delivery-asc';
+ const q=(document.getElementById('d2-search')?.value||'').toLowerCase().trim();
+ const sf=document.getElementById('d2-status')?.value||'';
+ const srt=document.getElementById('d2-sort')?.value||'delivery-asc';
 
-  let rows=d2AllRows.filter(r=>{
-    if(q&&!Object.values(r).join(' ').toLowerCase().includes(q))return false;
-    if(sf===''&&r.production_status==='Delivered')return false;
-    if(sf==='all')return true;
-    if(sf&&sf!=='all'&&r.production_status!==sf)return false;
-    return true;
-  });
+ let rows=d2AllRows.filter(r=>{
+ if(q&&!Object.values(r).join(' ').toLowerCase().includes(q))return false;
+ if(sf===''&&r.production_status==='Delivered')return false;
+ if(sf==='all')return true;
+ if(sf&&sf!=='all'&&r.production_status!==sf)return false;
+ return true;
+ });
 
-  // sort
-  rows.sort((a,b)=>{
-    let av,bv;
-    if(srt==='delivery-asc'||srt==='delivery-desc'){av=a.delivery_date;bv=b.delivery_date;}
-    else if(srt==='company-asc'||srt==='company-desc'){av=a.company;bv=b.company;}
-    else if(srt==='date-asc'||srt==='date-desc'){av=a.created_at;bv=b.created_at;}
-    else if(srt==='status'){av=a.production_status;bv=b.production_status;}
-    else{av=a.delivery_date;bv=b.delivery_date;}
-    const cmp=(av||'z').localeCompare(bv||'z',undefined,{numeric:true});
-    return(srt.endsWith('desc')||srt==='status')?-cmp:cmp;
-  });
+ // sort
+ rows.sort((a,b)=>{
+ let av,bv;
+ if(srt==='delivery-asc'||srt==='delivery-desc'){av=a.delivery_date;bv=b.delivery_date;}
+ else if(srt==='company-asc'||srt==='company-desc'){av=a.company;bv=b.company;}
+ else if(srt==='date-asc'||srt==='date-desc'){av=a.created_at;bv=b.created_at;}
+ else if(srt==='status'){av=a.production_status;bv=b.production_status;}
+ else{av=a.delivery_date;bv=b.delivery_date;}
+ const cmp=(av||'z').localeCompare(bv||'z',undefined,{numeric:true});
+ return(srt.endsWith('desc')||srt==='status')?-cmp:cmp;
+ });
 
-  const delivered=d2AllRows.filter(r=>r.production_status==='Delivered').length;
-  const notice=sf===''&&delivered>0?` • ${delivered} delivered hidden`:'';
-  document.getElementById('d2-count').textContent=rows.length+' records'+notice;
-  document.getElementById('d2-empty').style.display=rows.length?'none':'block';
+ const delivered=d2AllRows.filter(r=>r.production_status==='Delivered').length;
+ const notice=sf===''&&delivered>0?` • ${delivered} delivered hidden`:'';
+ document.getElementById('d2-count').textContent=rows.length+' records'+notice;
+ document.getElementById('d2-empty').style.display=rows.length?'none':'block';
 
-  const tbody=document.getElementById('d2-body');
-  if(!tbody)return;
-  tbody.innerHTML='';
-  rows.forEach(r=>{
-    try{
-      const appr=!!r.approved_date;
-      const tr=document.createElement('tr');
-      tr.title='Click to view full details';
-      tr.onclick=()=>openDetailPage(r._id);
-      const company=r.company||'—';
-      const brand=r.brand_name||'—';
-      const buyer=r.buyer_name||'—';
-      const styleNo=r.style_no||'—';
-      const qty=r.quantity||'—';
-      const status=r.production_status||'Pending';
-      const badgeCls=SB[status]||'b-pending';
-      const tp=r.tech_pack_date?fmtDate(r.tech_pack_date):'—';
-      const ss=r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—';
-      const apprTxt=appr?('✓ '+fmtDate(r.approved_date)):'—';
-      const apprColor=appr?'var(--success)':'var(--text3)';
-      const dl=r.delivery_date?fmtDate(r.delivery_date):'—';
-      const dlColor=r.delivery_date?'var(--text)':'var(--text3)';
-      tr.innerHTML=
-        '<td><b style="font-weight:500">'+company+'</b></td>'+
-        '<td>'+brand+'</td>'+
-        '<td>'+buyer+'</td>'+
-        '<td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">'+styleNo+'</span></td>'+
-        '<td>'+qty+'</td>'+
-        '<td><span class="badge '+badgeCls+'">'+status+'</span></td>'+
-        '<td style="color:var(--text2);font-size:12px">'+tp+'</td>'+
-        '<td style="color:var(--text2);font-size:12px">'+ss+'</td>'+
-        '<td style="font-weight:500;color:'+apprColor+'">'+apprTxt+'</td>'+
-        '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>';
-      tbody.appendChild(tr);
-    }catch(err){console.error('Row render error',err,r);}
-  });
+ const tbody=document.getElementById('d2-body');
+ if(!tbody)return;
+ tbody.innerHTML='';
+ rows.forEach(r=>{
+ try{
+ const appr=!!r.approved_date;
+ const tr=document.createElement('tr');
+ tr.title='Click to view full details';
+ tr.onclick=()=>openDetailPage(r._id);
+ const company=r.company||'—';
+ const brand=r.brand_name||'—';
+ const buyer=r.buyer_name||'—';
+ const styleNo=r.style_no||'—';
+ const qty=r.quantity||'—';
+ const status=r.production_status||'Pending';
+ const badgeCls=SB[status]||'b-pending';
+ const tp=r.tech_pack_date?fmtDate(r.tech_pack_date):'—';
+ const ss=r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—';
+ const apprTxt=appr?(' '+fmtDate(r.approved_date)):'—';
+ const apprColor=appr?'var(--success)':'var(--text3)';
+ const dl=r.delivery_date?fmtDate(r.delivery_date):'—';
+ const dlColor=r.delivery_date?'var(--text)':'var(--text3)';
+ tr.innerHTML=
+ '<td><b style="font-weight:500">'+company+'</b></td>'+
+ '<td>'+brand+'</td>'+
+ '<td>'+buyer+'</td>'+
+ '<td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">'+styleNo+'</span></td>'+
+ '<td>'+qty+'</td>'+
+ '<td><span class="badge '+badgeCls+'">'+status+'</span></td>'+
+ '<td style="color:var(--text2);font-size:12px">'+tp+'</td>'+
+ '<td style="color:var(--text2);font-size:12px">'+ss+'</td>'+
+ '<td style="font-weight:500;color:'+apprColor+'">'+apprTxt+'</td>'+
+ '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>';
+ tbody.appendChild(tr);
+ }catch(err){console.error('Row render error',err,r);}
+ });
 }
 
 function openDetailPage(sid){
-  const s=allStyles.find(s=>s.id===sid);
-  if(!s)return;
-  const o=allOrders.find(o=>o.id===s.order_id)||{};
-  const appr=!!s.approved_date;
-  const lk=appr?'':'dp-locked';
+ const s=allStyles.find(s=>s.id===sid);
+ if(!s)return;
+ const o=allOrders.find(o=>o.id===s.order_id)||{};
+ const appr=!!s.approved_date;
+ const lk=appr?'':'dp-locked';
 
-  document.getElementById('dp-title').textContent=(s.style_no||'Style')+' — Details';
-  document.getElementById('dp-sub').textContent=(o.company||'')+(o.brand_name?' · '+o.brand_name:'')+(o.buyer_name?' · '+o.buyer_name:'');
+ document.getElementById('dp-title').textContent=(s.style_no||'Style')+' — Details';
+ document.getElementById('dp-sub').textContent=(o.company||'')+(o.brand_name?' · '+o.brand_name:'')+(o.buyer_name?' · '+o.buyer_name:'');
 
-  const inp=(id,val,type='text',extra='')=>
-    '<input class="dp-input" type="'+type+'" id="dp-'+id+'" value="'+((val)||'')+'" placeholder="—" '+extra+'>';
-  const sel=(id,val,opts)=>
-    '<select class="dp-input" id="dp-'+id+'">'+opts.map(op=>'<option value="'+op+'" '+(val===op?'selected':'')+'>'+op+'</option>').join('')+'</select>';
+ const inp=(id,val,type='text',extra='')=>
+ '<input class="dp-input" type="'+type+'" id="dp-'+id+'" value="'+((val)||'')+'" placeholder="—" '+extra+'>';
+ const sel=(id,val,opts)=>
+ '<select class="dp-input" id="dp-'+id+'">'+opts.map(op=>'<option value="'+op+'" '+(val===op?'selected':'')+'>'+op+'</option>').join('')+'</select>';
 
-  document.getElementById('dp-body').innerHTML=`
-    <div class="dp-section">
-      <div class="dp-section-header">🏢 Client & Order</div>
-      <div class="dp-grid">
-        <div class="dp-field"><div class="dp-label">Company</div>${inp('company',o.company)}</div>
-        <div class="dp-field"><div class="dp-label">Brand Name</div>${inp('brand',o.brand_name)}</div>
-        <div class="dp-field"><div class="dp-label">Buyer Name</div>${inp('buyer',o.buyer_name)}</div>
-        <div class="dp-field"><div class="dp-label">Mail Subject</div>${inp('mail',o.mail_subject)}</div>
-        <div class="dp-field"><div class="dp-label">Purchase Order</div>${inp('po',s.purchase_order||o.purchase_order)}</div>
-        <div class="dp-field"><div class="dp-label">Purchase Invoice</div>${inp('pi',s.purchase_invoice||o.purchase_invoice)}</div>
-      </div>
-    </div>
-    <div class="dp-section">
-      <div class="dp-section-header">🎨 Style & Design</div>
-      <div class="dp-grid">
-        <div class="dp-field"><div class="dp-label">Style No.</div>${inp('style_no',s.style_no)}</div>
-        <div class="dp-field"><div class="dp-label">Quantity</div>${inp('qty',s.quantity,'number')}</div>
-        <div class="dp-field"><div class="dp-label">Tech Pack Date</div>${inp('tp',s.tech_pack_date,'date')}</div>
-        <div class="dp-field"><div class="dp-label">HD File</div>${sel('hd',s.hd_file,['','Received','Pending','Not required'])}</div>
-        <div class="dp-field"><div class="dp-label">Digital</div>${sel('dg',s.digital,['','Received','Pending','Not required'])}</div>
-        <div class="dp-field"><div class="dp-label">Samples Submitted</div>${inp('ss',s.samples_submitted_date,'date')}</div>
-      </div>
-    </div>
-    <div class="dp-section">
-      <div class="dp-section-header">✅ Sampling & Approval</div>
-      <div class="dp-grid">
-        <div class="dp-field"><div class="dp-label">Corrections Date</div>${inp('cd',s.corrections_date,'date','oninput="dpOnCorrections()"')}</div>
-        <div class="dp-field"><div class="dp-label">Correction Remarks</div>${inp('cr',s.correction_remarks)}</div>
-        <div class="dp-field"><div class="dp-label">Revised</div>${sel('rv',s.revised?'Yes':'No',['No','Yes'])}</div>
-        <div class="dp-field">
-          <div class="dp-label">Approved</div>
-          <div class="toggle-wrap" style="padding:8px 0">
-            <label class="toggle">
-              <input type="checkbox" id="dp-appr-chk" ${appr?'checked':''} onchange="dpOnApproval(this.checked)">
-              <span class="toggle-slider"></span>
-            </label>
-            <span class="tlbl ${appr?'yes':''}" id="dp-appr-lbl">${appr?'Yes':'No'}</span>
-          </div>
-          <input type="hidden" id="dp-appr-date" value="${s.approved_date||''}">
-        </div>
-      </div>
-    </div>
-    <div class="dp-section" id="dp-post-section" style="${appr?'':'opacity:.4;pointer-events:none'}">
-      <div class="dp-section-header">🏭 Production & Shipping ${!appr?'— 🔒 locked until approved':''}</div>
-      <div class="dp-grid">
-        <div class="dp-field"><div class="dp-label">Production Status</div>
-          ${sel('status',s.production_status,['Pending','Tech Pack Received','Sampling','Correction Required','Approved','In Production','Packing','Ready for Dispatch','Delivered'])}
-        </div>
-        <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
-        <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
-        <div class="dp-field"><div class="dp-label">Weight (kg)</div>${inp('wt',s.weight,'number')}</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:8px;padding-bottom:8px">
-      <button class="btn-submit" onclick="saveDetailPage('${sid}','${o.id}')">Save changes</button>
-      <button class="btn-clear" onclick="closeDetailPage()">← Back</button>
-    </div>`;
+ document.getElementById('dp-body').innerHTML=`
+ <div class="dp-section">
+ <div class="dp-section-header">Client & Order</div>
+ <div class="dp-grid">
+ <div class="dp-field"><div class="dp-label">Company</div>${inp('company',o.company)}</div>
+ <div class="dp-field"><div class="dp-label">Brand Name</div>${inp('brand',o.brand_name)}</div>
+ <div class="dp-field"><div class="dp-label">Buyer Name</div>${inp('buyer',o.buyer_name)}</div>
+ <div class="dp-field"><div class="dp-label">Mail Subject</div>${inp('mail',o.mail_subject)}</div>
+ <div class="dp-field"><div class="dp-label">Purchase Order</div>${inp('po',s.purchase_order||o.purchase_order)}</div>
+ <div class="dp-field"><div class="dp-label">Purchase Invoice</div>${inp('pi',s.purchase_invoice||o.purchase_invoice)}</div>
+ </div>
+ </div>
+ <div class="dp-section">
+ <div class="dp-section-header">Style & Design</div>
+ <div class="dp-grid">
+ <div class="dp-field"><div class="dp-label">Style No.</div>${inp('style_no',s.style_no)}</div>
+ <div class="dp-field"><div class="dp-label">Quantity</div>${inp('qty',s.quantity,'number')}</div>
+ <div class="dp-field"><div class="dp-label">Tech Pack Date</div>${inp('tp',s.tech_pack_date,'date')}</div>
+ <div class="dp-field"><div class="dp-label">HD File</div>${sel('hd',s.hd_file,['','Received','Pending','Not required'])}</div>
+ <div class="dp-field"><div class="dp-label">Digital</div>${sel('dg',s.digital,['','Received','Pending','Not required'])}</div>
+ <div class="dp-field"><div class="dp-label">Samples Submitted</div>${inp('ss',s.samples_submitted_date,'date')}</div>
+ </div>
+ </div>
+ <div class="dp-section">
+ <div class="dp-section-header">Sampling & Approval</div>
+ <div class="dp-grid">
+ <div class="dp-field"><div class="dp-label">Corrections Date</div>${inp('cd',s.corrections_date,'date','oninput="dpOnCorrections()"')}</div>
+ <div class="dp-field"><div class="dp-label">Correction Remarks</div>${inp('cr',s.correction_remarks)}</div>
+ <div class="dp-field"><div class="dp-label">Revised</div>${sel('rv',s.revised?'Yes':'No',['No','Yes'])}</div>
+ <div class="dp-field">
+ <div class="dp-label">Approved</div>
+ <div class="toggle-wrap" style="padding:8px 0">
+ <label class="toggle">
+ <input type="checkbox" id="dp-appr-chk" ${appr?'checked':''} onchange="dpOnApproval(this.checked)">
+ <span class="toggle-slider"></span>
+ </label>
+ <span class="tlbl ${appr?'yes':''}" id="dp-appr-lbl">${appr?'Yes':'No'}</span>
+ </div>
+ <input type="hidden" id="dp-appr-date" value="${s.approved_date||''}">
+ </div>
+ </div>
+ </div>
+ <div class="dp-section" id="dp-post-section" style="${appr?'':'opacity:.4;pointer-events:none'}">
+ <div class="dp-section-header">Production & Shipping ${!appr?'— locked until approved':''}</div>
+ <div class="dp-grid">
+ <div class="dp-field"><div class="dp-label">Production Status</div>
+ ${sel('status',s.production_status,['Pending','Tech Pack Received','Sampling','Correction Required','Approved','In Production','Packing','Ready for Dispatch','Delivered'])}
+ </div>
+ <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
+ <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
+ <div class="dp-field"><div class="dp-label">Weight (kg)</div>${inp('wt',s.weight,'number')}</div>
+ </div>
+ </div>
+ <div style="display:flex;gap:10px;margin-top:8px;padding-bottom:8px">
+ <button class="btn-submit" onclick="saveDetailPage('${sid}','${o.id}')">Save changes</button>
+ <button class="btn-clear" onclick="closeDetailPage()">← Back</button>
+ </div>`;
 
-  document.getElementById('d2-list-view').style.display='none';
-  document.getElementById('d2-detail-view').style.display='block';
+ document.getElementById('d2-list-view').style.display='none';
+ document.getElementById('d2-detail-view').style.display='block';
 }
 
 function dpOnApproval(checked){
-  const lbl=document.getElementById('dp-appr-lbl');
-  lbl.textContent=checked?'Yes':'No';
-  lbl.className='tlbl '+(checked?'yes':'');
-  const sec=document.getElementById('dp-post-section');
-  if(sec){sec.style.opacity=checked?'1':'0.4';sec.style.pointerEvents=checked?'auto':'none';}
-  // set approved date
-  const hidden=document.getElementById('dp-appr-date');
-  if(hidden){hidden.value=checked?(hidden.value||new Date().toISOString().slice(0,10)): '';}
+ const lbl=document.getElementById('dp-appr-lbl');
+ lbl.textContent=checked?'Yes':'No';
+ lbl.className='tlbl '+(checked?'yes':'');
+ const sec=document.getElementById('dp-post-section');
+ if(sec){sec.style.opacity=checked?'1':'0.4';sec.style.pointerEvents=checked?'auto':'none';}
+ // set approved date
+ const hidden=document.getElementById('dp-appr-date');
+ if(hidden){hidden.value=checked?(hidden.value||new Date().toISOString().slice(0,10)): '';}
 }
 
 function dpOnCorrections(){
-  const cd=document.getElementById('dp-cd');
-  const rv=document.getElementById('dp-rv');
-  if(cd&&rv&&!cd.value) rv.value='No';
+ const cd=document.getElementById('dp-cd');
+ const rv=document.getElementById('dp-rv');
+ if(cd&&rv&&!cd.value) rv.value='No';
 }
 
 async function saveDetailPage(sid, oid){
-  const apprChk=document.getElementById('dp-appr-chk');
-  const apprDate=apprChk&&apprChk.checked
-    ?(document.getElementById('dp-appr-date').value||new Date().toISOString().slice(0,10))
-    :null;
-  const cdVal=document.getElementById('dp-cd')?.value||null;
+ const apprChk=document.getElementById('dp-appr-chk');
+ const apprDate=apprChk&&apprChk.checked
+ ?(document.getElementById('dp-appr-date').value||new Date().toISOString().slice(0,10))
+ :null;
+ const cdVal=document.getElementById('dp-cd')?.value||null;
 
-  const stylePayload={
-    style_no:document.getElementById('dp-style_no')?.value.trim()||null,
-    purchase_order:document.getElementById('dp-po')?.value.trim()||null,
-    purchase_invoice:document.getElementById('dp-pi')?.value.trim()||null,
-    quantity:parseInt(document.getElementById('dp-qty')?.value)||null,
-    tech_pack_date:document.getElementById('dp-tp')?.value||null,
-    hd_file:document.getElementById('dp-hd')?.value||null,
-    digital:document.getElementById('dp-dg')?.value||null,
-    samples_submitted_date:document.getElementById('dp-ss')?.value||null,
-    corrections_date:cdVal,
-    correction_remarks:document.getElementById('dp-cr')?.value.trim()||null,
-    revised:cdVal?(document.getElementById('dp-rv')?.value==='Yes'):false,
-    approved_date:apprDate,
-    production_status:document.getElementById('dp-status')?.value||'Pending',
-    delivery_date:document.getElementById('dp-dl')?.value||null,
-    number_of_boxes:parseInt(document.getElementById('dp-bx')?.value)||null,
-    weight:parseFloat(document.getElementById('dp-wt')?.value)||null,
-  };
-  const orderPayload={
-    company:document.getElementById('dp-company')?.value.trim()||null,
-    brand_name:document.getElementById('dp-brand')?.value.trim()||null,
-    buyer_name:document.getElementById('dp-buyer')?.value.trim()||null,
-    mail_subject:document.getElementById('dp-mail')?.value.trim()||null,
-  };
-  try{
-    await Promise.all([
-      sb('styles?id=eq.'+sid,{method:'PATCH',body:JSON.stringify(stylePayload)}),
-      sb('orders?id=eq.'+oid,{method:'PATCH',body:JSON.stringify(orderPayload)})
-    ]);
-    // update local cache
-    const si=allStyles.findIndex(s=>s.id===sid);
-    if(si>=0)Object.assign(allStyles[si],stylePayload);
-    const oi=allOrders.findIndex(o=>o.id===oid);
-    if(oi>=0)Object.assign(allOrders[oi],orderPayload);
-    showToast('Saved!','success');
-    closeDetailPage();
-    renderD2();
-  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
+ const stylePayload={
+ style_no:document.getElementById('dp-style_no')?.value.trim()||null,
+ purchase_order:document.getElementById('dp-po')?.value.trim()||null,
+ purchase_invoice:document.getElementById('dp-pi')?.value.trim()||null,
+ quantity:parseInt(document.getElementById('dp-qty')?.value)||null,
+ tech_pack_date:document.getElementById('dp-tp')?.value||null,
+ hd_file:document.getElementById('dp-hd')?.value||null,
+ digital:document.getElementById('dp-dg')?.value||null,
+ samples_submitted_date:document.getElementById('dp-ss')?.value||null,
+ corrections_date:cdVal,
+ correction_remarks:document.getElementById('dp-cr')?.value.trim()||null,
+ revised:cdVal?(document.getElementById('dp-rv')?.value==='Yes'):false,
+ approved_date:apprDate,
+ production_status:document.getElementById('dp-status')?.value||'Pending',
+ delivery_date:document.getElementById('dp-dl')?.value||null,
+ number_of_boxes:parseInt(document.getElementById('dp-bx')?.value)||null,
+ weight:parseFloat(document.getElementById('dp-wt')?.value)||null,
+ };
+ const orderPayload={
+ company:document.getElementById('dp-company')?.value.trim()||null,
+ brand_name:document.getElementById('dp-brand')?.value.trim()||null,
+ buyer_name:document.getElementById('dp-buyer')?.value.trim()||null,
+ mail_subject:document.getElementById('dp-mail')?.value.trim()||null,
+ };
+ try{
+ await Promise.all([
+ sb('styles?id=eq.'+sid,{method:'PATCH',body:JSON.stringify(stylePayload)}),
+ sb('orders?id=eq.'+oid,{method:'PATCH',body:JSON.stringify(orderPayload)})
+ ]);
+ // update local cache
+ const si=allStyles.findIndex(s=>s.id===sid);
+ if(si>=0)Object.assign(allStyles[si],stylePayload);
+ const oi=allOrders.findIndex(o=>o.id===oid);
+ if(oi>=0)Object.assign(allOrders[oi],orderPayload);
+ showToast('Saved!','success');
+ closeDetailPage();
+ renderD2();
+ }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
 }
 
 function closeDetailPage(){
-  document.getElementById('d2-detail-view').style.display='none';
-  document.getElementById('d2-list-view').style.display='block';
+ document.getElementById('d2-detail-view').style.display='none';
+ document.getElementById('d2-list-view').style.display='block';
 }
 
 function esc(v){return(v||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'),3000);
+ const t=document.getElementById('toast');
+ t.textContent=msg;t.className=`toast ${type} show`;
+ setTimeout(()=>t.classList.remove('show'),3000);
 }
 </script>
 </body>
