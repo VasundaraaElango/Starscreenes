@@ -206,6 +206,50 @@ input[type="date"].ci { min-width:120px; }
 .toast.success { background:var(--success); color:#fff; }
 .toast.error { background:var(--danger); color:#fff; }
 .toast.show { opacity:1; }
+
+/* DASHBOARD 2 - REPORTS */
+.d2-page { padding:24px 20px; max-width:1600px; margin:0 auto; }
+.d2-toolbar { background:var(--surface); border-radius:8px; padding:10px 14px; display:flex; gap:8px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,.08); flex-wrap:wrap; align-items:center; }
+.d2-toolbar input { flex:1; min-width:160px; padding:7px 10px; border:1px solid var(--border); border-radius:var(--radius); outline:none; font-size:13px; }
+.d2-toolbar input:focus { border-color:var(--primary); }
+
+/* detail overlay */
+.detail-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; align-items:center; justify-content:center; }
+.detail-overlay.open { display:flex; }
+.detail-box { background:var(--surface); border-radius:12px; width:min(860px,95vw); max-height:90vh; overflow-y:auto; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+.detail-header { padding:20px 28px 0; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--surface); padding-bottom:12px; border-bottom:1px solid var(--border); }
+.detail-title { font-size:17px; font-weight:500; }
+.detail-close { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; color:var(--text2); }
+.detail-close:hover { background:var(--danger-bg); color:var(--danger); border-color:var(--danger); }
+.detail-body { padding:24px 28px; }
+.detail-section { margin-bottom:22px; }
+.detail-section-title { font-size:11px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.detail-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+.detail-field { display:flex; flex-direction:column; gap:4px; }
+.detail-label { font-size:11px; color:var(--text3); font-weight:500; }
+.detail-value { font-size:13px; color:var(--text); font-weight:400; }
+.detail-value.mono { font-family:monospace; background:#f5f5f5; padding:2px 6px; border-radius:4px; display:inline-block; }
+
+/* excel table */
+.xls-wrap { background:var(--surface); border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.08); overflow:hidden; }
+.xls-scroll { overflow-x:auto; }
+.xls-table { width:100%; border-collapse:collapse; font-size:12px; white-space:nowrap; }
+.xls-table thead tr { background:#e8f0fe; position:sticky; top:0; z-index:10; }
+.xls-table th { padding:8px 10px; text-align:left; font-size:11px; font-weight:600; color:var(--primary-dark); border-bottom:2px solid var(--primary); border-right:1px solid #c5d8f8; cursor:pointer; user-select:none; white-space:nowrap; }
+.xls-table th:hover { background:#d2e3fc; }
+.xls-table th .sort-icon { margin-left:4px; color:var(--text3); font-size:10px; }
+.xls-table th.sort-asc .sort-icon::after { content:'▲'; color:var(--primary); }
+.xls-table th.sort-desc .sort-icon::after { content:'▼'; color:var(--primary); }
+.xls-table th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content:'⇅'; }
+.xls-table td { padding:7px 10px; border-bottom:1px solid #f0f0f0; border-right:1px solid #f5f5f5; vertical-align:middle; cursor:pointer; }
+.xls-table tr:hover td { background:#fafff4; }
+.xls-table tr:nth-child(even) td { background:#fafafa; }
+.xls-table tr:nth-child(even):hover td { background:#fafff4; }
+.xls-col-filter { display:flex; align-items:center; gap:4px; }
+.xls-col-filter input { width:100%; padding:4px 6px; border:1px solid var(--border); border-radius:3px; font-size:11px; outline:none; font-family:'Roboto',sans-serif; background:#fff; }
+.xls-col-filter input:focus { border-color:var(--primary); }
+.xls-table .filter-row th { background:#f0f4f9; padding:4px 6px; cursor:default; }
+.xls-table .filter-row th:hover { background:#f0f4f9; }
 </style>
 </head>
 <body>
@@ -229,6 +273,7 @@ input[type="date"].ci { min-width:120px; }
     <div class="topbar-nav">
       <button class="nav-btn active" onclick="showPage('form',this)">＋ New Order</button>
       <button class="nav-btn" onclick="showPage('dashboard',this)">Dashboard</button>
+      <button class="nav-btn" onclick="showPage('dashboard2',this)">📊 Reports</button>
     </div>
     <div class="topbar-right">
       <span class="user-chip" id="user-chip"></span>
@@ -305,6 +350,57 @@ input[type="date"].ci { min-width:120px; }
       </div>
     </div>
   </div>
+
+  <!-- DASHBOARD 2 - REPORTS -->
+  <div class="page" id="page-dashboard2">
+    <div class="d2-page">
+      <div class="dash-header">
+        <div>
+          <div class="dash-title">Reports</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px">Full Excel-style view — click any column header to sort, filter per column</div>
+        </div>
+        <div class="dash-actions">
+          <button class="btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+          <button class="btn-sm" onclick="loadDashboard2()">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="d2-toolbar">
+        <input id="d2-search" placeholder="Quick search across all fields…" oninput="renderD2()">
+        <select id="d2-status" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
+          <option value="">All statuses</option>
+          <option value="active">Active only (excl. Delivered)</option>
+          <option disabled>──────────</option>
+          <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
+          <option>Correction Required</option><option>Approved</option><option>In Production</option>
+          <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
+        </select>
+        <span id="d2-count" style="font-size:12px;color:var(--text2);margin-left:4px"></span>
+      </div>
+      <div class="xls-wrap">
+        <div class="xls-scroll">
+          <table class="xls-table" id="d2-table">
+            <thead>
+              <tr id="d2-head-row"></tr>
+              <tr class="filter-row" id="d2-filter-row"></tr>
+            </thead>
+            <tbody id="d2-body"></tbody>
+          </table>
+          <div id="d2-empty" class="empty" style="display:none">No records found</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL OVERLAY -->
+  <div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+    <div class="detail-box" id="detail-box">
+      <div class="detail-header">
+        <div class="detail-title" id="detail-title">Style Details</div>
+        <button class="detail-close" onclick="closeDetailBox()">×</button>
+      </div>
+      <div class="detail-body" id="detail-body"></div>
+    </div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -348,6 +444,7 @@ function showPage(name,btn){
   document.getElementById('page-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
   if(name==='dashboard')loadDashboard();
+  if(name==='dashboard2')loadDashboard2();
 }
 
 // ── FORM ──
@@ -588,7 +685,7 @@ function renderDash(){
           </select>
         </td>
         <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}"></td>
-        <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}"></td>
+        <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
         <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
         <td>
           <div class="toggle-wrap">
@@ -638,6 +735,16 @@ function onToggle(sid,checked){
   });
 }
 
+function onCorrectionsChange(sid){
+  const cdEl=document.getElementById(`ci-cd-${sid}`);
+  const rvEl=document.getElementById(`ci-rv-${sid}`);
+  if(!cdEl||!rvEl)return;
+  if(!cdEl.value){
+    // no corrections date — force revised to No
+    rvEl.value='false';
+  }
+}
+
 async function saveOrderHeader(oid){
   const payload={
     company:document.getElementById(`oh-company-${oid}`).value.trim()||null,
@@ -680,7 +787,9 @@ async function saveStyleRow(sid){
     approved_date:approvedDate,
     corrections_date:document.getElementById(`ci-cd-${sid}`).value||null,
     correction_remarks:document.getElementById(`ci-cr-${sid}`).value.trim()||null,
-    revised:document.getElementById(`ci-rv-${sid}`).value==='true',
+    revised:document.getElementById(`ci-cd-${sid}`).value
+      ? document.getElementById(`ci-rv-${sid}`).value==='true'
+      : false,
     production_status:document.getElementById(`ci-st-${sid}`).value||'Pending',
     delivery_date:document.getElementById(`ci-dl-${sid}`).value||null,
     number_of_boxes:parseInt(document.getElementById(`ci-bx-${sid}`).value)||null,
@@ -720,6 +829,209 @@ function exportCSV(){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([hdr+'\n'+rows.join('\n')],{type:'text/csv'}));
   a.download='orders_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+
+// ── DASHBOARD 2 (REPORTS) ──
+const D2_COLS = [
+  {key:'company',      label:'Company',          type:'text'},
+  {key:'brand_name',   label:'Brand',             type:'text'},
+  {key:'buyer_name',   label:'Buyer',             type:'text'},
+  {key:'purchase_order', label:'PO',             type:'text'},
+  {key:'purchase_invoice', label:'Invoice',      type:'text'},
+  {key:'mail_subject', label:'Mail Subject',      type:'text'},
+  {key:'style_no',     label:'Style No.',         type:'text'},
+  {key:'quantity',     label:'Qty',               type:'number'},
+  {key:'tech_pack_date', label:'Tech Pack',       type:'date'},
+  {key:'hd_file',      label:'HD File',           type:'text'},
+  {key:'digital',      label:'Digital',           type:'text'},
+  {key:'samples_submitted_date', label:'Samples', type:'date'},
+  {key:'corrections_date', label:'Corrections',   type:'date'},
+  {key:'correction_remarks', label:'Remarks',     type:'text'},
+  {key:'approved_date',label:'Approved Date',     type:'date'},
+  {key:'revised',      label:'Revised',           type:'bool'},
+  {key:'production_status', label:'Status',       type:'text'},
+  {key:'delivery_date',label:'Delivery Date',     type:'date'},
+  {key:'number_of_boxes', label:'Boxes',          type:'number'},
+  {key:'weight',       label:'Weight (kg)',        type:'number'},
+];
+
+let d2Sort = {col:'delivery_date', dir:'asc'};
+let d2ColFilters = {};
+let d2AllRows = [];
+
+async function loadDashboard2(){
+  document.getElementById('d2-body').innerHTML =
+    '<tr><td colspan="'+D2_COLS.length+'" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
+  try{
+    const [orders,styles] = await Promise.all([
+      sb('orders?select=*'),
+      sb('styles?select=*')
+    ]);
+    allOrders = orders||[];
+    allStyles = styles||[];
+    // build flat rows
+    d2AllRows = allStyles.map(s=>{
+      const o = allOrders.find(o=>o.id===s.order_id)||{};
+      return {
+        _id: s.id,
+        _order_id: s.order_id,
+        company: o.company||'',
+        brand_name: o.brand_name||'',
+        buyer_name: o.buyer_name||'',
+        purchase_order: s.purchase_order || o.purchase_order || '',
+        purchase_invoice: s.purchase_invoice || o.purchase_invoice || '',
+        mail_subject: o.mail_subject||'',
+        style_no: s.style_no||'',
+        quantity: s.quantity||'',
+        tech_pack_date: s.tech_pack_date||'',
+        hd_file: s.hd_file||'',
+        digital: s.digital||'',
+        samples_submitted_date: s.samples_submitted_date||'',
+        corrections_date: s.corrections_date||'',
+        correction_remarks: s.correction_remarks||'',
+        approved_date: s.approved_date||'',
+        revised: s.revised ? 'Yes' : 'No',
+        production_status: s.production_status||'',
+        delivery_date: s.delivery_date||'',
+        number_of_boxes: s.number_of_boxes||'',
+        weight: s.weight||'',
+      };
+    });
+    buildD2Headers();
+    renderD2();
+  } catch(e){ showToast('Error loading','error'); }
+}
+
+function buildD2Headers(){
+  const hr = document.getElementById('d2-head-row');
+  const fr = document.getElementById('d2-filter-row');
+  hr.innerHTML=''; fr.innerHTML='';
+  D2_COLS.forEach(col=>{
+    const th = document.createElement('th');
+    const isSort = d2Sort.col===col.key;
+    th.className = isSort ? (d2Sort.dir==='asc'?'sort-asc':'sort-desc') : '';
+    th.innerHTML = col.label + '<span class="sort-icon"></span>';
+    th.onclick = ()=>{ 
+      if(d2Sort.col===col.key) d2Sort.dir = d2Sort.dir==='asc'?'desc':'asc';
+      else { d2Sort.col=col.key; d2Sort.dir='asc'; }
+      buildD2Headers(); renderD2();
+    };
+    hr.appendChild(th);
+
+    const tf = document.createElement('th');
+    tf.innerHTML = '<div class="xls-col-filter"><input placeholder="Filter…" id="d2cf-'+col.key+'" oninput="renderD2()" value="'+(d2ColFilters[col.key]||'')+'"></div>';
+    fr.appendChild(tf);
+  });
+}
+
+function renderD2(){
+  const q = (document.getElementById('d2-search')?.value||'').toLowerCase().trim();
+  const sf = document.getElementById('d2-status')?.value||'';
+  // collect per-column filters
+  D2_COLS.forEach(col=>{
+    const el = document.getElementById('d2cf-'+col.key);
+    if(el) d2ColFilters[col.key] = el.value.toLowerCase().trim();
+  });
+
+  let rows = d2AllRows.filter(r=>{
+    // global search
+    if(q && !Object.values(r).join(' ').toLowerCase().includes(q)) return false;
+    // status filter
+    if(sf==='active' && r.production_status==='Delivered') return false;
+    if(sf && sf!=='active' && r.production_status!==sf) return false;
+    // per-column filters
+    for(const col of D2_COLS){
+      const fv = d2ColFilters[col.key]||'';
+      if(fv && !(r[col.key]||'').toString().toLowerCase().includes(fv)) return false;
+    }
+    return true;
+  });
+
+  // sort
+  rows.sort((a,b)=>{
+    const av = a[d2Sort.col]||'', bv = b[d2Sort.col]||'';
+    const cmp = av.toString().localeCompare(bv.toString(), undefined, {numeric:true});
+    return d2Sort.dir==='asc' ? cmp : -cmp;
+  });
+
+  document.getElementById('d2-count').textContent = rows.length + ' records';
+  document.getElementById('d2-empty').style.display = rows.length ? 'none' : 'block';
+
+  const tbody = document.getElementById('d2-body');
+  tbody.innerHTML='';
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.title = 'Double-click to view full details';
+    tr.ondblclick = ()=>openDetail(r._id);
+    tr.innerHTML = D2_COLS.map(col=>{
+      let v = r[col.key]||'';
+      if(col.type==='date' && v) v = fmtDate(v);
+      if(col.key==='production_status' && v){
+        const cls = SB[v]||'b-pending';
+        v = '<span class="badge '+cls+'">'+v+'</span>';
+      }
+      return '<td>'+v+'</td>';
+    }).join('');
+    tbody.appendChild(tr);
+  });
+}
+
+function openDetail(sid){
+  const s = allStyles.find(s=>s.id===sid);
+  if(!s) return;
+  const o = allOrders.find(o=>o.id===s.order_id)||{};
+  document.getElementById('detail-title').textContent = (s.style_no||'Style') + ' — Full Details';
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-section">
+      <div class="detail-section-title">Client & Order</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="detail-label">Company</div><div class="detail-value">${o.company||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Brand</div><div class="detail-value">${o.brand_name||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Buyer</div><div class="detail-value">${o.buyer_name||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Mail Subject</div><div class="detail-value">${o.mail_subject||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Purchase Order</div><div class="detail-value mono">${s.purchase_order||o.purchase_order||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Purchase Invoice</div><div class="detail-value mono">${s.purchase_invoice||o.purchase_invoice||'—'}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Style & Design</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="detail-label">Style No.</div><div class="detail-value mono">${s.style_no||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Quantity</div><div class="detail-value">${s.quantity||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Tech Pack Date</div><div class="detail-value">${s.tech_pack_date?fmtDate(s.tech_pack_date):'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">HD File</div><div class="detail-value">${s.hd_file||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Digital</div><div class="detail-value">${s.digital||'—'}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Sampling & Approval</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="detail-label">Samples Submitted</div><div class="detail-value">${s.samples_submitted_date?fmtDate(s.samples_submitted_date):'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Corrections Date</div><div class="detail-value">${s.corrections_date?fmtDate(s.corrections_date):'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Remarks</div><div class="detail-value">${s.correction_remarks||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Approved Date</div><div class="detail-value" style="color:${s.approved_date?'var(--success)':'var(--text)'}">${s.approved_date?fmtDate(s.approved_date):'Not yet'}</div></div>
+        <div class="detail-field"><div class="detail-label">Revised</div><div class="detail-value">${s.revised?'Yes':'No'}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Production & Shipping</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="detail-label">Production Status</div><div class="detail-value"><span class="badge ${SB[s.production_status]||'b-pending'}">${s.production_status||'Pending'}</span></div></div>
+        <div class="detail-field"><div class="detail-label">Delivery Date</div><div class="detail-value">${s.delivery_date?fmtDate(s.delivery_date):'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">No. of Boxes</div><div class="detail-value">${s.number_of_boxes||'—'}</div></div>
+        <div class="detail-field"><div class="detail-label">Weight (kg)</div><div class="detail-value">${s.weight||'—'}</div></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+function closeDetail(e){
+  if(e.target===document.getElementById('detail-overlay')) closeDetailBox();
+}
+function closeDetailBox(){
+  document.getElementById('detail-overlay').classList.remove('open');
 }
 
 function esc(v){return(v||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
