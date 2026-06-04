@@ -265,6 +265,14 @@ input[type="date"].ci { min-width:120px; }
 .dp-value.muted { color:var(--text3); }
 .xls-table tbody tr { cursor:pointer; }
 .xls-table tbody tr:hover td { background:#e8f0fe !important; }
+
+.dp-input {
+  width:100%; padding:7px 10px; border:1px solid var(--border); border-radius:var(--radius);
+  font-size:13px; color:var(--text); outline:none; background:#fff;
+  transition:border-color .2s; font-family:'Roboto',sans-serif;
+}
+.dp-input:focus { border-color:var(--primary); box-shadow:0 0 0 2px rgba(26,115,232,.1); }
+.dp-input::placeholder { color:var(--text3); }
 </style>
 </head>
 <body>
@@ -962,60 +970,140 @@ function openDetailPage(sid){
   if(!s)return;
   const o=allOrders.find(o=>o.id===s.order_id)||{};
   const appr=!!s.approved_date;
+  const lk=appr?'':'dp-locked';
 
-  document.getElementById('dp-title').textContent=(s.style_no||'Style')+' — Full Details';
+  document.getElementById('dp-title').textContent=(s.style_no||'Style')+' — Details';
   document.getElementById('dp-sub').textContent=(o.company||'')+(o.brand_name?' · '+o.brand_name:'')+(o.buyer_name?' · '+o.buyer_name:'');
 
-  const f=(label,value,cls='')=>`
-    <div class="dp-field">
-      <div class="dp-label">${label}</div>
-      <div class="dp-value ${cls}">${value||'<span style="color:var(--text3)">—</span>'}</div>
-    </div>`;
+  const inp=(id,val,type='text',extra='')=>
+    '<input class="dp-input" type="'+type+'" id="dp-'+id+'" value="'+((val)||'')+'" placeholder="—" '+extra+'>';
+  const sel=(id,val,opts)=>
+    '<select class="dp-input" id="dp-'+id+'">'+opts.map(op=>'<option value="'+op+'" '+(val===op?'selected':'')+'>'+op+'</option>').join('')+'</select>';
 
   document.getElementById('dp-body').innerHTML=`
     <div class="dp-section">
       <div class="dp-section-header">🏢 Client & Order</div>
       <div class="dp-grid">
-        ${f('Company',o.company)}
-        ${f('Brand Name',o.brand_name)}
-        ${f('Buyer Name',o.buyer_name)}
-        ${f('Mail Subject',o.mail_subject)}
-        ${f('Purchase Order','<span class="mono">'+(s.purchase_order||o.purchase_order||'—')+'</span>')}
-        ${f('Purchase Invoice','<span class="mono">'+(s.purchase_invoice||o.purchase_invoice||'—')+'</span>')}
+        <div class="dp-field"><div class="dp-label">Company</div>${inp('company',o.company)}</div>
+        <div class="dp-field"><div class="dp-label">Brand Name</div>${inp('brand',o.brand_name)}</div>
+        <div class="dp-field"><div class="dp-label">Buyer Name</div>${inp('buyer',o.buyer_name)}</div>
+        <div class="dp-field"><div class="dp-label">Mail Subject</div>${inp('mail',o.mail_subject)}</div>
+        <div class="dp-field"><div class="dp-label">Purchase Order</div>${inp('po',s.purchase_order||o.purchase_order)}</div>
+        <div class="dp-field"><div class="dp-label">Purchase Invoice</div>${inp('pi',s.purchase_invoice||o.purchase_invoice)}</div>
       </div>
     </div>
     <div class="dp-section">
       <div class="dp-section-header">🎨 Style & Design</div>
       <div class="dp-grid">
-        ${f('Style No.','<span class="mono">'+(s.style_no||'—')+'</span>')}
-        ${f('Quantity',s.quantity)}
-        ${f('Tech Pack Date',s.tech_pack_date?fmtDate(s.tech_pack_date):'')}
-        ${f('HD File',s.hd_file)}
-        ${f('Digital',s.digital)}
+        <div class="dp-field"><div class="dp-label">Style No.</div>${inp('style_no',s.style_no)}</div>
+        <div class="dp-field"><div class="dp-label">Quantity</div>${inp('qty',s.quantity,'number')}</div>
+        <div class="dp-field"><div class="dp-label">Tech Pack Date</div>${inp('tp',s.tech_pack_date,'date')}</div>
+        <div class="dp-field"><div class="dp-label">HD File</div>${sel('hd',s.hd_file,['','Received','Pending','Not required'])}</div>
+        <div class="dp-field"><div class="dp-label">Digital</div>${sel('dg',s.digital,['','Received','Pending','Not required'])}</div>
+        <div class="dp-field"><div class="dp-label">Samples Submitted</div>${inp('ss',s.samples_submitted_date,'date')}</div>
       </div>
     </div>
     <div class="dp-section">
       <div class="dp-section-header">✅ Sampling & Approval</div>
       <div class="dp-grid">
-        ${f('Samples Submitted',s.samples_submitted_date?fmtDate(s.samples_submitted_date):'')}
-        ${f('Corrections Date',s.corrections_date?fmtDate(s.corrections_date):'')}
-        ${f('Correction Remarks',s.correction_remarks)}
-        ${f('Approved Date',appr?fmtDate(s.approved_date):'Not yet',appr?'green':'muted')}
-        ${f('Revised',s.revised?'Yes':'No')}
+        <div class="dp-field"><div class="dp-label">Corrections Date</div>${inp('cd',s.corrections_date,'date','oninput="dpOnCorrections()"')}</div>
+        <div class="dp-field"><div class="dp-label">Correction Remarks</div>${inp('cr',s.correction_remarks)}</div>
+        <div class="dp-field"><div class="dp-label">Revised</div>${sel('rv',s.revised?'Yes':'No',['No','Yes'])}</div>
+        <div class="dp-field">
+          <div class="dp-label">Approved</div>
+          <div class="toggle-wrap" style="padding:8px 0">
+            <label class="toggle">
+              <input type="checkbox" id="dp-appr-chk" ${appr?'checked':''} onchange="dpOnApproval(this.checked)">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="tlbl ${appr?'yes':''}" id="dp-appr-lbl">${appr?'Yes':'No'}</span>
+          </div>
+          <input type="hidden" id="dp-appr-date" value="${s.approved_date||''}">
+        </div>
       </div>
     </div>
-    <div class="dp-section">
-      <div class="dp-section-header">🏭 Production & Shipping</div>
+    <div class="dp-section" id="dp-post-section" style="${appr?'':'opacity:.4;pointer-events:none'}">
+      <div class="dp-section-header">🏭 Production & Shipping ${!appr?'— 🔒 locked until approved':''}</div>
       <div class="dp-grid">
-        ${f('Production Status','<span class="badge '+(SB[s.production_status]||'b-pending')+'">'+(s.production_status||'Pending')+'</span>')}
-        ${f('Delivery Date',s.delivery_date?fmtDate(s.delivery_date):'')}
-        ${f('Number of Boxes',s.number_of_boxes)}
-        ${f('Weight (kg)',s.weight)}
+        <div class="dp-field"><div class="dp-label">Production Status</div>
+          ${sel('status',s.production_status,['Pending','Tech Pack Received','Sampling','Correction Required','Approved','In Production','Packing','Ready for Dispatch','Delivered'])}
+        </div>
+        <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
+        <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
+        <div class="dp-field"><div class="dp-label">Weight (kg)</div>${inp('wt',s.weight,'number')}</div>
       </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;padding-bottom:8px">
+      <button class="btn-submit" onclick="saveDetailPage('${sid}','${o.id}')">Save changes</button>
+      <button class="btn-clear" onclick="closeDetailPage()">← Back</button>
     </div>`;
 
   document.getElementById('d2-list-view').style.display='none';
   document.getElementById('d2-detail-view').style.display='block';
+}
+
+function dpOnApproval(checked){
+  const lbl=document.getElementById('dp-appr-lbl');
+  lbl.textContent=checked?'Yes':'No';
+  lbl.className='tlbl '+(checked?'yes':'');
+  const sec=document.getElementById('dp-post-section');
+  if(sec){sec.style.opacity=checked?'1':'0.4';sec.style.pointerEvents=checked?'auto':'none';}
+  // set approved date
+  const hidden=document.getElementById('dp-appr-date');
+  if(hidden){hidden.value=checked?(hidden.value||new Date().toISOString().slice(0,10)): '';}
+}
+
+function dpOnCorrections(){
+  const cd=document.getElementById('dp-cd');
+  const rv=document.getElementById('dp-rv');
+  if(cd&&rv&&!cd.value) rv.value='No';
+}
+
+async function saveDetailPage(sid, oid){
+  const apprChk=document.getElementById('dp-appr-chk');
+  const apprDate=apprChk&&apprChk.checked
+    ?(document.getElementById('dp-appr-date').value||new Date().toISOString().slice(0,10))
+    :null;
+  const cdVal=document.getElementById('dp-cd')?.value||null;
+
+  const stylePayload={
+    style_no:document.getElementById('dp-style_no')?.value.trim()||null,
+    purchase_order:document.getElementById('dp-po')?.value.trim()||null,
+    purchase_invoice:document.getElementById('dp-pi')?.value.trim()||null,
+    quantity:parseInt(document.getElementById('dp-qty')?.value)||null,
+    tech_pack_date:document.getElementById('dp-tp')?.value||null,
+    hd_file:document.getElementById('dp-hd')?.value||null,
+    digital:document.getElementById('dp-dg')?.value||null,
+    samples_submitted_date:document.getElementById('dp-ss')?.value||null,
+    corrections_date:cdVal,
+    correction_remarks:document.getElementById('dp-cr')?.value.trim()||null,
+    revised:cdVal?(document.getElementById('dp-rv')?.value==='Yes'):false,
+    approved_date:apprDate,
+    production_status:document.getElementById('dp-status')?.value||'Pending',
+    delivery_date:document.getElementById('dp-dl')?.value||null,
+    number_of_boxes:parseInt(document.getElementById('dp-bx')?.value)||null,
+    weight:parseFloat(document.getElementById('dp-wt')?.value)||null,
+  };
+  const orderPayload={
+    company:document.getElementById('dp-company')?.value.trim()||null,
+    brand_name:document.getElementById('dp-brand')?.value.trim()||null,
+    buyer_name:document.getElementById('dp-buyer')?.value.trim()||null,
+    mail_subject:document.getElementById('dp-mail')?.value.trim()||null,
+  };
+  try{
+    await Promise.all([
+      sb('styles?id=eq.'+sid,{method:'PATCH',body:JSON.stringify(stylePayload)}),
+      sb('orders?id=eq.'+oid,{method:'PATCH',body:JSON.stringify(orderPayload)})
+    ]);
+    // update local cache
+    const si=allStyles.findIndex(s=>s.id===sid);
+    if(si>=0)Object.assign(allStyles[si],stylePayload);
+    const oi=allOrders.findIndex(o=>o.id===oid);
+    if(oi>=0)Object.assign(allOrders[oi],orderPayload);
+    showToast('Saved!','success');
+    closeDetailPage();
+    renderD2();
+  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
 }
 
 function closeDetailPage(){
