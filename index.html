@@ -1096,7 +1096,7 @@ function openDetailPage(sid){
  <div class="dp-field"><div class="dp-label">Production Status</div>
  ${sel('status',s.production_status,['Pending','In Production','Packing','Ready for Dispatch','Delivered'])}
  </div>
- <div class="dp-field"><div class="dp-label">Status Last Changed</div><div style="font-size:12px;color:var(--text2);padding:8px 0">${s.status_changed_at?fmtDate(s.status_changed_at.split('T')[0])+' at '+s.status_changed_at.slice(11,16):'—'}</div></div>
+ <div class="dp-field"><div class="dp-label">Status Last Changed</div><div style="font-size:12px;color:var(--text2);padding:8px 0">${s.status_changed_at?new Date(s.status_changed_at).toLocaleDateString('en-GB')+' at '+new Date(s.status_changed_at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):'—'}</div></div>
  <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
  <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
  <div class="dp-field"><div class="dp-label">Weight (kg)</div>${inp('wt',s.weight,'number')}</div>
