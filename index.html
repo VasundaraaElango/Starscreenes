@@ -584,184 +584,155 @@ function renderStats(){
 const SB={'Pending':'b-pending','Tech Pack Received':'b-sampling','Sampling':'b-sampling','Correction Required':'b-correction','Approved':'b-approved','In Production':'b-production','Packing':'b-production','Ready for Dispatch':'b-dispatch','Delivered':'b-delivered'};
 
 function renderDash(){
- const q=(document.getElementById('search')?.value||'').toLowerCase().trim();
- const sf=document.getElementById('f-status')?.value||'';
- const list=document.getElementById('orders-list');
- list.innerHTML='';
+  const q=(document.getElementById('search')?.value||'').toLowerCase().trim();
+  const sf=document.getElementById('f-status')?.value||'';
+  const sort=document.getElementById('f-sort')?.value||'date-desc';
+  const list=document.getElementById('orders-list');
 
- // filter styles
- let filteredStyles=allStyles.filter(s=>{
- const o=allOrders.find(o=>o.id===s.order_id)||{};
- // search across ALL fields
- const searchFields=[
- o.company, o.brand_name, o.buyer_name, o.purchase_order,
- o.purchase_invoice, o.mail_subject,
- s.style_no, s.hd_file, s.digital, s.production_status,
- s.correction_remarks, s.quantity
- ].map(v=>(v||'').toString().toLowerCase()).join(' ');
- const ms=!q||searchFields.includes(q);
- // hide delivered by default unless specifically selected
- const hideDelivered=sf===''&&s.production_status==='Delivered';
- const matchStatus=sf===''?!hideDelivered:sf==='all'?true:(s.production_status===sf);
- return ms&&matchStatus;
- });
+  // Filter
+  let rows=allStyles.filter(s=>{
+    const o=allOrders.find(o=>o.id===s.order_id)||{};
+    const searchFields=[
+      o.company,o.brand_name,o.buyer_name,o.purchase_order,o.purchase_invoice,o.mail_subject,
+      s.style_no,s.hd_file,s.digital,s.production_status,s.correction_remarks,
+      s.purchase_order,s.purchase_invoice,(s.quantity||'').toString()
+    ].map(v=>(v||'').toString().toLowerCase()).join(' ');
+    const ms=!q||searchFields.includes(q);
+    const hideDelivered=sf===''&&s.production_status==='Delivered';
+    const matchStatus=sf===''?!hideDelivered:sf==='all'?true:(s.production_status===sf);
+    return ms&&matchStatus;
+  });
 
- // sort orders
- const sort=document.getElementById('f-sort')?.value||'date-desc';
- const orderIds=[...new Set(filteredStyles.map(s=>s.order_id))].sort((a,b)=>{
- const oa=allOrders.find(o=>o.id===a)||{};
- const ob=allOrders.find(o=>o.id===b)||{};
- if(sort==='company-asc') return (oa.company||'').localeCompare(ob.company||'');
- if(sort==='company-desc') return (ob.company||'').localeCompare(oa.company||'');
- if(sort==='date-asc') return new Date(oa.created_at)-new Date(ob.created_at);
- return new Date(ob.created_at)-new Date(oa.created_at); // date-desc default
- });
+  // Sort
+  rows.sort((a,b)=>{
+    const oa=allOrders.find(o=>o.id===a.order_id)||{};
+    const ob=allOrders.find(o=>o.id===b.order_id)||{};
+    if(sort==='company-asc') return (oa.company||'').localeCompare(ob.company||'');
+    if(sort==='company-desc') return (ob.company||'').localeCompare(oa.company||'');
+    if(sort==='date-asc') return new Date(oa.created_at||0)-new Date(ob.created_at||0);
+    return new Date(ob.created_at||0)-new Date(oa.created_at||0);
+  });
 
- // show delivered notice
- const sf2=document.getElementById('f-status')?.value||'';
- const deliveredCount=allStyles.filter(s=>s.production_status==='Delivered').length;
- const notice=document.getElementById('delivered-notice');
- const dcEl=document.getElementById('delivered-count');
- if(notice&&dcEl){
- if(sf2===''&&deliveredCount>0){
- notice.style.display='block';
- dcEl.textContent=deliveredCount;
- } else {
- notice.style.display='none';
- }
- }
+  // Delivered notice
+  const deliveredCount=allStyles.filter(s=>s.production_status==='Delivered').length;
+  const notice=document.getElementById('delivered-notice');
+  const dcEl=document.getElementById('delivered-count');
+  if(notice&&dcEl){
+    notice.style.display=(sf===''&&deliveredCount>0)?'block':'none';
+    dcEl.textContent=deliveredCount;
+  }
 
- if(!orderIds.length){list.innerHTML='<div class="empty">No orders found</div>';return;}
+  list.innerHTML='';
+  if(!rows.length){list.innerHTML='<div class="empty">No orders found</div>';return;}
 
- orderIds.forEach(oid=>{
- const o=allOrders.find(o=>o.id===oid)||{};
- const styles=filteredStyles.filter(s=>s.order_id===oid);
- const card=document.createElement('div');
- card.className='order-card';
+  rows.forEach(s=>{
+    const o=allOrders.find(o=>o.id===s.order_id)||{};
+    const appr=!!s.approved_date;
+    const lk=appr?'':'cell-locked';
+    const sid=s.id;
+    const oid=s.order_id;
 
- // header with order-level fields (editable)
- card.innerHTML=`
- <div class="order-card-header">
- <div class="order-header-field">
- <div class="order-header-label">Company</div>
- <input class="order-header-value editable" id="oh-company-${oid}" value="${esc(o.company)}" placeholder="Company">
- </div>
- <div class="order-header-field">
- <div class="order-header-label">Brand</div>
- <input class="order-header-value editable" id="oh-brand-${oid}" value="${esc(o.brand_name)}" placeholder="Brand">
- </div>
- <div class="order-header-field">
- <div class="order-header-label">Buyer</div>
- <input class="order-header-value editable" id="oh-buyer-${oid}" value="${esc(o.buyer_name)}" placeholder="Buyer">
- </div>
+    const card=document.createElement('div');
+    card.className='order-card';
+    card.style.marginBottom='10px';
 
- <div class="order-header-field">
- <div class="order-header-label">Mail Subject</div>
- <input class="order-header-value editable" id="oh-mail-${oid}" value="${esc(o.mail_subject)}" placeholder="Mail subject" style="min-width:140px">
- </div>
- <div class="order-card-divider"></div>
- <button class="btn-sm" onclick="saveOrderHeader('${oid}')">Save header</button>
- </div>
+    card.innerHTML=`
+      <div class="order-card-header" style="flex-wrap:wrap;gap:10px">
+        <div class="order-header-field">
+          <div class="order-header-label">Company</div>
+          <input class="order-header-value editable" id="oh-company-${oid}-${sid}" value="${esc(o.company)}" placeholder="Company">
+        </div>
+        <div class="order-header-field">
+          <div class="order-header-label">Brand</div>
+          <input class="order-header-value editable" id="oh-brand-${oid}-${sid}" value="${esc(o.brand_name)}" placeholder="Brand">
+        </div>
+        <div class="order-header-field">
+          <div class="order-header-label">Buyer</div>
+          <input class="order-header-value editable" id="oh-buyer-${oid}-${sid}" value="${esc(o.buyer_name)}" placeholder="Buyer">
+        </div>
+        <div class="order-header-field">
+          <div class="order-header-label">Mail Subject</div>
+          <input class="order-header-value editable" id="oh-mail-${oid}-${sid}" value="${esc(o.mail_subject)}" placeholder="Mail subject" style="min-width:120px">
+        </div>
+        <div class="order-card-divider"></div>
+        <span class="badge ${SB[s.production_status]||'b-pending'}" style="align-self:center">${s.production_status||'Pending'}</span>
+      </div>
+      <div class="style-rows-wrap">
+        <table class="style-table">
+          <thead>
+            <tr>
+              <th>Style No.</th><th>PO</th><th>Invoice</th><th>Qty</th>
+              <th>Tech Pack</th><th>HD File</th><th>Digital</th>
+              <th>Samples</th><th>Corrections</th><th>Remarks</th><th>Revised</th>
+              <th>Approved</th><th>Status</th><th>Delivery</th><th>Boxes</th><th>Weight</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="srow-${sid}">
+              <td><input class="ci" id="ci-sn-${sid}" value="${esc(s.style_no)}" placeholder="Style no." style="min-width:80px"></td>
+              <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:80px"></td>
+              <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:80px"></td>
+              <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:55px"></td>
+              <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}" oninput="liveStatus('${sid}')"></td>
+              <td>
+                <select class="ci" id="ci-hd-${sid}" style="min-width:100px">
+                  <option value="">—</option>
+                  <option ${s.hd_file==='Received'?'selected':''}>Received</option>
+                  <option ${s.hd_file==='Pending'?'selected':''}>Pending</option>
+                  <option ${s.hd_file==='Not required'?'selected':''}>Not required</option>
+                </select>
+              </td>
+              <td>
+                <select class="ci" id="ci-dg-${sid}" style="min-width:100px">
+                  <option value="">—</option>
+                  <option ${s.digital==='Received'?'selected':''}>Received</option>
+                  <option ${s.digital==='Pending'?'selected':''}>Pending</option>
+                  <option ${s.digital==='Not required'?'selected':''}>Not required</option>
+                </select>
+              </td>
+              <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}" oninput="liveStatus('${sid}')"></td>
+              <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
+              <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:100px"></td>
+              <td>
+                <select class="ci" id="ci-rv-${sid}">
+                  <option value="false" ${!s.revised?'selected':''}>No</option>
+                  <option value="true" ${s.revised?'selected':''}>Yes</option>
+                </select>
+              </td>
+              <td>
+                <div class="toggle-wrap">
+                  <label class="toggle">
+                    <input type="checkbox" id="ci-appr-${sid}" ${appr?'checked':''} onchange="onToggle('${sid}',this.checked)">
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="tlbl ${appr?'yes':''}" id="tlbl-${sid}">${appr?'Yes':'No'}</span>
+                </div>
+              </td>
+              <td>
+                <select class="ci ${lk}" id="ci-st-${sid}" style="min-width:130px">
+                  <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
+                  <option>Correction Required</option><option>Approved</option><option>In Production</option>
+                  <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
+                </select>
+              </td>
+              <td><input class="ci ${lk}" type="date" id="ci-dl-${sid}" value="${s.delivery_date||''}"></td>
+              <td><input class="ci ${lk}" type="number" id="ci-bx-${sid}" value="${s.number_of_boxes||''}" style="min-width:55px"></td>
+              <td><input class="ci ${lk}" type="number" step="0.1" id="ci-wt-${sid}" value="${s.weight||''}" style="min-width:60px"></td>
+              <td style="white-space:nowrap">
+                <button class="btn-save-row" id="btn-save-${sid}" onclick="saveStyleRow('${sid}','${oid}')">Save</button>
+                <button class="btn-del-row" onclick="delStyle('${sid}')">x</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`;
 
- <div class="style-rows-wrap">
- <table class="style-table">
- <thead>
- <tr>
- <th>#</th>
- <th>Style No.</th>
- <th>Qty</th>
- <th>Tech Pack</th>
- <th>HD File</th>
- <th>Digital</th>
- <th>PO</th>
- <th>Invoice</th>
- <th>Samples Submitted</th>
- <th>Corrections Date</th>
- <th>Remarks</th>
- <th>Approved</th>
- <th>Revised</th>
- <th>Production Status</th>
- <th>Delivery Date</th>
- <th>Boxes</th>
- <th>Weight (kg)</th>
- <th></th>
- </tr>
- </thead>
- <tbody id="style-tbody-${oid}"></tbody>
- </table>
- </div>`;
+    list.appendChild(card);
 
- list.appendChild(card);
-
- // render style rows
- const tbody=document.getElementById(`style-tbody-${oid}`);
- styles.forEach((s,idx)=>{
- const appr=!!s.approved_date;
- const lk=appr?'':'locked';
- const sid=s.id;
- const tr=document.createElement('tr');
- tr.id='srow-'+sid;
- tr.innerHTML=`
- <td><span class="style-no-badge">${idx+1}</span></td>
- <td><input class="ci" id="ci-sn-${sid}" value="${esc(s.style_no)}" placeholder="Style no." style="min-width:80px"></td>
- <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:90px"></td>
- <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:90px"></td>
- <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:60px"></td>
- <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}" oninput="liveStatus('${sid}')"></td>
- <td>
- <select class="ci" id="ci-hd-${sid}" style="min-width:100px">
- <option value="">—</option>
- <option ${s.hd_file==='Received'?'selected':''}>Received</option>
- <option ${s.hd_file==='Pending'?'selected':''}>Pending</option>
- <option ${s.hd_file==='Not required'?'selected':''}>Not required</option>
- </select>
- </td>
- <td>
- <select class="ci" id="ci-dg-${sid}" style="min-width:100px">
- <option value="">—</option>
- <option ${s.digital==='Received'?'selected':''}>Received</option>
- <option ${s.digital==='Pending'?'selected':''}>Pending</option>
- <option ${s.digital==='Not required'?'selected':''}>Not required</option>
- </select>
- </td>
- <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}" oninput="liveStatus('${sid}')"></td>
- <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
- <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
- <td>
- <div class="toggle-wrap">
- <label class="toggle">
- <input type="checkbox" id="ci-appr-${sid}" ${appr?'checked':''} onchange="onToggle('${sid}',this.checked)">
- <span class="toggle-slider"></span>
- </label>
- <span class="tlbl ${appr?'yes':''}" id="tlbl-${sid}">${appr?'Yes':'No'}</span>
- </div>
- </td>
- <td>
- <select class="ci ${lk}" id="ci-rv-${sid}">
- <option value="false" ${!s.revised?'selected':''}>No</option>
- <option value="true" ${s.revised?'selected':''}>Yes</option>
- </select>
- </td>
- <td>
- <select class="ci ${lk}" id="ci-st-${sid}" style="min-width:130px">
- <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
- <option>Correction Required</option><option>Approved</option><option>In Production</option>
- <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
- </select>
- </td>
- <td><input class="ci ${lk}" type="date" id="ci-dl-${sid}" value="${s.delivery_date||''}"></td>
- <td><input class="ci ${lk}" type="number" id="ci-bx-${sid}" value="${s.number_of_boxes||''}" style="min-width:55px"></td>
- <td><input class="ci ${lk}" type="number" step="0.1" id="ci-wt-${sid}" value="${s.weight||''}" style="min-width:60px"></td>
- <td style="white-space:nowrap">
- <button class="btn-save-row" id="btn-save-${sid}" onclick="saveStyleRow('${sid}')">Save</button>
- <button class="btn-del-row" onclick="delStyle('${sid}')"></button>
- </td>`;
- tbody.appendChild(tr);
- // set status
- const sel=document.getElementById(`ci-st-${sid}`);
- if(sel&&s.production_status)sel.value=s.production_status;
- });
- });
+    // Set status select
+    const sel=document.getElementById('ci-st-'+sid);
+    if(sel&&s.production_status) sel.value=s.production_status;
+  });
 }
 
 function onToggle(sid,checked){
@@ -799,11 +770,11 @@ function onCorrectionsChange(sid){
 
 async function saveOrderHeader(oid){
  const payload={
- company:document.getElementById(`oh-company-${oid}`).value.trim()||null,
- brand_name:document.getElementById(`oh-brand-${oid}`).value.trim()||null,
- buyer_name:document.getElementById(`oh-buyer-${oid}`).value.trim()||null,
+ company:document.getElementById(`oh-company-${oid}-${sid}`)?.value.trim()||null,
+ brand_name:document.getElementById(`oh-brand-${oid}-${sid}`)?.value.trim()||null,
+ buyer_name:document.getElementById(`oh-buyer-${oid}-${sid}`)?.value.trim()||null,
 
- mail_subject:document.getElementById(`oh-mail-${oid}`).value.trim()||null,
+ mail_subject:document.getElementById(`oh-mail-${oid}-${sid}`)?.value.trim()||null,
  };
  try{
  await sb(`orders?id=eq.${oid}`,{method:'PATCH',body:JSON.stringify(payload)});
@@ -814,7 +785,7 @@ async function saveOrderHeader(oid){
  }catch(e){showToast('Error saving header.','error');console.error(e);}
 }
 
-async function saveStyleRow(sid){
+async function saveStyleRow(sid, oid){
  const btn=document.getElementById(`btn-save-${sid}`);
  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';}
 
