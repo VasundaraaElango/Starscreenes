@@ -348,8 +348,8 @@ input[type="date"].ci { min-width:120px; }
  <div class="toolbar">
  <input id="search" placeholder="Search company, brand, style, buyer…" oninput="renderDash()">
  <select id="f-status" onchange="renderDash()">
- <option value="">Active orders (excl. Delivered)</option>
- <option value="all">All orders incl. Delivered</option>
+ <option value="">All (excl. Delivered)</option>
+ <option value="all">All incl. Delivered</option>
  <option disabled></option>
  <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
  <option>Correction Required</option><option>Approved</option><option>In Production</option>
@@ -861,7 +861,11 @@ async function saveStyleRow(sid){
  showToast('Style saved!','success');
  // reload fresh from DB so cache is always accurate
  await loadDashboard();
- }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
+ }catch(e){
+  const msg=(e.message||'').slice(0,80);
+  console.error('Save error line 864:', e);
+  showToast(msg?'Error: '+msg:'Error saving. Try again.','error');
+ }
 
  if(btn){btn.disabled=false;btn.textContent='Save';}
 }
@@ -1156,39 +1160,46 @@ async function saveDetailPage(sid, oid){
  mail_subject:document.getElementById('dp-mail')?.value.trim()||null,
  };
  try{
- await Promise.all([
- sb('styles?id=eq.'+sid,{method:'PATCH',body:JSON.stringify(stylePayload)}),
- sb('orders?id=eq.'+oid,{method:'PATCH',body:JSON.stringify(orderPayload)})
- ]);
- // update local cache
- const si=allStyles.findIndex(s=>s.id===sid);
- if(si>=0)Object.assign(allStyles[si],stylePayload);
- const oi=allOrders.findIndex(o=>o.id===oid);
- if(oi>=0)Object.assign(allOrders[oi],orderPayload);
- // rebuild d2AllRows from updated cache
- d2AllRows=allStyles.map(s=>{
+  await Promise.all([
+   sb('styles?id=eq.'+sid,{method:'PATCH',body:JSON.stringify(stylePayload)}),
+   sb('orders?id=eq.'+oid,{method:'PATCH',body:JSON.stringify(orderPayload)})
+  ]);
+  showToast('Saved!','success');
+  closeDetailPage();
+  // reload everything fresh from DB
+  const [orders,styles]=await Promise.all([
+   sb('orders?select=*'),
+   sb('styles?select=*')
+  ]);
+  allOrders=orders||[];
+  allStyles=styles||[];
+  d2AllRows=allStyles.map(s=>{
    const o=allOrders.find(o=>o.id===s.order_id)||{};
    return{
-     _id:s.id,_order_id:s.order_id,
-     company:o.company||'',brand_name:o.brand_name||'',buyer_name:o.buyer_name||'',
-     mail_subject:o.mail_subject||'',
-     purchase_order:s.purchase_order||o.purchase_order||'',
-     purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
-     style_no:s.style_no||'',quantity:s.quantity||'',
-     tech_pack_date:s.tech_pack_date||'',hd_file:s.hd_file||'',digital:s.digital||'',
-     samples_submitted_date:s.samples_submitted_date||'',
-     corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
-     approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
-     production_status:s.production_status||'Pending',
-     delivery_date:s.delivery_date||'',
-     number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
-     created_at:o.created_at||''
+    _id:s.id,_order_id:s.order_id,
+    company:o.company||'',brand_name:o.brand_name||'',buyer_name:o.buyer_name||'',
+    mail_subject:o.mail_subject||'',
+    purchase_order:s.purchase_order||o.purchase_order||'',
+    purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
+    style_no:s.style_no||'',quantity:s.quantity||'',
+    tech_pack_date:s.tech_pack_date||'',hd_file:s.hd_file||'',digital:s.digital||'',
+    samples_submitted_date:s.samples_submitted_date||'',
+    corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
+    approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
+    production_status:s.production_status||'Pending',
+    delivery_date:s.delivery_date||'',
+    number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
+    created_at:o.created_at||''
    };
- });
- showToast('Saved!','success');
- closeDetailPage();
- renderD2();
- }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
+  });
+  renderStats();
+  renderDash();
+  renderD2();
+ }catch(e){
+  const msg=(e.message||'').slice(0,80);
+  console.error('Save error line 1194:', e);
+  showToast(msg?'Error: '+msg:'Error saving. Try again.','error');
+ }
 }
 
 function closeDetailPage(){
