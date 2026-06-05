@@ -396,7 +396,7 @@ input[type="date"].ci { min-width:120px; }
  <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
  </select>
  <select id="d2-sort" onchange="renderD2()" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;font-size:13px;">
- <option value="delivery-asc">Delivery — Soonest first</option>
+ <option value="date-desc">Entry — Newest first</option>
  <option value="delivery-desc">Delivery — Latest first</option>
  <option value="company-asc">Company — A to Z</option>
  <option value="company-desc">Company — Z to A</option>
@@ -583,6 +583,7 @@ async function reloadAll(){
         corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
         approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
         production_status:s.production_status||'Pending',
+        status_changed_at:s.status_changed_at||'',
         delivery_date:s.delivery_date||'',
         number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
         created_at:o.created_at||''
@@ -854,6 +855,7 @@ async function saveStyleRow(sid, oid){
       approvedDate,
       document.getElementById(`ci-st-${sid}`).value||'Pending'
     ),
+ status_changed_at:new Date().toISOString(),
  delivery_date:document.getElementById(`ci-dl-${sid}`).value||null,
  number_of_boxes:parseInt(document.getElementById(`ci-bx-${sid}`).value)||null,
  weight:parseFloat(document.getElementById(`ci-wt-${sid}`).value)||null,
@@ -899,7 +901,7 @@ function exportCSV(){
 
 
 // DASHBOARD 2 (REPORTS) 
-let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
+let d2AllRows=[], d2SortKey='created_at', d2SortDir='desc';
 
 
 
@@ -1094,6 +1096,7 @@ function openDetailPage(sid){
  <div class="dp-field"><div class="dp-label">Production Status</div>
  ${sel('status',s.production_status,['Pending','In Production','Packing','Ready for Dispatch','Delivered'])}
  </div>
+ <div class="dp-field"><div class="dp-label">Status Last Changed</div><div style="font-size:12px;color:var(--text2);padding:8px 0">${s.status_changed_at?fmtDate(s.status_changed_at.split('T')[0])+' at '+s.status_changed_at.slice(11,16):'—'}</div></div>
  <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
  <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
  <div class="dp-field"><div class="dp-label">Weight (kg)</div>${inp('wt',s.weight,'number')}</div>
@@ -1171,6 +1174,7 @@ async function saveDetailPage(sid, oid){
       apprDate,
       document.getElementById('dp-status')?.value||'Pending'
     ),
+ status_changed_at:new Date().toISOString(),
  delivery_date:document.getElementById('dp-dl')?.value||null,
  number_of_boxes:parseInt(document.getElementById('dp-bx')?.value)||null,
  weight:parseFloat(document.getElementById('dp-wt')?.value)||null,
