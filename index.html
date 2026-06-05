@@ -858,11 +858,9 @@ async function saveStyleRow(sid){
  try{
  await sb(`styles?id=eq.${sid}`,{method:'PATCH',body:JSON.stringify(payload)});
  // update local cache
- const s=allStyles.find(s=>s.id===sid);
- if(s)Object.assign(s,payload);
  showToast('Style saved!','success');
- renderStats();
- renderDash();
+ // reload fresh from DB so cache is always accurate
+ await loadDashboard();
  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
 
  if(btn){btn.disabled=false;btn.textContent='Save';}
