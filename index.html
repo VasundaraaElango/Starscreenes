@@ -533,6 +533,13 @@ async function saveOrder(){
  tech_pack_date:document.getElementById(`s${i}-tech_pack_date`).value||null,
  hd_file:document.getElementById(`s${i}-hd_file`).value||null,
  digital:document.getElementById(`s${i}-digital`).value||null,
+ production_status:autoStatus(
+   document.getElementById(`s${i}-tech_pack_date`).value||'',
+   '',  // samples not on form
+   '',  // corrections not on form
+   null,
+   'Pending'
+ ),
  });
  }
  await sb('styles',{method:'POST',body:JSON.stringify(payload)});
@@ -836,7 +843,13 @@ async function saveStyleRow(sid){
  revised:document.getElementById(`ci-cd-${sid}`).value
  ? document.getElementById(`ci-rv-${sid}`).value==='true'
  : false,
- production_status:document.getElementById(`ci-st-${sid}`).value||'Pending',
+ production_status:autoStatus(
+      document.getElementById(`ci-tp-${sid}`).value||'',
+      document.getElementById(`ci-ss-${sid}`).value||'',
+      document.getElementById(`ci-cd-${sid}`).value||'',
+      approvedDate,
+      document.getElementById(`ci-st-${sid}`).value||'Pending'
+    ),
  delivery_date:document.getElementById(`ci-dl-${sid}`).value||null,
  number_of_boxes:parseInt(document.getElementById(`ci-bx-${sid}`).value)||null,
  weight:parseFloat(document.getElementById(`ci-wt-${sid}`).value)||null,
@@ -848,6 +861,8 @@ async function saveStyleRow(sid){
  const s=allStyles.find(s=>s.id===sid);
  if(s)Object.assign(s,payload);
  showToast('Style saved!','success');
+ renderStats();
+ renderDash();
  }catch(e){showToast('Error saving. Try again.','error');console.error(e);}
 
  if(btn){btn.disabled=false;btn.textContent='Save';}
@@ -1125,7 +1140,13 @@ async function saveDetailPage(sid, oid){
  correction_remarks:document.getElementById('dp-cr')?.value.trim()||null,
  revised:cdVal?(document.getElementById('dp-rv')?.value==='Yes'):false,
  approved_date:apprDate,
- production_status:document.getElementById('dp-status')?.value||'Pending',
+ production_status:autoStatus(
+      document.getElementById('dp-tp')?.value||'',
+      document.getElementById('dp-ss')?.value||'',
+      cdVal||'',
+      apprDate,
+      document.getElementById('dp-status')?.value||'Pending'
+    ),
  delivery_date:document.getElementById('dp-dl')?.value||null,
  number_of_boxes:parseInt(document.getElementById('dp-bx')?.value)||null,
  weight:parseFloat(document.getElementById('dp-wt')?.value)||null,
@@ -1146,6 +1167,26 @@ async function saveDetailPage(sid, oid){
  if(si>=0)Object.assign(allStyles[si],stylePayload);
  const oi=allOrders.findIndex(o=>o.id===oid);
  if(oi>=0)Object.assign(allOrders[oi],orderPayload);
+ // rebuild d2AllRows from updated cache
+ d2AllRows=allStyles.map(s=>{
+   const o=allOrders.find(o=>o.id===s.order_id)||{};
+   return{
+     _id:s.id,_order_id:s.order_id,
+     company:o.company||'',brand_name:o.brand_name||'',buyer_name:o.buyer_name||'',
+     mail_subject:o.mail_subject||'',
+     purchase_order:s.purchase_order||o.purchase_order||'',
+     purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
+     style_no:s.style_no||'',quantity:s.quantity||'',
+     tech_pack_date:s.tech_pack_date||'',hd_file:s.hd_file||'',digital:s.digital||'',
+     samples_submitted_date:s.samples_submitted_date||'',
+     corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
+     approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
+     production_status:s.production_status||'Pending',
+     delivery_date:s.delivery_date||'',
+     number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
+     created_at:o.created_at||''
+   };
+ });
  showToast('Saved!','success');
  closeDetailPage();
  renderD2();
