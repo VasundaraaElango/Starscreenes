@@ -700,7 +700,7 @@ function renderDash(){
  <td><input class="ci" id="ci-po-${sid}" value="${esc(s.purchase_order)}" placeholder="PO" style="min-width:90px"></td>
  <td><input class="ci" id="ci-pi-${sid}" value="${esc(s.purchase_invoice)}" placeholder="Invoice" style="min-width:90px"></td>
  <td><input class="ci" type="number" id="ci-qty-${sid}" value="${s.quantity||''}" placeholder="0" style="min-width:60px"></td>
- <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}"></td>
+ <td><input class="ci" type="date" id="ci-tp-${sid}" value="${s.tech_pack_date||''}" oninput="liveStatus('${sid}')"></td>
  <td>
  <select class="ci" id="ci-hd-${sid}" style="min-width:100px">
  <option value="">—</option>
@@ -717,7 +717,7 @@ function renderDash(){
  <option ${s.digital==='Not required'?'selected':''}>Not required</option>
  </select>
  </td>
- <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}"></td>
+ <td><input class="ci" type="date" id="ci-ss-${sid}" value="${s.samples_submitted_date||''}" oninput="liveStatus('${sid}')"></td>
  <td><input class="ci" type="date" id="ci-cd-${sid}" value="${s.corrections_date||''}" oninput="onCorrectionsChange('${sid}')"></td>
  <td><input class="ci" id="ci-cr-${sid}" value="${esc(s.correction_remarks)}" placeholder="Remarks" style="min-width:110px"></td>
  <td>
@@ -766,6 +766,18 @@ function onToggle(sid,checked){
  if(!el)return;
  checked?el.classList.remove('locked'):el.classList.add('locked');
  });
+}
+
+
+function liveStatus(sid){
+  const tp=document.getElementById('ci-tp-'+sid)?.value||'';
+  const ss=document.getElementById('ci-ss-'+sid)?.value||'';
+  const cd=document.getElementById('ci-cd-'+sid)?.value||'';
+  const appr=document.getElementById('ci-appr-'+sid)?.checked;
+  const stEl=document.getElementById('ci-st-'+sid);
+  if(!stEl)return;
+  const computed=autoStatus(tp,ss,cd,appr?'yes':'',stEl.value);
+  stEl.value=computed;
 }
 
 function onCorrectionsChange(sid){
@@ -868,6 +880,19 @@ function exportCSV(){
 
 // DASHBOARD 2 (REPORTS) 
 let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
+
+
+function autoStatus(techPackDate, samplesDate, correctionsDate, approvedDate, currentStatus){
+  // If already in post-approval manual stages, don't auto-override
+  const manualStages=['In Production','Packing','Ready for Dispatch','Delivered'];
+  if(approvedDate && manualStages.includes(currentStatus)) return currentStatus;
+  // Auto logic
+  if(approvedDate) return 'Approved';
+  if(correctionsDate) return 'Correction Required';
+  if(samplesDate) return 'Sampling';
+  if(techPackDate) return 'Tech Pack Received';
+  return 'Pending';
+}
 
 function d2SortBy(col){
   if(d2SortKey===col){ d2SortDir=d2SortDir==='asc'?'desc':'asc'; }
@@ -1007,16 +1032,16 @@ function openDetailPage(sid){
  <div class="dp-grid">
  <div class="dp-field"><div class="dp-label">Style No.</div>${inp('style_no',s.style_no)}</div>
  <div class="dp-field"><div class="dp-label">Quantity</div>${inp('qty',s.quantity,'number')}</div>
- <div class="dp-field"><div class="dp-label">Tech Pack Date</div>${inp('tp',s.tech_pack_date,'date')}</div>
+ <div class="dp-field"><div class="dp-label">Tech Pack Date</div>${inp('tp',s.tech_pack_date,'date','oninput="dpLiveStatus()"')}</div>
  <div class="dp-field"><div class="dp-label">HD File</div>${sel('hd',s.hd_file,['','Received','Pending','Not required'])}</div>
  <div class="dp-field"><div class="dp-label">Digital</div>${sel('dg',s.digital,['','Received','Pending','Not required'])}</div>
- <div class="dp-field"><div class="dp-label">Samples Submitted</div>${inp('ss',s.samples_submitted_date,'date')}</div>
+ <div class="dp-field"><div class="dp-label">Samples Submitted</div>${inp('ss',s.samples_submitted_date,'date','oninput="dpLiveStatus()"')}</div>
  </div>
  </div>
  <div class="dp-section">
  <div class="dp-section-header">Sampling & Approval</div>
  <div class="dp-grid">
- <div class="dp-field"><div class="dp-label">Corrections Date</div>${inp('cd',s.corrections_date,'date','oninput="dpOnCorrections()"')}</div>
+ <div class="dp-field"><div class="dp-label">Corrections Date</div>${inp('cd',s.corrections_date,'date','oninput="dpOnCorrections();dpLiveStatus()"')}</div>
  <div class="dp-field"><div class="dp-label">Correction Remarks</div>${inp('cr',s.correction_remarks)}</div>
  <div class="dp-field"><div class="dp-label">Revised</div>${sel('rv',s.revised?'Yes':'No',['No','Yes'])}</div>
  <div class="dp-field">
@@ -1050,6 +1075,17 @@ function openDetailPage(sid){
 
  document.getElementById('d2-list-view').style.display='none';
  document.getElementById('d2-detail-view').style.display='block';
+}
+
+
+function dpLiveStatus(){
+  const tp=document.getElementById('dp-tp')?.value||'';
+  const ss=document.getElementById('dp-ss')?.value||'';
+  const cd=document.getElementById('dp-cd')?.value||'';
+  const appr=document.getElementById('dp-appr-chk')?.checked;
+  const stEl=document.getElementById('dp-status');
+  if(!stEl)return;
+  stEl.value=autoStatus(tp,ss,cd,appr?'yes':'',stEl.value);
 }
 
 function dpOnApproval(checked){
