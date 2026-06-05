@@ -413,7 +413,7 @@ input[type="date"].ci { min-width:120px; }
  <tr>
  <th>Company</th><th>Brand</th><th>Buyer</th>
  <th>Style No.</th><th>Qty</th><th>Status</th>
- <th>Samples</th><th>Approved</th><th>Delivery</th>
+ <th>Samples</th><th>Approved</th><th>Delivery</th><th></th>
  </tr>
  </thead>
  <tbody id="d2-body"></tbody>
@@ -981,10 +981,20 @@ function renderD2(){
  '<td style="color:var(--text2);font-size:12px">'+tp+'</td>'+
  '<td style="color:var(--text2);font-size:12px">'+ss+'</td>'+
  '<td style="font-weight:500;color:'+apprColor+'">'+apprTxt+'</td>'+
- '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>';
+ '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>'+
+ '<td><button class="btn-del-row" onclick="event.stopPropagation();delStyleD2(\''+r._id+'\')" title="Delete">x</button></td>';
  tbody.appendChild(tr);
  }catch(err){console.error('Row render error',err,r);}
  });
+}
+
+async function delStyleD2(sid){
+  if(!confirm('Delete this style permanently?'))return;
+  try{
+    await sb(`styles?id=eq.${sid}`,{method:'DELETE'});
+    showToast('Deleted','success');
+    await reloadAll();
+  }catch(e){showToast('Error deleting.','error');}
 }
 
 function openDetailPage(sid){
