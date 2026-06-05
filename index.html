@@ -965,7 +965,6 @@ function renderD2(){
  const qty=r.quantity||'—';
  const status=r.production_status||'Pending';
  const badgeCls=SB[status]||'b-pending';
- const tp=r.tech_pack_date?fmtDate(r.tech_pack_date):'—';
  const ss=r.samples_submitted_date?fmtDate(r.samples_submitted_date):'—';
  const apprTxt=appr?(' '+fmtDate(r.approved_date)):'—';
  const apprColor=appr?'var(--success)':'var(--text3)';
@@ -978,7 +977,6 @@ function renderD2(){
  '<td><span style="font-family:monospace;font-size:11px;background:#f0f4f9;padding:2px 7px;border-radius:4px">'+styleNo+'</span></td>'+
  '<td>'+qty+'</td>'+
  '<td><span class="badge '+badgeCls+'">'+status+'</span></td>'+
- '<td style="color:var(--text2);font-size:12px">'+tp+'</td>'+
  '<td style="color:var(--text2);font-size:12px">'+ss+'</td>'+
  '<td style="font-weight:500;color:'+apprColor+'">'+apprTxt+'</td>'+
  '<td style="color:'+dlColor+';font-size:12px;font-weight:'+(r.delivery_date?'500':'400')+'">'+dl+'</td>'+
