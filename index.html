@@ -927,8 +927,14 @@ function autoStatus(techPackDate, samplesDate, correctionsDate, approvedDate, cu
   // If already in post-approval manual stages, don't auto-override
   const manualStages=['Pending','In Production','Packing','Ready for Dispatch','Delivered'];
   if(approvedDate && manualStages.includes(currentStatus)) return currentStatus;
-  // Auto logic — corrections stays as Sampling
+  // Auto logic — based on latest action
   if(approvedDate) return 'Approved';
+  // If corrections exist, check which came last — corrections or samples re-submission
+  if(correctionsDate && samplesDate){
+    // whichever date is more recent determines status
+    return correctionsDate >= samplesDate ? 'Correction Required' : 'Sampling';
+  }
+  if(correctionsDate) return 'Correction Required';
   if(samplesDate) return 'Sampling';
   if(techPackDate) return 'Tech Pack Received';
   return 'Pending';
