@@ -413,7 +413,7 @@ input[type="date"].ci { min-width:120px; }
  <tr>
  <th>Company</th><th>Brand</th><th>Buyer</th>
  <th>Style No.</th><th>Qty</th><th>Status</th>
- <th>Tech Pack</th><th>Samples</th><th>Approved</th><th>Delivery</th>
+ <th>Samples</th><th>Approved</th><th>Delivery</th>
  </tr>
  </thead>
  <tbody id="d2-body"></tbody>
@@ -735,8 +735,7 @@ function renderDash(){
               </td>
               <td>
                 <select class="ci ${lk}" id="ci-st-${sid}" style="min-width:130px">
-                  <option>Pending</option><option>Tech Pack Received</option><option>Sampling</option>
-                  <option>Correction Required</option><option>Approved</option><option>In Production</option>
+                  <option>Pending</option><option>In Production</option>
                   <option>Packing</option><option>Ready for Dispatch</option><option>Delivered</option>
                 </select>
               </td>
@@ -896,11 +895,10 @@ let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
 
 function autoStatus(techPackDate, samplesDate, correctionsDate, approvedDate, currentStatus){
   // If already in post-approval manual stages, don't auto-override
-  const manualStages=['In Production','Packing','Ready for Dispatch','Delivered'];
+  const manualStages=['Pending','In Production','Packing','Ready for Dispatch','Delivered'];
   if(approvedDate && manualStages.includes(currentStatus)) return currentStatus;
-  // Auto logic
+  // Auto logic — corrections stays as Sampling
   if(approvedDate) return 'Approved';
-  if(correctionsDate) return 'Correction Required';
   if(samplesDate) return 'Sampling';
   if(techPackDate) return 'Tech Pack Received';
   return 'Pending';
@@ -1050,7 +1048,7 @@ function openDetailPage(sid){
  <div class="dp-section-header">Production & Shipping ${!appr?'— locked until approved':''}</div>
  <div class="dp-grid">
  <div class="dp-field"><div class="dp-label">Production Status</div>
- ${sel('status',s.production_status,['Pending','Tech Pack Received','Sampling','Correction Required','Approved','In Production','Packing','Ready for Dispatch','Delivered'])}
+ ${sel('status',s.production_status,['Pending','In Production','Packing','Ready for Dispatch','Delivered'])}
  </div>
  <div class="dp-field"><div class="dp-label">Delivery Date</div>${inp('dl',s.delivery_date,'date')}</div>
  <div class="dp-field"><div class="dp-label">No. of Boxes</div>${inp('bx',s.number_of_boxes,'number')}</div>
