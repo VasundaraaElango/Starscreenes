@@ -816,12 +816,21 @@ async function saveStyleRow(sid, oid){
  const isApproved=document.getElementById(`ci-appr-${sid}`).checked;
  const existingStyle=allStyles.find(s=>s.id===sid);
 
- // Determine approved_date:
- // If toggled on: keep existing or set today
- // If toggled off: set null
  const approvedDate=isApproved
  ?(existingStyle?.approved_date||new Date().toISOString().slice(0,10))
  :null;
+
+ // Date sequence validation
+ const _tp=document.getElementById(`ci-tp-${sid}`)?.value||'';
+ const _ss=document.getElementById(`ci-ss-${sid}`)?.value||'';
+ const _cd=document.getElementById(`ci-cd-${sid}`)?.value||'';
+ const _dl=document.getElementById(`ci-dl-${sid}`)?.value||'';
+ const _dateErr=validateDateSequence(_tp,_ss,_cd,approvedDate,_dl);
+ if(_dateErr){
+   showToast(_dateErr,'error');
+   if(btn){btn.disabled=false;btn.textContent='Save';}
+   return;
+ }
 
  const payload={
  style_no:document.getElementById(`ci-sn-${sid}`).value.trim()||null,
@@ -892,6 +901,27 @@ function exportCSV(){
 // DASHBOARD 2 (REPORTS) 
 let d2AllRows=[], d2SortKey='delivery_date', d2SortDir='asc';
 
+
+
+function validateDateSequence(tp, ss, cd, apprDate, dl){
+  // Helper: compare two date strings, return true if a <= b
+  const lte=(a,b)=>!a||!b||a<=b;
+  const fmt=(d)=>{ if(!d)return null; const[y,m,day]=d.split('-'); return `${day}/${m}/${y}`; };
+
+  if(tp && ss && !lte(tp, ss))
+    return `Samples Submitted (${fmt(ss)}) cannot be before Tech Pack date (${fmt(tp)})`;
+  if(ss && cd && !lte(ss, cd))
+    return `Corrections date (${fmt(cd)}) cannot be before Samples Submitted (${fmt(ss)})`;
+  if(cd && apprDate && !lte(cd, apprDate))
+    return `Approved date (${fmt(apprDate)}) cannot be before Corrections date (${fmt(cd)})`;
+  if(ss && apprDate && !cd && !lte(ss, apprDate))
+    return `Approved date (${fmt(apprDate)}) cannot be before Samples Submitted (${fmt(ss)})`;
+  if(apprDate && dl && !lte(apprDate, dl))
+    return `Delivery date (${fmt(dl)}) cannot be before Approved date (${fmt(apprDate)})`;
+  if(cd && dl && !apprDate && !lte(cd, dl))
+    return `Delivery date (${fmt(dl)}) cannot be before Corrections date (${fmt(cd)})`;
+  return null; // all good
+}
 
 function autoStatus(techPackDate, samplesDate, correctionsDate, approvedDate, currentStatus){
   // If already in post-approval manual stages, don't auto-override
@@ -1106,6 +1136,14 @@ async function saveDetailPage(sid, oid){
  ?(document.getElementById('dp-appr-date').value||new Date().toISOString().slice(0,10))
  :null;
  const cdVal=document.getElementById('dp-cd')?.value||null;
+
+ // Date sequence validation
+ const _dtp=document.getElementById('dp-tp')?.value||'';
+ const _dss=document.getElementById('dp-ss')?.value||'';
+ const _dcd=cdVal||'';
+ const _ddl=document.getElementById('dp-dl')?.value||'';
+ const _dpErr=validateDateSequence(_dtp,_dss,_dcd,apprDate,_ddl);
+ if(_dpErr){ showToast(_dpErr,'error'); return; }
 
  const stylePayload={
  style_no:document.getElementById('dp-style_no')?.value.trim()||null,
