@@ -556,15 +556,40 @@ function clearForm(){
 
 // DASHBOARD 
 async function loadDashboard(){
- document.getElementById('orders-list').innerHTML='<div class="empty"><span class="spinner spinner-dark"></span> Loading…</div>';
- try{
- const [orders,styles]=await Promise.all([
- sb('orders?select=*&order=created_at.desc'),
- sb('styles?select=*&order=created_at.asc')
- ]);
- allOrders=orders||[];allStyles=styles||[];
- renderStats();renderDash();
- }catch(e){showToast('Error loading','error');}
+  document.getElementById('orders-list').innerHTML='<div class="empty"><span class="spinner spinner-dark"></span> Loading…</div>';
+  await reloadAll();
+}
+
+
+async function reloadAll(){
+  try{
+    const styles=await sb('styles?select=*,orders(*)&order=created_at.asc');
+    allStyles=(styles||[]).map(s=>{const {orders:o,...rest}=s;return rest;});
+    const ordersMap={};
+    (styles||[]).forEach(s=>{if(s.orders&&s.orders.id)ordersMap[s.orders.id]=s.orders;});
+    allOrders=Object.values(ordersMap);
+    // rebuild d2AllRows
+    d2AllRows=allStyles.map(s=>{
+      const o=allOrders.find(o=>o.id===s.order_id)||{};
+      return{
+        _id:s.id,_order_id:s.order_id,
+        company:o.company||'',brand_name:o.brand_name||'',buyer_name:o.buyer_name||'',
+        mail_subject:o.mail_subject||'',
+        purchase_order:s.purchase_order||o.purchase_order||'',
+        purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
+        style_no:s.style_no||'',quantity:s.quantity||'',
+        tech_pack_date:s.tech_pack_date||'',hd_file:s.hd_file||'',digital:s.digital||'',
+        samples_submitted_date:s.samples_submitted_date||'',
+        corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
+        approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
+        production_status:s.production_status||'Pending',
+        delivery_date:s.delivery_date||'',
+        number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
+        created_at:o.created_at||''
+      };
+    });
+    renderStats();renderDash();renderD2();
+  }catch(e){console.error('reloadAll error:',e);}
 }
 
 function renderStats(){
@@ -830,8 +855,7 @@ async function saveStyleRow(sid, oid){
  await sb(`styles?id=eq.${sid}`,{method:'PATCH',body:JSON.stringify(payload)});
  // update local cache
  showToast('Style saved!','success');
- // reload fresh from DB so cache is always accurate
- await loadDashboard();
+ await reloadAll();
  }catch(e){
   const msg=(e.message||'').slice(0,80);
   console.error('Save error line 864:', e);
@@ -893,31 +917,8 @@ function d2SortBy(col){
 }
 
 async function loadDashboard2(){
- document.getElementById('d2-body').innerHTML='<tr><td colspan="10" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
- try{
- const [orders,styles]=await Promise.all([sb('orders?select=*'),sb('styles?select=*')]);
- allOrders=orders||[]; allStyles=styles||[];
- d2AllRows=allStyles.map(s=>{
- const o=allOrders.find(o=>o.id===s.order_id)||{};
- return {
- _id:s.id, _order_id:s.order_id,
- company:o.company||'', brand_name:o.brand_name||'', buyer_name:o.buyer_name||'',
- mail_subject:o.mail_subject||'',
- purchase_order:s.purchase_order||o.purchase_order||'',
- purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
- style_no:s.style_no||'', quantity:s.quantity||'',
- tech_pack_date:s.tech_pack_date||'', hd_file:s.hd_file||'', digital:s.digital||'',
- samples_submitted_date:s.samples_submitted_date||'',
- corrections_date:s.corrections_date||'', correction_remarks:s.correction_remarks||'',
- approved_date:s.approved_date||'', revised:s.revised?'Yes':'No',
- production_status:s.production_status||'Pending',
- delivery_date:s.delivery_date||'',
- number_of_boxes:s.number_of_boxes||'', weight:s.weight||'',
- created_at:o.created_at||''
- };
- });
- renderD2();
- }catch(e){showToast('Error loading','error');}
+  document.getElementById('d2-body').innerHTML='<tr><td colspan="10" style="text-align:center;padding:40px;color:#9e9e9e"><span class="spinner spinner-dark"></span> Loading…</td></tr>';
+  await reloadAll();
 }
 
 function renderD2(){
@@ -1137,35 +1138,7 @@ async function saveDetailPage(sid, oid){
   ]);
   showToast('Saved!','success');
   closeDetailPage();
-  // reload everything fresh from DB
-  const [orders,styles]=await Promise.all([
-   sb('orders?select=*'),
-   sb('styles?select=*')
-  ]);
-  allOrders=orders||[];
-  allStyles=styles||[];
-  d2AllRows=allStyles.map(s=>{
-   const o=allOrders.find(o=>o.id===s.order_id)||{};
-   return{
-    _id:s.id,_order_id:s.order_id,
-    company:o.company||'',brand_name:o.brand_name||'',buyer_name:o.buyer_name||'',
-    mail_subject:o.mail_subject||'',
-    purchase_order:s.purchase_order||o.purchase_order||'',
-    purchase_invoice:s.purchase_invoice||o.purchase_invoice||'',
-    style_no:s.style_no||'',quantity:s.quantity||'',
-    tech_pack_date:s.tech_pack_date||'',hd_file:s.hd_file||'',digital:s.digital||'',
-    samples_submitted_date:s.samples_submitted_date||'',
-    corrections_date:s.corrections_date||'',correction_remarks:s.correction_remarks||'',
-    approved_date:s.approved_date||'',revised:s.revised?'Yes':'No',
-    production_status:s.production_status||'Pending',
-    delivery_date:s.delivery_date||'',
-    number_of_boxes:s.number_of_boxes||'',weight:s.weight||'',
-    created_at:o.created_at||''
-   };
-  });
-  renderStats();
-  renderDash();
-  renderD2();
+  await reloadAll();
  }catch(e){
   const msg=(e.message||'').slice(0,80);
   console.error('Save error line 1194:', e);
